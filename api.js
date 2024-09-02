@@ -8,7 +8,7 @@ import { parseStringPromise } from "xml2js";
 dotenv.config();
 
 const congress_api_key = process.env.CONGRESS_API_KEY;
-const endpoint = "https://api.congress.gov/v3/bill/117/hr/3076/actions";
+// const endpoint = "https://api.congress.gov/v3/bill/117/hr/3076/actions";
 
 
 async function fetchBill(congress, billType, billNumber) {
@@ -85,10 +85,6 @@ async function parseXmlFromUrl(url) {
         const json = await parseStringPromise(xmlText);
         return json;
 
-        //const members = rollCallsJson.roll_call_vote.members;
-        //console.log(JSON.stringify(members, null, 2));
-        //return members;
-
     } catch (error) {
         console.error("Error fetching or parsing data");
     }
@@ -116,5 +112,5 @@ async function getRemainingRequests() {
 
 //console.log(await fetchBill(117, "hr", 3076));
 //await getVotesFromData(await fetchBill(117, "hr", 3076));
-console.log(await getVotes(117, "hr", 3076));
-getRemainingRequests();
+//console.log(await getVotes(117, "hr", 3076));
+//getRemainingRequests();
