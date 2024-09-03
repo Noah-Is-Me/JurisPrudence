@@ -16,7 +16,7 @@ const openai = new OpenAI({
 const affectedCategoriesFormat = z.object({
     affectedCategories: z.array(z.object({
         categoryName: z.string(),
-        impactLevel: z.number().gte(0).lte(10) // integer from 0-10
+        impactLevel: z.number().gte(0).lte(10)
     })),
 });
 
@@ -41,7 +41,6 @@ async function generateCategories(prompt) {
             max_tokens: 200, // https://platform.openai.com/tokenizer
 
             //frequency_penalty: 0, // default
-            //n: 1, // default
             //presence_penalty: 0, // default
             //top_p: 1, // default
         });
