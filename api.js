@@ -109,11 +109,18 @@ async function extractText(billTextData) {
     return allVersionTexts;
 }
 
+async function extractTextFromSummaries(billSumariesData) {
+    const summaries = billSumariesData.summaries;
+    const finalSummary = summaries[summaries.length - 1];
+    const text = toRawText(finalSummary.text);
+    return text;
+}
+
 async function toRawText(obj) {
     let text = '';
 
     if (typeof obj === 'string') {
-        return obj.trim();
+        return obj.trim().replace(/<\/?[^>]+(>|$)/g, "");
     }
 
     if (typeof obj === 'object') {
@@ -124,7 +131,7 @@ async function toRawText(obj) {
         }
     }
 
-    return text.trim().replace(/<\/?[^>]+(>|$)/g, "");;
+    return text.trim().replace(/<\/?[^>]+(>|$)/g, "");
 }
 
 
@@ -169,4 +176,19 @@ for (var i = 0; i < 10; i++) {
 */
 
 //console.log(await fetchBillDetails(117, "hr", bill, "summaries"));
+
+//console.log(await extractText(await fetchBillDetails(117, "hr", 3076, "text")));
+
+var bill = 2060;
+for (let i = 0; i < 10; i++) {
+    try {
+        const summaries = await fetchBillDetails(117, "hr", bill + i, "summaries");
+        const summary = await extractTextFromSummaries(summaries);
+        console.log(summary + "\n");
+    }
+    catch (error) {
+        console.log("error fetching summaries from bill " + (bill + i));
+    }
+}
+
 getRemainingRequests();
