@@ -2,14 +2,10 @@ import fetch from "node-fetch";
 import dotenv from "dotenv";
 import { parseStringPromise } from "xml2js";
 
-// api linking
 
 // Load environment variables from .env file
 dotenv.config();
-
 const congress_api_key = process.env.CONGRESS_API_KEY;
-// const endpoint = "https://api.congress.gov/v3/bill/117/hr/3076/actions";
-
 
 async function fetchBill(congress, billType, billNumber) {
     try {
@@ -65,29 +61,14 @@ async function getVotes(congress, billType, billNumber) {
     for (const action of voteActions) {
         for (const vote of action.recordedVotes) {
             const url = vote.url;
-            const rollCallsJson = await parseXmlFromUrl(url);
+            const rollCallsXml = await fetchXmlFromUrl(url);
+            const rollCallsJson = await xmlToJson(rollCallsXml);
             const members = rollCallsJson.roll_call_vote.members[0].member;
             allMembersAllVotes.push(members);
         }
     }
 
     return allMembersAllVotes;
-}
-
-async function parseXmlFromUrl(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-
-        const xmlText = await response.text();
-        const json = await parseStringPromise(xmlText);
-        return json;
-
-    } catch (error) {
-        console.error("Error fetching or parsing data");
-    }
 }
 
 async function getRemainingRequests() {
@@ -110,7 +91,82 @@ async function getRemainingRequests() {
     }
 }
 
+async function extractText(billTextData) {
+    const textVersions = billTextData.textVersions;
+
+    let allVersionTexts = [];
+    for (const version of textVersions) {
+        const url = version.formats[2].url;
+        const fullXml = await fetchXmlFromUrl(url);
+        const fullJson = await xmlToJson(fullXml);
+        if ("bill" in fullJson) {
+            const relevantJson = fullJson.bill["legis-body"];
+            const rawText = await toRawText(relevantJson);
+            allVersionTexts.push(rawText);
+        }
+    }
+
+    return allVersionTexts;
+}
+
+async function toRawText(obj) {
+    let text = '';
+
+    if (typeof obj === 'string') {
+        return obj.trim();
+    }
+
+    if (typeof obj === 'object') {
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                text += await toRawText(obj[key]) + ' ';
+            }
+        }
+    }
+
+    return text.trim().replace(/<\/?[^>]+(>|$)/g, "");;
+}
+
+
+async function fetchXmlFromUrl(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const xml = await response.text();
+        return xml;
+
+    } catch (error) {
+        console.error("Error fetching or parsing data");
+    }
+}
+
+async function xmlToJson(xml) {
+    const json = await parseStringPromise(xml);
+    return json;
+}
+
+
 //console.log(await fetchBill(117, "hr", 3076));
 //await getVotesFromData(await fetchBill(117, "hr", 3076));
 //console.log(await getVotes(117, "hr", 3076));
 //getRemainingRequests();
+
+//console.log(await fetchBillDetails(117, "hr", 3076, "text"));
+
+//console.log(await extractText(await fetchBillDetails(117, "hr", 3076, "text")));
+/*
+var bill = 2000
+for (var i = 0; i < 10; i++) {
+    const votes = await getVotes(117, "hr", bill + i);
+    if (votes != null) {
+        print(bill + i);
+        break;
+    }
+}
+*/
+
+//console.log(await fetchBillDetails(117, "hr", bill, "summaries"));
+getRemainingRequests();
