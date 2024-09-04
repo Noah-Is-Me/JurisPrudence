@@ -119,15 +119,15 @@ async function determineMatch(userCategories, billSummary) {
 async function filterAllPastBills(userCategories) {
     var filteredBills = [];
 
-    for (let i=0; i<3000; i++) {
+    for (let i = 0; i < 3000; i++) {
         const billData = await congressApi.fetchBill(118, "hr", i);
         const summaries = await congressApi.extractSummariesFromData(billData);
         const summary = await congressApi.extractSummary(summaries);
 
         const affectedCategories = determineMatch(userCategories, summary);
         const filteredBill = {
-            billData : billData,
-            affectedCategories : affectedCategories
+            billData: billData,
+            affectedCategories: affectedCategories
         }
 
         filteredBills.push(filteredBill);

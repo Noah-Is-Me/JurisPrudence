@@ -1,11 +1,31 @@
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 import { parseStringPromise } from "xml2js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables from .env file
 dotenv.config();
 const congress_api_key = process.env.CONGRESS_API_KEY;
+
+
+/*
+    Types of bills:
+    "hr"     :  House Bill
+    "hres"   :  House Simple Resolution
+    "hjres"  :  House Joint Resolution
+    "hconres":  House Concurrent Resolution
+
+    "s"      :  Senate Bill
+    "sres"   :  Senate Simple Resolution
+    "sjres"  :  Senate Joint Resolution
+    "sconres":  Senate Concurrent Resolution
+*/
+
 
 async function fetchBill(congress, billType, billNumber) {
     try {
@@ -161,6 +181,53 @@ async function xmlToJson(xml) {
 }
 
 
+
+async function fetchAndStoreBill(congress, billType, billNumber) {
+    const billData = await fetchBill(congress, billType, billNumber);
+    const billSummary = await extractTextFromSummaries(await extractSummariesFromData(billData));
+    const billVotes = await extractTextFromVotes(await extractVotesFromData(billData));
+
+    storeBill(billData, billSummary, billVotes);
+}
+
+
+function storeBill(billData, billSummary, billVotes) {
+    const billJson = {
+        billData: billData,
+        billSummary: billSummary,
+        billVotes: billVotes
+    }
+    const stringifiedBill = JSON.stringify(billJson, null, 2)
+
+    console.log(stringifiedBill);
+    return;
+
+    const filePath = path.join(__dirname, "billData.json");
+    fs.writeFile(filePath, stringifiedBill, (error) => {
+        if (error) {
+            console.error("Error writing file: ", error);
+        }
+    });
+}
+
+
+async function fetchBills(congress, startingBill, billCount) {
+    try {
+        const response = await fetch(`https://api.congress.gov/v3/bill/${congress}?format=json&offset=${startingBill}&limit=${billCount}&api_key=${congress_api_key}`);
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        return response;
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+}
+
+
 //console.log(await fetchBill(117, "hr", 3076));
 //await getVotesFromData(await fetchBill(117, "hr", 3076));
 //console.log(await getVotes(117, "hr", 3076));
@@ -184,16 +251,18 @@ for (var i = 0; i < 10; i++) {
 
 //console.log(await extractText(await fetchBillDetails(117, "hr", 3076, "text")));
 
+/*
 var bill = 2060;
 for (let i = 0; i < 10; i++) {
     try {
-        const summaries = await fetchBillDetails(117, "hr", bill + i, "summaries");
-        const summary = await extractTextFromSummaries(summaries);
-        console.log(summary + "\n");
+        fetchAndStoreBill(118, "hr", i);
     }
     catch (error) {
-        console.log("error fetching summaries from bill " + (bill + i));
+        console.log("error fetching bill " + (bill + i));
     }
 }
+*/
+
+console.log(await fetchBills(117, 0, 10));
 
 getRemainingRequests();
