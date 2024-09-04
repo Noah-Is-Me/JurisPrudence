@@ -42,7 +42,12 @@ async function fetchBillDetails(congress, billType, billNumber, details) {
 }
 
 
-async function getVotesFromData(billData) {
+async function extractSummariesFromData(billData) {
+    return null; // TODO: Implement function
+}
+
+
+async function extractVotesFromData(billData) {
     const requestData = billData.request;
     return await getVotes(requestData.congress, requestData.billType, requestData.billNumber)
     // SUPER REDUNDANT!!!!    bill data --> request data --> bill data 
