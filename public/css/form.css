@@ -4,14 +4,16 @@
     align-items: center;
     position: relative;
     top: 15px;
+
 }
 
 form {
+    border: 5px red solid;
     background: whitesmoke;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 70%;
+    max-width: 70%;
 }
 
 legend {
@@ -41,9 +43,8 @@ label.required::after {
 
     position: relative;
     display: flex;
-    align-items: center;
     flex-direction: column;
-    transform: translateX(-450px);
+    width: 100px;
 }
 
 .radio-select {

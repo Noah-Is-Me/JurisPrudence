@@ -52,13 +52,5 @@
 }
 
 #start-button {
-    font-size: 72px;
-    color: midnightblue;
-    background-color: teal;
-    border-radius: 15px;
-}
-
-#start-button:hover {
-    background-color: rgb(74, 160, 160);
-    ;
+    font-size: 60px;
 }
