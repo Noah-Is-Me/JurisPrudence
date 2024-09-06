@@ -16,9 +16,15 @@
         <a href="/html/index.html"><button id="home-button">Home</button></a>
     </div>
 
+    <div id="sections-div">
+        <h2>Sections</h2>
+        <a href="#basic-informaiton">Basic Information</a>
+        <a href="#contact-information">Contact Information</a>
+    </div>
+
     <div id="form-div">
         <form id="information-form" onsubmit="processInformation(event)">
-            <fieldset>
+            <fieldset id="basic-information">
                 <legend>Basic Information</legend>
 
                 <label for="name" class="required">Name:</label>
@@ -34,7 +40,7 @@
                 <input type="number" name="social-security-number" required><br>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="contact-information">
                 <legend>Contact Information</legend>
 
                 <label for="address" class="required">Address:</label>
@@ -53,7 +59,7 @@
                 <input type="tel" name="phone-number" required><br>
             </fieldset>
 
-            <fieldset>
+            <fieldset id="employment-information">
                 <legend>Employment Information</legend>
 
                 <label for="occupation" class="required">Occupation:</label>
