@@ -2,12 +2,13 @@ body {
     scroll-behavior: smooth;
     background-color: #0a1319;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    align-items: center;
 
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 94.5vw;
     height: 100vh;
-    margin: 0;
+    margin: 2.5vw;
     padding: 0;
 }
 
