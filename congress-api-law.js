@@ -14,22 +14,15 @@ const congress_api_key = process.env.CONGRESS_API_KEY;
 
 
 /*
-    Types of bills:
-    "hr"     :  House Bill
-    "hres"   :  House Simple Resolution
-    "hjres"  :  House Joint Resolution
-    "hconres":  House Concurrent Resolution
-
-    "s"      :  Senate Bill
-    "sres"   :  Senate Simple Resolution
-    "sjres"  :  Senate Joint Resolution
-    "sconres":  Senate Concurrent Resolution
+    Types of laws:
+    "pub"  :  Public Law
+    "priv" :  Private Law
 */
 
 
-async function fetchBill(congress, billType, billNumber) {
+async function fetchLaw(congress, lawType, lawNumber) {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/bill/${congress}/${billType}/${billNumber}?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/law/${congress}/${lawType}/${lawNumber}?api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -44,9 +37,9 @@ async function fetchBill(congress, billType, billNumber) {
     }
 }
 
-async function fetchBillDetails(congress, billType, billNumber, details) {
+async function fetchLawDetails(congress, lawType, lawNumber, details) {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/bill/${congress}/${billType}/${billNumber}/${details}?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/law/${congress}/${lawType}/${lawNumber}/${details}?api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -61,19 +54,22 @@ async function fetchBillDetails(congress, billType, billNumber, details) {
     }
 }
 
-function extractRequestData(billData) {
+function extractRequestData(lawData) {
+    const requestLawData = lawData.request.laws[0];
+    const parts = requestLawData.number.split("-");
+
     const requestData = {
-        congress: billData.request.congress,
-        billType: billData.request.billType,
-        billNumber: billData.request.billNumber,
+        congress: lawData.request.congress,
+        lawType: (requestLawData.type == "Public Law" ? "pub" : "priv"),
+        lawNumber: parseInt(parts[1]),
     }
 
     return requestData;
 }
 
-async function fetchVotes(congress, billType, billNumber) {
-    const billActions = await fetchBillDetails(congress, billType, billNumber, "actions");
-    const voteActions = billActions.actions.filter(action => action.recordedVotes);
+async function fetchVotes(congress, lawType, lawNumber) {
+    const lawActions = await fetchLawDetails(congress, lawType, lawNumber, "actions");
+    const voteActions = lawActions.actions.filter(action => action.recordedVotes);
 
     if (voteActions.length == 0) {
         return null;
@@ -104,7 +100,7 @@ async function fetchVotes(congress, billType, billNumber) {
     }
     else {
         console.log(rollCallsJson);
-        console.error(`Unknown vote json format for bill: ${congress}-${billType}-${billNumber}!`);
+        console.error(`Unknown vote json format for law: ${congress}-${lawType}-${lawNumber}!`);
         return null;
     }
     /*
@@ -123,7 +119,7 @@ async function fetchVotes(congress, billType, billNumber) {
 
 async function getRemainingRequests() {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/bill?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/law?api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -141,8 +137,8 @@ async function getRemainingRequests() {
     }
 }
 
-async function extractFullText(billTextData) {
-    const textVersions = billTextData.textVersions;
+async function extractFullText(lawTextData) {
+    const textVersions = lawTextData.textVersions;
 
     let allVersionTexts = [];
     for (const version of textVersions) {
@@ -159,8 +155,8 @@ async function extractFullText(billTextData) {
     return allVersionTexts;
 }
 
-async function fetchSummary(congress, billType, billNumber) {
-    const summariesData = await fetchBillDetails(congress, billType, billNumber, "summaries");
+async function fetchSummary(congress, lawType, lawNumber) {
+    const summariesData = await fetchLawDetails(congress, lawType, lawNumber, "summaries");
     const summaries = summariesData.summaries;
     const finalSummary = summaries[summaries.length - 1];
     const text = toRawText(finalSummary.text);
@@ -208,47 +204,49 @@ async function xmlToJson(xml) {
 
 
 
-async function fetchAndStoreBill(congress, billType, billNumber) {
-    const billData = await fetchBill(congress, billType, billNumber);
-    const requestData = extractRequestData(billData);
-    const billVotes = await fetchVotes(requestData.congress, requestData.billType, requestData.billNumber);
-    if (billVotes == 0 || billVotes == null) return;
+async function fetchAndStoreLaw(congress, lawType, lawNumber) {
+    const lawData = await fetchLaw(congress, lawType, lawNumber);
+    const requestData = extractRequestData(lawData);
+    const lawVotes = await fetchVotes(requestData.congress, requestData.lawType, requestData.lawNumber);
+    if (lawVotes == 0 || lawVotes == null) return;
 
-    const billSummary = await fetchSummary(requestData.congress, requestData.billType, requestData.billNumber);
+    const lawSummary = await fetchSummary(requestData.congress, requestData.lawType, requestData.lawNumber);
 
-    storeBill(billData, billSummary, billVotes);
+    storeLaw(lawData, lawSummary, lawVotes);
 }
 
-async function fetchAndStoreBills(congress, startingBill, billCount) {
-    const bills = (await fetchBills(congress, startingBill, billCount)).bills;
-    let billsData = [];
+async function fetchAndStoreLaws(congress, startingLaw, lawCount) {
+    const laws = (await fetchLaws(congress, startingLaw, lawCount)).bills;
+    let lawsData = [];
 
-    for (const bill of bills) {
-        const url = bill.url;
+    for (const law of laws) {
+        const url = law.url;
         try {
             const response = await fetch(`${url}&api_key=${congress_api_key}`);
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
 
-            const billData = await response.json();
+            const lawData = await response.json();
+
+            console.log(lawData.bill.laws);
 
             const shortenedData = {
-                title: billData.bill.title,
-                date: billData.bill.latestAction.actionDate
+                title: lawData.bill.title,
+                date: lawData.bill.latestAction.actionDate
             }
-            const requestData = extractRequestData(billData);
-            //const billVotes = await fetchVotes(requestData.congress, requestData.billType, requestData.billNumber);
-            //if (billVotes == 0 || billVotes == null) continue;
-            const billSummary = await fetchSummary(requestData.congress, requestData.billType, requestData.billNumber);
+            const requestData = extractRequestData(lawData);
+            //const lawVotes = await fetchVotes(requestData.congress, requestData.lawType, requestData.lawNumber);
+            //if (lawVotes == 0 || lawVotes == null) continue;
+            const lawSummary = await fetchSummary(requestData.congress, requestData.lawType, requestData.lawNumber);
 
-            const billJson = {
-                billData: shortenedData,
-                billSummary: billSummary,
-                billRequestData: requestData
+            const lawJson = {
+                lawData: shortenedData,
+                lawSummary: lawSummary,
+                lawRequestData: requestData
             }
 
-            billsData.push(billJson);
+            lawsData.push(lawJson);
 
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -256,22 +254,22 @@ async function fetchAndStoreBills(congress, startingBill, billCount) {
         }
     }
 
-    if (billsData.length > 0) {
-        storeBills(billsData);
+    if (lawsData.length > 0) {
+        storeLaws(lawsData);
     }
 }
 
 
-function storeBill(billData, billSummary, billVotes) {
-    const billJson = {
-        billData: billData,
-        billSummary: billSummary,
-        billVotes: billVotes
+function storeLaw(lawData, lawSummary, lawVotes) {
+    const lawJson = {
+        lawData: lawData,
+        lawSummary: lawSummary,
+        lawVotes: lawVotes
     }
-    //const stringifiedBill = JSON.stringify(billJson, null, 2);
+    //const stringifiedLaw = JSON.stringify(lawJson, null, 2);
 
 
-    const filePath = path.join(__dirname, "billData.json");
+    const filePath = path.join(__dirname, "lawData.json");
     fs.readFile(filePath, 'utf8', (error, data) => {
         if (error) {
             console.error("Error reading file: ", error);
@@ -279,7 +277,7 @@ function storeBill(billData, billSummary, billVotes) {
         }
 
         let jsonData = JSON.parse(data)
-        jsonData.bills.push(billJson);
+        jsonData.laws.push(lawJson);
 
         fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
             if (error) {
@@ -289,8 +287,8 @@ function storeBill(billData, billSummary, billVotes) {
     });
 }
 
-function storeBills(billsData) {
-    const filePath = path.join(__dirname, "billData.json");
+function storeLaws(lawsData) {
+    const filePath = path.join(__dirname, "lawData.json");
     fs.readFile(filePath, 'utf8', (error, data) => {
         if (error) {
             console.error("Error reading file: ", error);
@@ -299,8 +297,8 @@ function storeBills(billsData) {
 
         let jsonData = JSON.parse(data)
 
-        for (const billJson of billsData) {
-            jsonData.bills.push(billJson);
+        for (const lawJson of lawsData) {
+            jsonData.laws.push(lawJson);
         }
 
         fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
@@ -312,9 +310,9 @@ function storeBills(billsData) {
 }
 
 
-async function fetchBills(congress, startingBill, billCount) {
+async function fetchLaws(congress, startingLaw, lawCount) {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/bill/${congress}?format=json&offset=${startingBill}&limit=${billCount}&api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/law/${congress}?format=json&offset=${startingLaw}&limit=${lawCount}&api_key=${congress_api_key}`);
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -327,9 +325,9 @@ async function fetchBills(congress, startingBill, billCount) {
     }
 }
 
-function CLEAR_BILLDATA_JSON(verification) {
-    if (verification == "I AM SURE I WANT TO DELETE ALL OF THE DATA IN BILLDATA.JSON!") {
-        const filePath = path.join(__dirname, "billData.json");
+function CLEAR_LAWDATA_JSON(verification) {
+    if (verification == "I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!") {
+        const filePath = path.join(__dirname, "lawData.json");
         fs.readFile(filePath, 'utf8', (error, data) => {
             if (error) {
                 console.error("Error reading file: ", error);
@@ -337,60 +335,60 @@ function CLEAR_BILLDATA_JSON(verification) {
             }
 
             let jsonData = JSON.parse(data)
-            jsonData.bills.length = 0;
+            jsonData.laws.length = 0;
 
             fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
                 if (error) {
                     console.error("error writing file: ", error);
                 }
             });
-            console.log("Alert: billData.json emptied!")
+            console.log("Alert: lawData.json emptied!")
         });
     }
     else {
-        console.error("PLEASE DO NOT DELETE THE BILL DATA IF YOU ARE NOT SURE WHAT YOU ARE DOING!!!");
+        console.error("PLEASE DO NOT DELETE THE LAW DATA IF YOU ARE NOT SURE WHAT YOU ARE DOING!!!");
     }
 }
 
 
-//console.log(await fetchBill(117, "hr", 3076));
-//await getVotesFromData(await fetchBill(117, "hr", 3076));
+//console.log(await fetchLaw(117, "hr", 3076));
+//await getVotesFromData(await fetchLaw(117, "hr", 3076));
 //console.log(await getVotes(117, "hr", 3076));
 //getRemainingRequests();
 
-//console.log(await fetchBillDetails(117, "hr", 3076, "text"));
+//console.log(await fetchLawDetails(117, "hr", 3076, "text"));
 
-//console.log(await extractText(await fetchBillDetails(117, "hr", 3076, "text")));
+//console.log(await extractText(await fetchLawDetails(117, "hr", 3076, "text")));
 /*
-var bill = 2000
+var law = 2000
 for (var i = 0; i < 10; i++) {
-    const votes = await getVotes(117, "hr", bill + i);
+    const votes = await getVotes(117, "hr", law + i);
     if (votes != null) {
-        print(bill + i);
+        print(law + i);
         break;
     }
 }
 */
 
-//console.log(await fetchBillDetails(117, "hr", bill, "summaries"));
+//console.log(await fetchLawDetails(117, "hr", law, "summaries"));
 
-//console.log(await extractText(await fetchBillDetails(117, "hr", 3076, "text")));
+//console.log(await extractText(await fetchLawDetails(117, "hr", 3076, "text")));
 
 /*
-var bill = 2060;
+var law = 2060;
 for (let i = 0; i < 10; i++) {
     try {
-        fetchAndStoreBill(118, "hr", i);
+        fetchAndStoreLaw(118, "hr", i);
     }
     catch (error) {
-        console.log("error fetching bill " + (bill + i));
+        console.log("error fetching law " + (law + i));
     }
 }
 */
 
-await fetchAndStoreBills(117, 0, 250);
-//fetchAndStoreBill(117, "hr", 3076);
+await fetchAndStoreLaws(117, 0, 1);
+//fetchAndStoreLaw(117, "hr", 3076);
 
 await getRemainingRequests();
 
-//CLEAR_BILLDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN BILLDATA.JSON!");
+//CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
