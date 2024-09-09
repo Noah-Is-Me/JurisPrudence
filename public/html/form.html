@@ -18,8 +18,8 @@
 
     <div id="sections-div">
         <h2>Sections</h2>
-        <a href="#basic-informaiton">Basic Information</a>
-        <a href="#contact-information">Contact Information</a>
+        <a class="navbar-link" href="#basic-information">Basic Information</a>
+        <a class="navbar-link" href="#contact-information">Contact Information</a>
     </div>
 
     <div id="form-div">
@@ -28,34 +28,34 @@
                 <legend>Basic Information</legend>
 
                 <label for="name" class="required">Name:</label>
-                <input type="text" name="name" required><br>
+                <input type="text" name="name" required>
 
                 <label for="gender" class="required">Gender:</label>
-                <input type="text" name="gender" required><br>
+                <input type="text" name="gender" required>
 
-                <h3>Age Range:</h3>
+                <h3 class="required">Age Range:</h3>
 
                 <div class="radio-select-container">
                     <div class="radio-select">
-                        <label for="18-30">18-30</label><br>
-                        <input type="radio" name="bald" value="18-30">
+                        <label for="18-30">18-30</label>
+                        <input type="radio" name="age-range" value="18-30" required>
                     </div>
                     <div class="radio-select">
-                        <label for="31-50">31-50</label><br>
-                        <input type="radio" name="bald" value="31-50">
+                        <label for="31-50">31-50</label>
+                        <input type="radio" name="age-range" value="31-50" required>
                     </div>
                     <div class="radio-select">
                         <label for="51-65">51-65</label>
-                        <input type="radio" name="bald" value="51-65">
+                        <input type="radio" name="age-range" value="51-65" required>
                     </div>
                     <div class="radio-select">
                         <label for="66-dead">66-dead</label>
-                        <input type="radio" name="bald" value="66-dead">
+                        <input type="radio" name="age-range" value="66-dead" required>
                     </div>
             </fieldset>
 
-            <fieldset id="basic-information">
-                <legend>Basic Information</legend>
+            <fieldset id="contact-information">
+                <legend>Contact Information</legend>
 
                 <label for="name" class="required">Nerds4Free:</label>
                 <input type="text" name="name" required><br>
