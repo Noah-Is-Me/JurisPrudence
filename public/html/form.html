@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yucky Politicians</title>
+    <title>Yucky Politicians | Form</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/form.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
@@ -15,171 +16,60 @@
         <a href="/html/index.html"><button id="home-button">Home</button></a>
     </div>
 
+    <div id="sections-div">
+        <h2>Sections</h2>
+        <a class="navbar-link" href="#basic-information">Basic Information</a>
+        <a class="navbar-link" href="#contact-information">Contact Information</a>
+    </div>
+
     <div id="form-div">
         <form id="information-form" onsubmit="processInformation(event)">
-            <fieldset>
+            <fieldset id="basic-information">
                 <legend>Basic Information</legend>
 
                 <label for="name" class="required">Name:</label>
-                <input type="text" name="name" required><br>
-
-                <label for="date-of-birth" class="required">Date of Birth:</label>
-                <input type="date" name="date-of-birth" required><br>
+                <input type="text" name="name" required>
 
                 <label for="gender" class="required">Gender:</label>
-                <input type="text" name="gender" required><br>
+                <input type="text" name="gender" required>
 
-                <label for="social-security-number" class="required">Social Security Number: for nerds</label>
-                <input type="number" name="social-security-number" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Contact Information</legend>
-
-                <label for="address" class="required">Address:</label>
-                <input type="text" name="address" required><br>
-
-                <label for="city" class="required">City:</label>
-                <input type="text" name="city" required><br>
-
-                <label for="zip-code" class="required">ZIP Code:</label>
-                <input type="number" name="zip-code" required><br>
-
-                <label for="email-address" class="required">Email Adress:</label>
-                <input type="email" name="email-address" required><br>
-
-                <label for="phone-number" class="required">Phone Number:</label>
-                <input type="tel" name="phone-number" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Employment Information</legend>
-
-                <label for="occupation" class="required">Occupation:</label>
-                <input type="text" name="occupation" required><br>
-
-                <label for="employer" class="required">Employer:</label>
-                <input type="text" name="employer" required><br>
-
-                <label for="employment-status" class="required">Empolyment Status:</label>
-                <input type="text" name="employment-status" required><br>
-
-                <label for="income-level" class="required">Income Level:</label>
-                <input type="number" name="income-level" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Financial Information</legend>
-
-                <label for="income" class="required">Income:</label>
-                <input type="number" name="income" required><br>
-
-                <label for="tax-bracket" class="required">Tax Bracket:</label>
-                <input type="number" name="tax-bracket" required><br>
-
-                <label for="assets" class="required">Assets:</label>
-                <input type="text" name="assets" required><br>
-
-                <label for="liabilities" class="required">Liabilities:</label>
-                <input type="text" name="liabilities" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Educational Background</legend>
-
-                <label for="education" class="required">Highest Level of Educaiton:</label>
-                <input type="text" name="education" required><br>
-
-                <label for="field-of-study" class="required">Field of Study:</label>
-                <input type="text" name="field-of-study" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Family Information</legend>
-
-                <label for="dependents" class="required">Dependents:</label>
-                <input type="number" name="dependents" required><br>
-
-                <label for="marital-status" class="required">Marital Status:</label>
-                <input type="text" name="marital-status" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Health and Insurance Information</legend>
-
-                <label for="health-conditions" class="required">Health Conditions:</label>
-                <input type="text" name="health-conditions" required><br>
-
-                <label for="health-insurance-coverage" class="required">Health Insurance Converage:</label>
-                <input type="text" name="health-insurance-coverage" required><br>
-
-                <label for="disabilities" class="required">Disabilities:</label>
-                <input type="text" name="disabilities" required><br>
-
-                <h3>Bald</h3>
+                <h3 class="required">Age Range:</h3>
 
                 <div class="radio-select-container">
                     <div class="radio-select">
-                        <label for="Yes">Yes</label><br>
-                        <input type="radio" name="bald" value="Yes">
+                        <label for="18-30">18-30</label>
+                        <input type="radio" name="age-range" value="18-30" required>
                     </div>
                     <div class="radio-select">
-                        <label for="No">No</label><br>
-                        <input type="radio" name="bald" value="No">
+                        <label for="31-50">31-50</label>
+                        <input type="radio" name="age-range" value="31-50" required>
                     </div>
                     <div class="radio-select">
-                        <label for="Balding">Balding</label>
-                        <input type="radio" name="bald" value="Balding">
+                        <label for="51-65">51-65</label>
+                        <input type="radio" name="age-range" value="51-65" required>
                     </div>
-                </div>
+                    <div class="radio-select">
+                        <label for="66-dead">66-dead</label>
+                        <input type="radio" name="age-range" value="66-dead" required>
+                    </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Citizenship and Residency</legend>
+            <fieldset id="contact-information">
+                <legend>Contact Information</legend>
 
-                <label for="citizenship-status" class="required">Citizenship Status:</label>
-                <input type="text" name="citizenship-status" required><br>
+                <label for="name" class="required">Nerds4Free:</label>
+                <input type="text" name="name" required><br>
 
-                <label for="residency-status" class="required">Residency Status:</label>
-                <input type="text" name="residency-status" required><br>
-            </fieldset>
+                <label for="gender" class="required">Nerds:</label>
+                <input type="text" name="gender" required><br>
 
-            <fieldset>
-                <legend>Homeownership and Housing</legend>
-
-                <label for="homeownership-status" class="required">Homeownership Status:</label>
-                <input type="text" name="homeownership-status" required><br>
-
-                <label for="property-details" class="required">Property Details:</label>
-                <input type="text" name="property-details" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Legal and Criminal Record</legend>
-
-                <label for="criminal-record" class="required">Criminal Record:</label>
-                <input type="text" name="criminal-record" required><br>
-
-                <label for="legal-issues" class="required">Legal Issues:</label>
-                <input type="text" name="legal-issues" required><br>
-
-                <label for="bald" class="required">Bald:</label>
-                <input type="text" name="bald" required><br>
-            </fieldset>
-
-            <fieldset>
-                <legend>Voting and Civic Engagement</legend>
-
-                <label for="voter-registration-status" class="required">Voter Registration Status:</label>
-                <input type="text" name="voter-registration-status" required><br>
-
-                <label for="political-affiliation" class="required">Political Affiliation:</label>
-                <input type="text" name="political-affiliation" required><br>
             </fieldset>
 
             <button id="submit-button" type="submit">Submit</button>
         </form>
     </div>
+
+
     <script>
         function processInformation(event) {
             event.preventDefault();

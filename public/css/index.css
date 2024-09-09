@@ -1,0 +1,56 @@
+#home-div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+
+    display: inline-flex;
+    align-items: center;
+}
+
+#home-image {
+    position: relative;
+    top: 0;
+    height: 100%;
+    width: auto;
+    padding: 0;
+    margin: 0;
+}
+
+#start-div-container {
+    position: relative;
+    text-align: center;
+    flex-grow: 1;
+    height: 100%;
+    background-color: rgb(43, 16, 21);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("/images/Test thingy.png");
+    background-size: 40%;
+}
+
+#start-div {
+    background-color: black;
+    border: white 3px solid;
+    border-radius: 10px;
+    text-align: center;
+    height: 60%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#start-text {
+    color: white;
+    width: 70%;
+}
+
+#start-button {
+    font-size: 60px;
+}

@@ -1,84 +1,50 @@
 body {
     scroll-behavior: smooth;
     background-color: #0a1319;
-    font-family: "Notable", sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    align-items: center;
+
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     padding: 0;
     margin: 0;
-    height: 100%;
+    overflow-x: hidden;
 }
 
 p {
     color: aliceblue;
 }
 
-#home-div {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    padding: 0;
-    margin: 0;
-
-    display: inline-flex;
-    align-items: center;
-}
-
-#home-image {
-    position: relative;
-    top: 0;
-    height: 100%;
-    width: auto;
-    padding: 0;
-    margin: 0;
-}
-
-#start-div-container {
-    position: relative;
-    text-align: center;
-    flex-grow: 1;
-    height: 100%;
-    background-color: rgb(43, 16, 21);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url("/images/Test thingy.png");
-    background-size: 40%;
-}
-
-#start-div {
-    background-color: black;
-    border: white 3px solid;
+button {
+    background-color: rgb(48, 100, 160);
+    color: whitesmoke;
+    border: #0a1319 solid 1px;
     border-radius: 10px;
-    text-align: center;
-    height: 60%;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    padding: 10px 15px;
+    font-size: 16px;
 }
 
-#start-text {
-    color: white;
-    width: 70%;
+button:hover {
+    background-color: rgb(63, 109, 161);
+    cursor: pointer;
 }
 
-#start-button {
-    font-size: 72px;
+a {
     color: midnightblue;
-    background-color: teal;
-    border-radius: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
 }
 
-#start-button:hover {
-    background-color: rgb(74, 160, 160);
-    ;
+a:visited {
+    color: midnightblue;
+    text-decoration: none;
 }
 
 #header-div {
     position: relative;
-    width: auto;
+    width: 100%;
     height: 200px;
     background-color: #2e2f32;
     margin: 0px;
@@ -97,87 +63,11 @@ p {
     position: absolute;
     top: 10px;
     left: 10px;
-    width: 100px;
-    height: 40px;
     font-size: 26px;
     border-radius: 5px;
-    background-color: rgb(174, 176, 190);
+    background-color: rgb(107, 41, 41);
 }
 
 #home-button:hover {
-    background-color: rgb(187, 189, 204);
-}
-
-#form-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: 15px;
-}
-
-form {
-    background: whitesmoke;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
-}
-
-legend {
-    font-weight: bold;
-}
-
-fieldset {
-    margin-bottom: 40px;
-    padding-top: 25px;
-    background-color: white;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-label.required::after {
-    position: relative;
-    left: 10px;
-    font-size: 20px;
-    content: "*";
-    color: red;
-}
-
-.radio-select-container {
-
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    transform: translateX(-450px);
-}
-
-.radio-select {
-    display: flex;
-    justify-content: center;
-}
-
-input {
-    width: 50%;
-    padding: 8px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#submit-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#results {
-    margin-top: 20px;
+    background-color: rgb(128, 51, 51);
 }
