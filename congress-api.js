@@ -26,6 +26,8 @@ const congress_api_key = process.env.CONGRESS_API_KEY;
     "sconres":  Senate Concurrent Resolution
 */
 
+// TODO: ALL UNCALLED FUNCTIONS ARE NOT TESTED. THEY MIGHT NOT WORK.
+// TODO: I might just get rid of this entire if we are dealing with laws instead of bills.
 
 async function fetchBill(congress, billType, billNumber) {
     try {

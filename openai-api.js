@@ -32,7 +32,7 @@ async function generateCategories(prompt) {
                     role: "user",
                     content: `Analyze the following legislative bill summary and apply the instructions provided:
 
-                    ${prompt}
+                    "${prompt}"
                     
                     Output the affected categories and their impact ratings in the given structured format.`,
                 },
@@ -79,7 +79,7 @@ async function determineMatch(userCategories, billSummary) {
                     role: "user",
                     content: `Analyze the following legislative bill summary and the person's information and apply the instructions provided:
 
-                    ${prompt}
+                    "${prompt}"
                     
                     Determine if the person will be affected directly by the bill and, if applicable, output the affected categories and their impact ratings in the given structured format.`,
                 },

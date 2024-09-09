@@ -19,6 +19,8 @@ const congress_api_key = process.env.CONGRESS_API_KEY;
     "priv" :  Private Law
 */
 
+// TODO: ALL UNCALLED FUNCTIONS ARE NOT TESTED. THEY MIGHT NOT WORK.
+
 
 async function fetchLaw(congress, lawType, lawNumber) {
     try {
@@ -37,9 +39,9 @@ async function fetchLaw(congress, lawType, lawNumber) {
     }
 }
 
-async function fetchLawDetails(congress, lawType, lawNumber, details) {
+async function fetchBillDetails(congress, billType, billNumber, details) {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/law/${congress}/${lawType}/${lawNumber}/${details}?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/bill/${congress}/${billType}/${billNumber}/${details}?api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -55,21 +57,23 @@ async function fetchLawDetails(congress, lawType, lawNumber, details) {
 }
 
 function extractRequestData(lawData) {
-    const requestLawData = lawData.request.laws[0];
+    const requestLawData = lawData.bill.laws[0];
     const parts = requestLawData.number.split("-");
 
     const requestData = {
-        congress: lawData.request.congress,
+        congress: parseInt(lawData.request.congress),
         lawType: (requestLawData.type == "Public Law" ? "pub" : "priv"),
         lawNumber: parseInt(parts[1]),
+        billType: lawData.request.billType,
+        billNumber: parseInt(lawData.request.billNumber)
     }
 
     return requestData;
 }
 
-async function fetchVotes(congress, lawType, lawNumber) {
-    const lawActions = await fetchLawDetails(congress, lawType, lawNumber, "actions");
-    const voteActions = lawActions.actions.filter(action => action.recordedVotes);
+async function fetchVotes(congress, billType, billNumber) {
+    const billActions = await fetchBillDetails(congress, billType, billNumber, "actions");
+    const voteActions = billActions.actions.filter(action => action.recordedVotes);
 
     if (voteActions.length == 0) {
         return null;
@@ -100,7 +104,7 @@ async function fetchVotes(congress, lawType, lawNumber) {
     }
     else {
         console.log(rollCallsJson);
-        console.error(`Unknown vote json format for law: ${congress}-${lawType}-${lawNumber}!`);
+        console.error(`Unknown vote json format for bill: ${congress}-${billType}-${billNumber}!`);
         return null;
     }
     /*
@@ -119,7 +123,7 @@ async function fetchVotes(congress, lawType, lawNumber) {
 
 async function getRemainingRequests() {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/law?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/bill?api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -128,6 +132,7 @@ async function getRemainingRequests() {
         const headers = response.headers;
         const remainingRequests = headers.get("X-RateLimit-Remaining");
         const requestLimit = headers.get("X-RateLimit-Limit");
+
         console.log("Remaining requests:  " + remainingRequests + ";  Request limit: " + requestLimit);
         return remainingRequests;
 
@@ -155,11 +160,19 @@ async function extractFullText(lawTextData) {
     return allVersionTexts;
 }
 
-async function fetchSummary(congress, lawType, lawNumber) {
-    const summariesData = await fetchLawDetails(congress, lawType, lawNumber, "summaries");
+async function fetchSummary(congress, billType, billNumber) {
+    const summariesData = await fetchBillDetails(congress, billType, billNumber, "summaries");
     const summaries = summariesData.summaries;
+
+    if (summaries.length == 0) {
+        return null;
+    }
+
     const finalSummary = summaries[summaries.length - 1];
-    const text = toRawText(finalSummary.text);
+    let text = await toRawText(finalSummary.text);
+    if (text.length > 3000) {
+        text = text.slice(0, 3000) + "...";
+    }
     return text;
 }
 
@@ -229,22 +242,30 @@ async function fetchAndStoreLaws(congress, startingLaw, lawCount) {
 
             const lawData = await response.json();
 
-            console.log(lawData.bill.laws);
+            //console.log("Law data:");
+            //console.log(lawData);
+
+            const requestData = extractRequestData(lawData);
+            //const lawVotes = await fetchVotes(requestData.congress, requestData.billType, requestData.billNumber);
+            //if (lawVotes == 0 || lawVotes == null) continue;
+
+
+            const lawSummary = await fetchSummary(requestData.congress, requestData.billType, requestData.billNumber);
+            if (lawSummary == null) continue;
 
             const shortenedData = {
                 title: lawData.bill.title,
-                date: lawData.bill.latestAction.actionDate
+                date: lawData.bill.latestAction.actionDate,
+                summary: lawSummary,
+                //votes: lawVotes
             }
-            const requestData = extractRequestData(lawData);
-            //const lawVotes = await fetchVotes(requestData.congress, requestData.lawType, requestData.lawNumber);
-            //if (lawVotes == 0 || lawVotes == null) continue;
-            const lawSummary = await fetchSummary(requestData.congress, requestData.lawType, requestData.lawNumber);
 
             const lawJson = {
                 lawData: shortenedData,
-                lawSummary: lawSummary,
-                lawRequestData: requestData
+                requestData: requestData
             }
+
+            //console.log(lawVotes.members[0]["recorded-vote"]);
 
             lawsData.push(lawJson);
 
@@ -257,6 +278,8 @@ async function fetchAndStoreLaws(congress, startingLaw, lawCount) {
     if (lawsData.length > 0) {
         storeLaws(lawsData);
     }
+
+    return lawsData.length;
 }
 
 
@@ -350,45 +373,35 @@ function CLEAR_LAWDATA_JSON(verification) {
     }
 }
 
+function getLawDataJsonLength() {
+    const filePath = path.join(__dirname, "lawData.json");
+    fs.readFile(filePath, 'utf8', (error, data) => {
+        if (error) {
+            console.error("Error reading file: ", error);
+            return null;
+        }
 
-//console.log(await fetchLaw(117, "hr", 3076));
-//await getVotesFromData(await fetchLaw(117, "hr", 3076));
-//console.log(await getVotes(117, "hr", 3076));
-//getRemainingRequests();
-
-//console.log(await fetchLawDetails(117, "hr", 3076, "text"));
-
-//console.log(await extractText(await fetchLawDetails(117, "hr", 3076, "text")));
-/*
-var law = 2000
-for (var i = 0; i < 10; i++) {
-    const votes = await getVotes(117, "hr", law + i);
-    if (votes != null) {
-        print(law + i);
-        break;
-    }
+        let jsonData = JSON.parse(data)
+        console.log(`LawData.json length: ${jsonData.laws.length} laws.`)
+    });
 }
-*/
 
-//console.log(await fetchLawDetails(117, "hr", law, "summaries"));
 
-//console.log(await extractText(await fetchLawDetails(117, "hr", 3076, "text")));
-
-/*
-var law = 2060;
-for (let i = 0; i < 10; i++) {
-    try {
-        fetchAndStoreLaw(118, "hr", i);
+async function storeAllLaws(congress) {
+    for (let i = 0; i < 100; i++) {
+        const numLaws = await fetchAndStoreLaws(congress, 250 * i, 250);
+        if (numLaws < 250) return;
     }
-    catch (error) {
-        console.log("error fetching law " + (law + i));
-    }
+
+    console.error("Never broke loop??? I will throw my computer down a storm drain");
 }
-*/
 
-await fetchAndStoreLaws(117, 0, 1);
-//fetchAndStoreLaw(117, "hr", 3076);
 
+
+
+await storeAllLaws(118);
 await getRemainingRequests();
+getLawDataJsonLength();
+
 
 //CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
