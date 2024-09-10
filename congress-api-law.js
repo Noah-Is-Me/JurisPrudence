@@ -381,7 +381,7 @@ function getLawDataJsonLength() {
             return null;
         }
 
-        let jsonData = JSON.parse(data)
+        const jsonData = JSON.parse(data)
         console.log(`LawData.json length: ${jsonData.laws.length} laws.`)
     });
 }
@@ -397,11 +397,56 @@ async function storeAllLaws(congress) {
 }
 
 
+export async function getRandomCachedLaw() {
+    const filePath = path.join(__dirname, "lawData.json");
+
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        const laws = jsonData.laws;
+        const law = laws[Math.floor(Math.random() * laws.length)];
+        return law;
+    } catch (error) {
+        console.error("Error reading file: ", error);
+        return null;
+    }
+}
+
+export async function getCachedLaw(index) {
+    const filePath = path.join(__dirname, "lawData.json");
+
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        const laws = jsonData.laws;
+        const law = laws[index];
+        return law;
+    } catch (error) {
+        console.error("Error reading file: ", error);
+        return null;
+    }
+}
+
+export async function getAllCachedLaws() {
+    const filePath = path.join(__dirname, "lawData.json");
+
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        const laws = jsonData.laws;
+        return laws;
+    } catch (error) {
+        console.error("Error reading file: ", error);
+        return null;
+    }
+}
 
 
-await storeAllLaws(118);
-await getRemainingRequests();
-getLawDataJsonLength();
+//console.log(await getRandomCachedLaw());
+
+//await storeAllLaws(118);
+//await getRemainingRequests();
+//getLawDataJsonLength();
 
 
 //CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
