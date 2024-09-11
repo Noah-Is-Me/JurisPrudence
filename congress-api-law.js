@@ -170,8 +170,8 @@ async function fetchSummary(congress, billType, billNumber) {
 
     const finalSummary = summaries[summaries.length - 1];
     let text = await toRawText(finalSummary.text);
-    if (text.length > 3000) {
-        text = text.slice(0, 3000) + "...";
+    if (text.length > 2000) {
+        text = text.slice(0, 2000) + "...";
     }
     return text;
 }

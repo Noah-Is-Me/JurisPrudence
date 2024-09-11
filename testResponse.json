@@ -1,5 +1,5 @@
 {
-  "userCategories": "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience, caught by police at January 6th riots",
+  "userCategories": "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience.",
   "filteredLaws": [
     {
       "lawData": {
@@ -16,72 +16,8 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Legal Status",
-          "impactLevel": 5
-        }
-      ]
-    },
-    {
-      "lawData": {
-        "title": "Federal Prison Oversight Act",
-        "date": "2024-07-25",
-        "summary": "Federal Prison Oversight Act This bill establishes an inspections regime for the Bureau of Prisons (BOP).  The Department of Justice (DOJ) Office of the Inspector General must conduct risk-based evaluations of BOP facilities.  An inspection of a facility may be announced or unannounced. Higher risk facilities must receive more frequent inspections. The bill (1) provides for the establishment in DOJ of an Ombudsman who may receive complaints, make inquiries, and recommend actions, and decline to investigate or take action, as specified; and (2) prohibits BOP retaliation against any person or entity that has instituted or caused to be instituted any proceeding, investigation, or inspection under this bill.  The ombudsman shall coordinate with the BOP to educate incarcerated people, their representatives, and the public about the existence and functions of the ombudsman."
-      },
-      "requestData": {
-        "congress": 118,
-        "lawType": "pub",
-        "lawNumber": 71,
-        "billType": "hr",
-        "billNumber": 3019
-      },
-      "affectedCategories": [
-        {
-          "categoryName": "Criminal Record",
-          "impactLevel": 8
-        }
-      ]
-    },
-    {
-      "lawData": {
-        "title": "TRANQ Research Act of 2023",
-        "date": "2023-12-19",
-        "summary": "Testing, Rapid Analysis, and Narcotic Quality Research Act of 2023 or the TRANQ Research Act of 2023 This bill requires the National Institute of Standards and Technology (NIST) to support research and other activities related to identifying xylazine (a compound used in veterinary medicine as a nonopioid tranquilizer), novel synthetic opioids, and other new psychoactive substances. In particular, NIST must support  basic measurement science and research; near-real time spectrometry capabilities (i.e., a technique for rapidly identifying the chemical composition of a substance); strategies and voluntary best practices for handling, transporting, and analyzing such substances; and collaboration with other government agencies, institutions of higher education, and the private sector to enhance relevant narcotic and opioid detection and analysis capabilities.  Additionally, the Government Accountability Office must conduct a study on the capabilities of the federal government to detect, identify, and otherwise respond to threats of new psychoactive substances, such as xylazine."
-      },
-      "requestData": {
-        "congress": 118,
-        "lawType": "pub",
-        "lawNumber": 23,
-        "billType": "hr",
-        "billNumber": 1734
-      },
-      "affectedCategories": [
-        {
-          "categoryName": "Substance Use and Legal Issues",
-          "impactLevel": 8
-        },
-        {
-          "categoryName": "Health and Safety",
-          "impactLevel": 5
-        }
-      ]
-    },
-    {
-      "lawData": {
-        "title": "Recruit and Retain Act",
-        "date": "2024-05-24",
-        "summary": "Recruit and Retain Act This bill expands the Community Oriented Policing Services (COPS) grant program to support recruitment efforts by law enforcement agencies. Specifically, the bill expands the COPS program by  allowing funds to be used for reducing application-related fees (e.g., fees for background checks, psychological evaluations, and testing); and directing the Department of Justice (DOJ) to award competitive grants to partnerships between law enforcement agencies and educational institutions (e.g., elementary and secondary schools and institutions of higher education) for recruiting activities, such as for career and job fairs.  The bill requires DOJ to establish guidance for understaffed law enforcement agencies applying for COPS grants. The Government Accountability Office must study and report on the effects of recruitment and attrition rates on federal, state, tribal, and local law enforcement agencies."
-      },
-      "requestData": {
-        "congress": 118,
-        "lawType": "pub",
-        "lawNumber": 64,
-        "billType": "s",
-        "billNumber": 546
-      },
-      "affectedCategories": [
-        {
-          "categoryName": "Employment in Education",
-          "impactLevel": 5
+          "categoryName": "Social Impact Awareness",
+          "impactLevel": 6
         }
       ]
     },
@@ -101,7 +37,7 @@
       "affectedCategories": [
         {
           "categoryName": "Legal Status",
-          "impactLevel": 5
+          "impactLevel": 8
         }
       ]
     },
@@ -120,16 +56,16 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Education",
-          "impactLevel": 8
-        },
-        {
-          "categoryName": "Federal Funding",
+          "categoryName": "Employment",
           "impactLevel": 7
         },
         {
-          "categoryName": "Employment",
-          "impactLevel": 5
+          "categoryName": "Education Funding",
+          "impactLevel": 8
+        },
+        {
+          "categoryName": "Economic Assistance",
+          "impactLevel": 6
         }
       ]
     },
@@ -149,14 +85,10 @@
       "affectedCategories": [
         {
           "categoryName": "Employment Status",
-          "impactLevel": 8
-        },
-        {
-          "categoryName": "Income Level",
           "impactLevel": 7
         },
         {
-          "categoryName": "Residency",
+          "categoryName": "Income Level",
           "impactLevel": 5
         }
       ]
@@ -176,36 +108,8 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Legal Status",
-          "impactLevel": 6
-        }
-      ]
-    },
-    {
-      "lawData": {
-        "title": "Consolidated Appropriations Act, 2024",
-        "date": "2024-03-09",
-        "summary": "Consolidated Appropriations Act, 2024  This act provides FY2024 appropriations for several federal departments and agencies. It also extends several expiring programs and authorities, including various public health programs.  Specifically, the act includes 6 of the 12 regular FY2024 appropriations bills:    the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2024;   the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2024;   the Commerce, Justice, Science, and Related Agencies Appropriations Act, 2024;   the Energy and Water Development and Related Agencies Appropriations Act, 2024;   the Department of the Interior, Environment, and Related Agencies Appropriations Act, 2024; and   the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2024.   The act also modifies the Compacts of Free Association that govern the relationship between the United States and the Republic of the Marshall Islands, the Federated States of Micronesia, and the Republic of Palau.  (Sec. 3) This section provides that references to this Act included in any division of this act refer only to the provisions of that division unless the act expressly provides otherwise.  (Sec. 4) This section provides that the explanatory statement regarding this act that was printed in the Congressional Record has the same effect as a joint explanatory statement of a conference committee.  (Sec. 5) This section specifies that the sums in this act are appropriated for FY2024.  (Sec. 6) This section specifies that funds designated by this act as emergency spending are only available if the President subsequently designates all of the funds as emergency spending and transmits the designations to Congress.  DIVISION A--MILITARY CONSTRUCTION, VETERANS AFFAIRS, AND RELATED AGENCIES APPROPRIATIONS ACT, 2024  Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2024  This division provides FY2024 appropriations for military construction, the Department of Veterans Affairs, and related agencies.  TITLE I--DEPARTMENT OF DEFENSE This title provides appropriations to the Department of Defense (DOD) for Military Construction for    the Army;   the Navy and Marine Corps;   the Air Force;   Defense-Wide agencies and activities (other than military departments);   the Army and Air National Guard; and   the Army, Navy, and Air Force Reserves.   The title also provides appropriations to DOD for the (1) North Atlantic Treaty Organization (NATO) Security Investment Program, and (2) the DOD Base Closure Account.  The title provides appropriations to DOD for Construction and Operation and Maintenance of Family Housing for    the Army,   the Navy and Marine Corps,   the Air Force, and   Defense-Wide agencies and activities (other than military departments).   The title provides appropriations to DOD for (1) the Family Housing Improvement Fund, and (2) the Military..."
-      },
-      "requestData": {
-        "congress": 118,
-        "lawType": "pub",
-        "lawNumber": 42,
-        "billType": "hr",
-        "billNumber": 4366
-      },
-      "affectedCategories": [
-        {
-          "categoryName": "Employment",
+          "categoryName": "Legal Issues (DUIs and Probation)",
           "impactLevel": 5
-        },
-        {
-          "categoryName": "Income",
-          "impactLevel": 6
-        },
-        {
-          "categoryName": "Public Services",
-          "impactLevel": 7
         }
       ]
     },
@@ -213,7 +117,7 @@
       "lawData": {
         "title": "Extension of Continuing Appropriations and Other Matters Act, 2024",
         "date": "2024-03-01",
-        "summary": "Extension of Continuing Appropriations and Other Matters Act, 2024 This act provides continuing FY2024 appropriations for federal agencies, modifies the requirements for determining eligibility for federal student aid, and provides additional funding for Federal Pell Grants.  DIVISION A--EXTENSION OF CONTINUING APPROPRIATIONS ACT, 2024 Extension of Continuing Appropriations Act, 2024 This division is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires.  The CR provides funding through March 8, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:   the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023;  the Energy and Water Development and Related Agencies Appropriations Act, 2023;  the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and  the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.   For most other federal agencies and programs, the CR provides funding through March 22, 2024.  (Under the current CR, the first group of agencies is funded through March 1, 2024, and the remaining agencies are funded through March 8, 2024.) The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. DIVISION B--OTHER MATTERS This division modifies the requirements for determining eligibility for federal student aid and provides additional funding for Federal Pell Grants.  (Sec. 101) This section revises the computation of the student aid index (SAI) for dependent students, which is used to determine eligibility for federal student aid. The SAI for a dependent student is calculated using the Free Application for Federal Student Aid (FAFSA) data for the student and their parents. The FAFSA Processing System calculates the parents' contribution from income and assets, the student's contribution from income, and the student's contribution from assets; the SAI is the sum of these three values.  In particular, the section specifies that a student's available income shall not be less than -$1,500 for award year 2024-2025 and not less than $0 for award year 2025-2026 and each succeeding award year.  The section also provides specified additional funds for Federal Pell Grants for FY2025 and each succeeding fiscal year.  (Sec. 102) This section exempts the budgetary effects of this division from (1) the Statutory Pay-As-You-Go Act of 2010 (PAYGO Act), (2) the Senate PAYGO rule, and (3) certain budget scorekeeping rules."
+        "summary": "Extension of Continuing Appropriations and Other Matters Act, 2024 This act provides continuing FY2024 appropriations for federal agencies, modifies the requirements for determining eligibility for federal student aid, and provides additional funding for Federal Pell Grants.  DIVISION A--EXTENSION OF CONTINUING APPROPRIATIONS ACT, 2024 Extension of Continuing Appropriations Act, 2024 This division is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires.  The CR provides funding through March 8, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:   the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023;  the Energy and Water Development and Related Agencies Appropriations Act, 2023;  the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and  the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.   For most other federal agencies and programs, the CR provides funding through March 22, 2024.  (Under the current CR, the first group of agencies is funded through March 1, 2024, and the remaining agencies are funded through March 8, 2024.) The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. DIVISION B--OTHER MATTERS This division modifies the requirements for determining eligibility for federal student aid and provides additional funding for Federal Pell Grants.  (Sec. 101) This section revises the computation of the student aid index (SAI) for dependent students, which is used to determine eligibility for federal student aid. The SAI for a dependent student is calculated using the Free Application for Federal Student Aid (FAFSA) dat..."
       },
       "requestData": {
         "congress": 118,
@@ -224,15 +128,15 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Education Funding",
+          "categoryName": "Occupation (Teacher)",
           "impactLevel": 8
         },
         {
-          "categoryName": "Income Level",
+          "categoryName": "Income Level (Low-income)",
           "impactLevel": 7
         },
         {
-          "categoryName": "Employment as a Teacher",
+          "categoryName": "Education Level (Master's degree in Education)",
           "impactLevel": 6
         }
       ]
@@ -241,7 +145,7 @@
       "lawData": {
         "title": "Further Continuing Appropriations and Other Extensions Act, 2024",
         "date": "2023-11-17",
-        "summary": "Further Continuing Appropriations and Other Extensions Act, 2024 This act provides continuing FY2024 appropriations for federal agencies. The act also extends several expiring programs and authorities, including programs authorized by the 2018 farm bill and several public health programs.  DIVISION A--FURTHER CONTINUING APPROPRIATIONS ACT, 2024 Further Continuing Appropriations Act, 2024 (Sec. 101) This section provides continuing FY2024 appropriations for federal agencies and extends several expiring programs and authorities. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires on November 17, 2023. The CR provides funding through January 19, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:  the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023; the Energy and Water Development and Related Agencies Appropriations Act, 2023; the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.  For most other federal agencies and programs, the CR provides funding through February 2, 2024. The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. For example, the CR includes exceptions for:  the Navy's procurement of one Columbia Class Submarine,  activities of the U.S. Secret Service that are related to National Special Security Events and the 2024 Presidential Campaign, and  activities of the Department of Education that are necessary to ensure the continuation of student loan servicing activities.  This section also extends several expiring programs and authorities, including  the U.S. Parole Commission, the authority for the Department of Defense (DOD) to provide physical protection and personal security for certain former or retired DOD officials who face serious and credible threats arising from duties performed while employed by DOD, restrictions on firearms that are undetectable by walk-through metal detectors and X-ray machines commonly used at airports,   limits on pay increases for the Vice President and certain senior political appointees,   the exemption from the Antideficiency Act for the Federal Communications Commission's Universal Service Fund, and  the Department of Homeland Security's Countering Weapons of Mass Destruction Office.   This section provides appropriations for a payment to Katherine Anne Feinstein, the beneficiary of the late Senator Dianne Feinstein. DIVISION B--OTHER MATTERS TITLE I--EXTENSIONS AND OTHER MATTERS (Sec. 101) This section extends provisions that provide grants and other financial assistance to the Federated States ..."
+        "summary": "Further Continuing Appropriations and Other Extensions Act, 2024 This act provides continuing FY2024 appropriations for federal agencies. The act also extends several expiring programs and authorities, including programs authorized by the 2018 farm bill and several public health programs.  DIVISION A--FURTHER CONTINUING APPROPRIATIONS ACT, 2024 Further Continuing Appropriations Act, 2024 (Sec. 101) This section provides continuing FY2024 appropriations for federal agencies and extends several expiring programs and authorities. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires on November 17, 2023. The CR provides funding through January 19, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:  the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023; the Energy and Water Development and Related Agencies Appropriations Act, 2023; the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.  For most other federal agencies and programs, the CR provides funding through February 2, 2024. The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. For example, the CR includes exceptions for:  the Navy's procurement of one Columbia Class Submarine,  activities of the U.S. Secret Service that are related to National Special Security Events and the 2024 Presidential Campaign, and  activities of the Department of Education that are necessary to ensure the continuation of student loan servicing activities.  This section also extends several expiring programs and authorities, including  t..."
       },
       "requestData": {
         "congress": 118,
@@ -252,12 +156,12 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Employment",
-          "impactLevel": 5
+          "categoryName": "Employment (Public Education)",
+          "impactLevel": 8
         },
         {
-          "categoryName": "Education",
-          "impactLevel": 7
+          "categoryName": "Education (Master's Degree in Education)",
+          "impactLevel": 5
         }
       ]
     },
@@ -265,7 +169,7 @@
       "lawData": {
         "title": "Making further continuing appropriations for the fiscal year ending September 30, 2024, and for other purposes.",
         "date": "2024-01-19",
-        "summary": "Further Additional Continuing Appropriations and Other Extensions Act, 2024 This act provides continuing FY2024 appropriations for federal agencies. The act also extends several expiring programs and authorities, including several public health programs.  DIVISION A--FURTHER ADDITIONAL CONTINUING APPROPRIATIONS ACT, 2024  Further Additional Continuing Appropriations Act, 2024   (Sec. 101) This section provides continuing FY2024 appropriations for federal agencies. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires.  The CR provides funding through March 1, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:    the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023;   the Energy and Water Development and Related Agencies Appropriations Act, 2023;   the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and   the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.   (Under the current CR, these agencies and programs are funded through January 19, 2024.)  For most other federal agencies and programs, the CR provides funding through March 8, 2024. (Under the current CR, these agencies and programs are funded through February 2, 2024.)  The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. For example, the CR includes exceptions for the National Nuclear Security Administration and the Federal Aviation Administration.  In addition, the CR allows the Department of Defense to obligate specified funds from the Shipbuilding and Conversion, Navy account for the procurement of one Columbia Class Submarine.  The CR also extends the authority for the U.S. Parole Commission.  DIVISION B--OTHER MATTERS   TITLE I--HEALTH AND HUMAN SERVICES Subtitle A--Public Health Extenders  (Sec. 101) This section extends through March 8, 2024, funding for the Teaching Health Center Graduate Medical Education Program, the Community Health Center Fund, and the National Health Services Corps. (The program supports education and training of medical students in primary care residency programs in community-based ambulatory patient care centers. The fund supports (1) grants for outpatient health care facilities that serve medically underserved populations; and (2) the National Health Service Corps, which provides scholarships and student loan repayment awards to health care providers who agree to work in areas with health care provider shortages.)  (Sec. 102) This section extends funding through March 8, 2024, for the Special Diabetes Program for Type I Diabetes and the Special Diabetes Program for Indians. (The Special Diabetes Program for..."
+        "summary": "Further Additional Continuing Appropriations and Other Extensions Act, 2024 This act provides continuing FY2024 appropriations for federal agencies. The act also extends several expiring programs and authorities, including several public health programs.  DIVISION A--FURTHER ADDITIONAL CONTINUING APPROPRIATIONS ACT, 2024  Further Additional Continuing Appropriations Act, 2024   (Sec. 101) This section provides continuing FY2024 appropriations for federal agencies. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when the existing CR expires.  The CR provides funding through March 1, 2024, for agencies and programs that were funded in the following four FY2023 appropriations acts:    the Agriculture, Rural Development, Food and Drug Administration, and Related Agencies Appropriations Act, 2023;   the Energy and Water Development and Related Agencies Appropriations Act, 2023;   the Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2023; and   the Transportation, Housing and Urban Development, and Related Agencies Appropriations Act, 2023.   (Under the current CR, these agencies and programs are funded through January 19, 2024.)  For most other federal agencies and programs, the CR provides funding through March 8, 2024. (Under the current CR, these agencies and programs are funded through February 2, 2024.)  The CR generally funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. For example, the CR includes exceptions for the National Nuclear Security Administration and the Federal Aviation Administration.  In addition, the CR allows the Department of Defense to obligate specified funds from the Shipbuilding and Conversion, Navy account for the procurement of one Columbia Class Submarine.  The CR also extends the aut..."
       },
       "requestData": {
         "congress": 118,
@@ -276,31 +180,19 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Employment",
-          "impactLevel": 5
+          "categoryName": "Employment in Education",
+          "impactLevel": 7
         },
         {
-          "categoryName": "Health and Human Services",
-          "impactLevel": 7
-        }
-      ]
-    },
-    {
-      "lawData": {
-        "title": "A bill to amend the Federal Election Campaign Act of 1971 to extend the Administrative Fine Program for certain reporting violations.",
-        "date": "2023-12-19",
-        "summary": "This act extends through December 31, 2033, the statutory authorization for the Federal Election Commission Administration Fine Program. This program provides expedited enforcement for late and nonfiled campaign finance disclosure reports."
-      },
-      "requestData": {
-        "congress": 118,
-        "lawType": "pub",
-        "lawNumber": 26,
-        "billType": "s",
-        "billNumber": 2747
-      },
-      "affectedCategories": [
+          "categoryName": "Low-Income Status",
+          "impactLevel": 6
+        },
         {
-          "categoryName": "Political Activity due to January 6th riots",
+          "categoryName": "Public Sector Employment",
+          "impactLevel": 8
+        },
+        {
+          "categoryName": "Health Programs",
           "impactLevel": 5
         }
       ]
@@ -309,7 +201,7 @@
       "lawData": {
         "title": "Continuing Appropriations Act, 2024 and Other Extensions Act",
         "date": "2023-09-30",
-        "summary": "Continuing Appropriations Act, 2024 and Other Extensions Act This act provides continuing FY2024 appropriations to federal agencies through November 17, 2023, and provides emergency funding for disaster relief. It also extends several expiring programs and authorities, including several Federal Aviation Administration programs, the National Flood Insurance Program, Federal Drug Administration user fees for animal drug applications, and several public health programs. DIVISION A--CONTINUING APPROPRIATIONS ACT, 2024 This division provides continuing FY2024 appropriations to federal agencies through the earlier of November 17, 2023, or the enactment of the applicable appropriations act. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when FY2024 begins on October 1, 2023. The CR funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. This division also provides emergency funding to respond to natural disasters. (Sec. 101) This section provides FY2024 appropriations to federal agencies for continuing projects or activities at the levels and under the conditions included in specified FY2023 appropriations acts. The section also extends several immigration-related programs and specifies several exceptions. (Sec. 102) This section prohibits the Department of Defense (DOD) from funding new or accelerated production of certain projects and other activities and certain multiyear procurements prior to the enactment of the regular annual appropriations act. (Sec. 103) This section specifies that funds provided by Section 101 of this division shall be available to the extent and in the manner that would be provided in the pertinent appropriations act. (Sec. 104) This section generally prohibits appropriations provided by Section 101 of this division from being used to initiate or resume any project or activity that was not funded during FY2023. (Sec. 105) This section specifies that appropriations provided by the CR are to be used to conduct FY2024 activities and programs during the period of the CR. (Sec. 106) This section continues the appropriations provided by this division through the earlier of November 17, 2023, or the enactment of the applicable appropriations act. (Sec. 107) This section requires expenditures for activities funded in this division to be charged to the full-year appropriations bill and relevant account when the applicable appropriations bill becomes law. (Sec. 108) This section waives the normal time limitations for submission and approval of apportionments of accounts funded in annual appropriations acts. (Sec. 109) This section limits disbursements for programs that would otherwise have high initial rates of operation or would complete distribution of funding at the beginning of the fiscal year if those actions w..."
+        "summary": "Continuing Appropriations Act, 2024 and Other Extensions Act This act provides continuing FY2024 appropriations to federal agencies through November 17, 2023, and provides emergency funding for disaster relief. It also extends several expiring programs and authorities, including several Federal Aviation Administration programs, the National Flood Insurance Program, Federal Drug Administration user fees for animal drug applications, and several public health programs. DIVISION A--CONTINUING APPROPRIATIONS ACT, 2024 This division provides continuing FY2024 appropriations to federal agencies through the earlier of November 17, 2023, or the enactment of the applicable appropriations act. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2024 appropriations bills have not been enacted when FY2024 begins on October 1, 2023. The CR funds most programs and activities at the FY2023 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. This division also provides emergency funding to respond to natural disasters. (Sec. 101) This section provides FY2024 appropriations to federal agencies for continuing projects or activities at the levels and under the conditions included in specified FY2023 appropriations acts. The section also extends several immigration-related programs and specifies several exceptions. (Sec. 102) This section prohibits the Department of Defense (DOD) from funding new or accelerated production of certain projects and other activities and certain multiyear procurements prior to the enactment of the regular annual appropriations act. (Sec. 103) This section specifies that funds provided by Section 101 of this division shall be available to the extent and in the manner that would be provided in the pertinent appropriations act. (Sec. 104) This section generally prohibits appropriations provided by Section 101 of this division from bein..."
       },
       "requestData": {
         "congress": 118,
@@ -320,11 +212,11 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Employment",
-          "impactLevel": 7
+          "categoryName": "Employment (Education Sector)",
+          "impactLevel": 6
         },
         {
-          "categoryName": "Income",
+          "categoryName": "Resident Status (Washington DC)",
           "impactLevel": 5
         }
       ]
@@ -344,15 +236,11 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Occupation (Teacher)",
-          "impactLevel": 7
+          "categoryName": "Occupation",
+          "impactLevel": 8
         },
         {
-          "categoryName": "Education (Master's degree in Education)",
-          "impactLevel": 5
-        },
-        {
-          "categoryName": "Location (Washington DC)",
+          "categoryName": "Education Background",
           "impactLevel": 6
         }
       ]
@@ -361,7 +249,7 @@
       "lawData": {
         "title": "Fiscal Responsibility Act of 2023",
         "date": "2023-06-03",
-        "summary": "Fiscal Responsibility Act of 2023 This act increases the federal debt limit, establishes new discretionary spending limits, rescinds unobligated funds, expands work requirements for federal programs, and modifies other requirements related to the federal budget process.  DIVISION A--LIMIT FEDERAL SPENDING TITLE I--DISCRETIONARY SPENDING LIMITS FOR DISCRETIONARY CATEGORY  (Sec. 101) This section establishes new discretionary spending limits (also known as spending caps) for FY2024 and FY2025 that are enforced with sequestration (i.e., automatic, across-the-board spending reductions). The Congressional Budget Office (CBO) has estimated that the spending limits will reduce spending below the levels included in its baseline projections.  In addition, this section extends and establishes new limits for several adjustments to discretionary spending limits that are permitted under current law to accommodate additional appropriations for certain activities. These adjustments apply to spending for    continuing disability reviews and redeterminations,   health care fraud and abuse control, and   reemployment services and eligibility assessments.  The section also extends the adjustment to discretionary spending limits for disaster relief funding. The limits for this adjustment are based on a statutory formula, which is modified by this section.  During FY2026-FY2029, if the annual budget resolution has not been adopted by Congress by April 15, this section requires the chairman of the House Budget Committee to submit to the House a spending allocation for the House Appropriations Committee that is consistent with levels specified in this section.  Finally, the section provides funding for (1) the Department of Veterans Affairs Cost of War Toxic Exposures Fund, and (2) the Department of Commerce Nonrecurring Expenses Fund.  (Sec. 102) This section requires the discretionary spending limits to be revised if a continuing resolution (CR) is in effect at the beginning of the calendar year.  Specifically, if a CR for FY2024 or FY2025 is in effect on or after January 1 of 2024 or 2025 for any discretionary budget account, the discretionary spending limits for that fiscal year must be revised to specified levels. CBO has estimated that the revised limits will be lower for defense spending and higher for nondefense spending compared to the original limits.  If all of the regular appropriations bills for the fiscal year are enacted before April 30, the revised limits revert to the original limits. If a CR is in effect on April 30 of 2024 or 2025, a final sequestration order must be issued based on the revised limits.  (Sec. 103) This section exempts specified funds that were previously designated as emergency spending from the discretionary spending limits.  TITLE II--BUDGET ENFORCEMENT IN THE HOUSE OF REPRESENTATIVES  (Sec. 111) This section requires the chairman of the House Budget Committee to submit for publication in the Congressional Record FY2024 committee a..."
+        "summary": "Fiscal Responsibility Act of 2023 This act increases the federal debt limit, establishes new discretionary spending limits, rescinds unobligated funds, expands work requirements for federal programs, and modifies other requirements related to the federal budget process.  DIVISION A--LIMIT FEDERAL SPENDING TITLE I--DISCRETIONARY SPENDING LIMITS FOR DISCRETIONARY CATEGORY  (Sec. 101) This section establishes new discretionary spending limits (also known as spending caps) for FY2024 and FY2025 that are enforced with sequestration (i.e., automatic, across-the-board spending reductions). The Congressional Budget Office (CBO) has estimated that the spending limits will reduce spending below the levels included in its baseline projections.  In addition, this section extends and establishes new limits for several adjustments to discretionary spending limits that are permitted under current law to accommodate additional appropriations for certain activities. These adjustments apply to spending for    continuing disability reviews and redeterminations,   health care fraud and abuse control, and   reemployment services and eligibility assessments.  The section also extends the adjustment to discretionary spending limits for disaster relief funding. The limits for this adjustment are based on a statutory formula, which is modified by this section.  During FY2026-FY2029, if the annual budget resolution has not been adopted by Congress by April 15, this section requires the chairman of the House Budget Committee to submit to the House a spending allocation for the House Appropriations Committee that is consistent with levels specified in this section.  Finally, the section provides funding for (1) the Department of Veterans Affairs Cost of War Toxic Exposures Fund, and (2) the Department of Commerce Nonrecurring Expenses Fund.  (Sec. 102) This section requires the discretionary spending limits to be revised if a continuing resolution (CR) is in effect at the beginning of the cale..."
       },
       "requestData": {
         "congress": 118,
@@ -372,11 +260,15 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Income",
+          "categoryName": "Income Level",
+          "impactLevel": 8
+        },
+        {
+          "categoryName": "Employment in Public Sector",
           "impactLevel": 7
         },
         {
-          "categoryName": "Employment",
+          "categoryName": "Age",
           "impactLevel": 5
         }
       ]
@@ -396,12 +288,8 @@
       },
       "affectedCategories": [
         {
-          "categoryName": "Employment",
+          "categoryName": "Health",
           "impactLevel": 5
-        },
-        {
-          "categoryName": "Health and Safety Regulations",
-          "impactLevel": 7
         }
       ]
     },
@@ -421,11 +309,7 @@
       "affectedCategories": [
         {
           "categoryName": "Legal Status",
-          "impactLevel": 8
-        },
-        {
-          "categoryName": "Employment",
-          "impactLevel": 5
+          "impactLevel": 9
         }
       ]
     }

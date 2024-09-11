@@ -37,11 +37,11 @@ async function determineMatch(userCategories, lawSummary) {
 
                     Law: "${lawSummary}"
                     
-                    Determine if the person will be affected directly by the law and, if the law is applicable, output the affected categories and their impact ratings in the given structured format.`,
+                    Determine if the person will be affected directly by the law and, if the law is applicable, output which traits/categories of the person make this true and the impact ratings of each trait/category in the given structured format. Be specific and exclusive with the categories.`,
                 },
             ],
             response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
-            temperature: 0.3, // default is 1
+            temperature: 1, // default is 1
             max_tokens: 200, // https://platform.openai.com/tokenizer
 
             //frequency_penalty: 0, // default
@@ -84,9 +84,14 @@ async function filterAllPastLaws(userCategories) {
         const lawData = law.lawData;
         const summary = lawData.summary;
 
-        const response = await determineMatch(userCategories, summary);
+        let response;
+        let affectedCategories;
 
-        let affectedCategories = response.affectedCategories;
+        do {
+            response = await determineMatch(userCategories, summary);
+            affectedCategories = response.affectedCategories;
+
+        } while (affectedCategories == null || response == null);
 
         //console.log(summary);
         //console.log(response);
@@ -151,7 +156,7 @@ async function saveTestResponse(userCategories, filteredLaws) {
     });
 }
 
-const userCategories = "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience, caught by police at January 6th riots";
+const userCategories = "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience.";
 
 /*
 const law = await getRandomCachedLaw();
