@@ -1,0 +1,54 @@
+body {
+    background-image: url("/images/Sand Tileable.jpg");
+    background-size: contain;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+#congresses-div {
+    position: absolute;
+    background-color: whitesmoke;
+    padding: 10px 10px 20px 15px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 200px;
+    border: black solid 5px;
+    border-left: none;
+    margin-top: 50px;
+    height: auto;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.congress-link {
+    margin-bottom: 5px;
+}
+
+#law-list-container {
+    position: relative;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    flex-direction: column;
+    padding: 0;
+}
+
+
+.law {
+    height: auto;
+    margin-top: 30px;
+    background-color: whitesmoke;
+    border: black solid 5px;
+    padding: 5px 30px 30px 30px;
+}
+
+img {
+    width: 100%;
+}

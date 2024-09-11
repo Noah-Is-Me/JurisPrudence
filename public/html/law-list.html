@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yucky Politicians | Form</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/law-list.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body onload="addLaws();">
+    <div id="header-div">
+        <h1 id="header-text">Applicable Laws</h1>
+        <a href="/html/index.html"><button id="home-button">Home</button></a>
+    </div>
+
+    <div id="congresses-div">
+        <h2>Congress Number</h2>
+        <button class="congress-link">118th Congress</button>
+        <button class="congress-link">117th Congress</button>
+        <button class="congress-link">116th Congress</button>
+        <button class="congress-link">115th Congress</button>
+    </div>
+
+    <div id="law-list-container">
+    </div>
+
+
+    <script>
+        function addLaws() {
+            for (let i = 0; i < 5; i++) {
+                /*
+                $('#law-list-div').append(```
+                    <div id="law">
+                        <h3>LAW #${i + 1}</h3>
+                        <image src="/images/AMERICA.png">
+                    </div>
+                        ```);
+                        */
+
+                $("#law-list-container").append("<div class='law'><h3>LAW</h3><image src='/images/AMERICA.png'></div>");
+            }
+            console.log("Loaded laws");
+        }
+    </script>
+</body>
+
+</html>
