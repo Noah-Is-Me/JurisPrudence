@@ -11,4 +11,4 @@ const lawSchema = new mongoose.Schema({
     //votes : IDK
 })
 
-export var Law = mongoose.model("Law", lawSchema);
+export const Law = mongoose.model("Law", lawSchema);

@@ -1,36 +1,32 @@
-//TODO: Must npm install mongoose, body-parser, express-session, connect-mongo
-
 /*
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import session from "express-session";
-import connectMongo from "connect-mongo";
-
-const MongoStore = connectMongo(session);
+npm install mongodb
+mongodb+srv://noahsonfield:BOuCyQU5iYvntUDW@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster
+mongodb+srv://noahsonfield:<db_password>@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster
 
 
-const app = express();
-
-mongoose.connect("mongodb://localhost:27017/mydatabase", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://noahsonfield:BOuCyQU5iYvntUDW@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster";
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
 });
-
-const db = mongoose.connections;
-
-app.use(session({
-    secret: 'mysecret', // Replace with a random string for session encryption
-    resave: false,
-    saveUnitialized: true,
-    store: new MongoStore({ mongooseConnection: db })
-}));
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-//TODO: Get rid of default export (yucky!)
-export default app;
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
 */
 
 import express from "express";
@@ -43,15 +39,62 @@ import { Law } from "./models/law.js";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import LocalStrategy from "passport-local";
+import flash from "connect-flash"
+import dotenv from "dotenv";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 const router = express.Router();
 
-const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/yucky-politicians';
+dotenv.config();
+const dbURL = process.env.DB_URL; // || 'mongodb://localhost:27017/yucky-politicians';
 
-mongoose.connect(dbURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect(dbURL);
+
+
+const uri = process.env.MONGODB_URI;
+const options = {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+}
+
+let client;
+let clientPromise;
+
+if (!process.env.MONGODB_URI) {
+    throw new Error("Please add your Mongo URI to .env");
+}
+
+if (process.env.NODE_ENV === "development") {
+    // In development mode, use a gloval variable so that the value is preserved across module reloads
+
+    if (!global._mongoClientPromise) {
+        client = new MongoClient(uri, options);
+        global._mongoClientPromise = client.connect();
+    }
+    clientPromise = global._mongoClientPromise;
+} else {
+    // In production mode, it is best to not use a global variable
+
+    client = new MongoClient(uri, options);
+    clientPromise = client.connect();
+}
+
+//export default clientPromise;
+
+export async function getServerSideProps(context) {
+    const client = await clientPromise;
+    const isConnected = await client.isConnected();
+    const db = client.db("userData");
+    const collection = db.collection("users");
+    const products = await collection.find({}).toArray();
+
+    return {
+        props: {
+            isConnected,
+            products: JSON.parse(JSON.stringify(products));
+        }
+    }
+}
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -64,8 +107,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
@@ -82,29 +126,42 @@ store.on("error", function (e) {
 
 app.use(session({
     store,
-    name: "sesson",
+    name: "session",
     secret,
     resave: false,
-    saveUnitialized: true,
-    /*
+    saveUninitialized: true,
+
     cookie: {
-        httpOnly: true,
-        // secure: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        httpOnly: true,  // Prevents client-side JavaScript from accessing the cookie
+        secure: process.env.NODE_ENV === 'production',  // Ensure it's secure only in production
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,  // 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7  // 7 days
     }
-    */
+
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(User.serializeUser);
-passport.deserializeUser(User.deserializeUser);
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 passport.use(new LocalStrategy(User.authenticate()));
 
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+});
 
 
 router.get("/register", function (req, res) {
@@ -166,10 +223,16 @@ router.get("/users/:id", function (req, res) {
 */
 
 router.get("/profile", function (req, res) {
-    User.findById(req.params.id, function (err, foundUser) {
-        if (err) {
-            req.flash("error", "Something went wrong.");
-            res.redirect("/");
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You must be logged in to view your profile.");
+        return res.redirect("/login");
+    }
+
+
+    User.findById(req.user._id, function (err, foundUser) {
+        if (err || !foundUser) {
+            req.flash("error", "User not found.");
+            return res.redirect("/");
         }
 
         res.render("users/show", { user: foundUser });
