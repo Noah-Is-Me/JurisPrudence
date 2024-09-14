@@ -135,10 +135,10 @@ app.get("/login", function (req, res) {
 //handle login logic
 app.post("/login", passport.authenticate("local",
     {
-        successRedirect: "/profile",
-        failureRedirect: "/login",
         failureFlash: "Invalid username or password!",
         successFlash: "Welcome to Yucky Politicians!",
+        successRedirect: "/profile",
+        failureRedirect: "/login",
     }
 ));
 
@@ -191,7 +191,7 @@ app.get("/profile", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("users/profile", { user });
+        res.render("/profile", { user });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
