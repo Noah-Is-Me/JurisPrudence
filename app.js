@@ -191,7 +191,7 @@ app.get("/profile", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("/profile", { user });
+        res.render("users/profile", { user });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
