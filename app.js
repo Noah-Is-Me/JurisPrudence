@@ -1,34 +1,3 @@
-/*
-npm install mongodb
-mongodb+srv://noahsonfield:BOuCyQU5iYvntUDW@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster
-mongodb+srv://noahsonfield:<db_password>@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster
-
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://noahsonfield:BOuCyQU5iYvntUDW@2024-cac-cluster.t7tg6.mongodb.net/?retryWrites=true&w=majority&appName=2024-CAC-cluster";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-*/
-
 import express from "express";
 import mongoose from "mongoose";
 import session from "express-session";
@@ -43,58 +12,25 @@ import flash from "connect-flash"
 import dotenv from "dotenv";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const router = express.Router();
-
-dotenv.config();
-const dbURL = process.env.DB_URL; // || 'mongodb://localhost:27017/yucky-politicians';
-
-mongoose.connect(dbURL);
-
-
-const uri = process.env.MONGODB_URI;
-const options = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
 }
 
-let client;
-let clientPromise;
+const app = express();
+//const router = express.Router();
+
+const uri = process.env.MONGODB_URI;
 
 if (!process.env.MONGODB_URI) {
     throw new Error("Please add your Mongo URI to .env");
 }
 
-if (process.env.NODE_ENV === "development") {
-    // In development mode, use a gloval variable so that the value is preserved across module reloads
+mongoose.connect(uri).then(() => {
+    console.log("Connected to MongoDB Atlas");
+}).catch((err) => {
+    console.error("Error connecting to MongoDB Atlas:", err.message);
+});
 
-    if (!global._mongoClientPromise) {
-        client = new MongoClient(uri, options);
-        global._mongoClientPromise = client.connect();
-    }
-    clientPromise = global._mongoClientPromise;
-} else {
-    // In production mode, it is best to not use a global variable
-
-    client = new MongoClient(uri, options);
-    clientPromise = client.connect();
-}
-
-//export default clientPromise;
-
-export async function getServerSideProps(context) {
-    const client = await clientPromise;
-    const isConnected = await client.isConnected();
-    const db = client.db("userData");
-    const collection = db.collection("users");
-    const products = await collection.find({}).toArray();
-
-    return {
-        props: {
-            isConnected,
-            products: JSON.parse(JSON.stringify(products))
-        }
-    }
-}
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -102,26 +38,47 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-const app = express();
+async function addUser() {
+
+    try {
+        const newUser = new User({
+            username: "testUsername",
+            password: "testPassword"
+        });
+
+        // Save the new user to the 'users' collection in the 'userData' database
+        await newUser.save();
+
+        console.log("added user");
+    } catch (err) {
+        console.log("failed to add user");
+    }
+}
+
+async function getUsers() {
+    try {
+        const users = await User.find({});
+        console.log(users);
+    } catch (err) {
+        console.log("failed to get users");
+    }
+}
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.set('view engine', 'ejs');
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
-
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
 const store = MongoStore.create({
-    mongoUrl: dbURL,
+    mongoUrl: uri,
     secret,
-    touchAfter: 24 * 60 * 60
+    touchAfter: 24 * 60 * 60 // Only update session if it is changed in the last 24 hours
 });
 
 store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e)
-})
+});
 
 
 app.use(session({
@@ -140,6 +97,7 @@ app.use(session({
 
 }));
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -152,91 +110,92 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
-})
+});
 
+app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'public', 'html', 'index.html'));
+// root page
+app.get("/", function (req, res) {
+    res.render("index", { flashMessages: req.flash() });
 });
 
 
-router.get("/register", function (req, res) {
-    res.render("register", { page: "register" });
-});
-
-// handle sign-up logic
-router.post("/register", function (req, res) {
-    const newUser = new User({ username: req.body.username, password: req.body.password });
-    User.register(newUser, req.body.password, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.render("register", { error: err.message });
-        }
-        passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Succesfully signed up! Nice to meet you " + req.body.username);
-            res.redirect("/profile");
-        })
-    })
-
-})
-
-// show login form
-router.get("/login", function (req, res) {
-    res.render("login", { page: "login" });
+// show login page
+app.get("/login", function (req, res) {
+    res.render('login', { flashMessages: req.flash() });
+    console.log('Flash messages after setting:', req.flash('success')); // Should show the message
+    //req.flash('success', 'Operation was successful!');
 });
 
 //handle login logic
-router.post("/login", passport.authenticate("local",
+app.post("/login", passport.authenticate("local",
     {
         successRedirect: "/profile",
         failureRedirect: "/login",
-        failureFlash: true,
+        failureFlash: "Invalid username or password!",
         successFlash: "Welcome to Yucky Politicians!",
-    }), function (req, res) {
     }
-);
+));
+
+// show register page
+app.get("/register", function (req, res) {
+    res.render("register", { flashMessages: req.flash() });
+});
+
+
+// handle register logic
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Create a new user
+        const newUser = new User({ username, password });
+
+        // Register the user using passport-local-mongoose (hashes the password)
+        await User.register(newUser, password);
+
+        // Flash success message and redirect to profile or login
+        req.flash('success', 'Successfully registered! Please log in.');
+        res.redirect('/login');
+    } catch (err) {
+        console.log(err);
+        req.flash('error', err.message);
+        res.redirect('/register');
+    }
+});
+
 
 //logout route
-router.get("/logout", function (req, res) {
+app.get("/logout", function (req, res) {
     req.logout();
     req.flash("success", "See you later!");
     res.redirect("/");
 })
 
-/*
-// User profile
-// TODO: GET RID OF THIS FOR PRIVACY REASONS!!! THIS IS JUST FOR DEBUGGING!!!
-router.get("/users/:id", function (req, res) {
-    User.findById(req.params.id, function (err, foundUser) {
-        if (err) {
-            req.flash("error", "Something went wrong.");
-            res.redirect("/");
-        }
-
-        res.render("users/show", { user: foundUser });
-    });
-});
-*/
-
-router.get("/profile", function (req, res) {
+app.get("/profile", async function (req, res) {
     if (!req.isAuthenticated()) {
         req.flash("error", "You must be logged in to view your profile.");
         return res.redirect("/login");
     }
+    // This should be in a middleware file. Too bad!
 
-
-    User.findById(req.user._id, function (err, foundUser) {
-        if (err || !foundUser) {
+    try {
+        const user = await User.findById(req.user._id).exec();
+        if (!user) {
             req.flash("error", "User not found.");
             return res.redirect("/");
         }
 
-        res.render("users/show", { user: foundUser });
-    });
+        res.render("users/profile", { user });
+    } catch (err) {
+        req.flash("error", "Something went wrong.")
+        res.redirect("/");
+    }
 });
 
 

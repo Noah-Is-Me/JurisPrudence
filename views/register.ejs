@@ -1,25 +1,55 @@
-<a href="/html/index.html"><button id="home-button">Home</button></a>
+<!DOCTYPE html>
+<html lang="en">
 
-<div id="background-div">
-    <div id="login-container">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yucky Politicians | Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
 
-        <div id="login-div">
-            <h1>Login</h1>
-            <form action="/register" method="post">
-                <label for="username">Username:</label>
-                <input type="text" name="username" required>
+<body>
+    <%- include('partials/flash')%>
 
-                <label for="password">Password:</label>
-                <input type="password" name="password" required>
+        <div id="header-div">
+            <h1 id="header-text">Register your Yucky Politicians account!</h1>
+            <a href="/"><button id="home-button">Home</button></a>
+        </div>
 
-                <button id="login-button" type=" submit">Login</button>
+        <div id="sections-div">
+            <h2>Sections</h2>
+            <a class="navbar-link" href="#basic-information">Basic Information</a>
+            <a class="navbar-link" href="#contact-information">Contact Information</a>
+        </div>
+
+        <div id="form-div">
+            <form id="information-form" action="register" method="post">
+                <fieldset id="basic-information">
+                    <legend>Basic Information</legend>
+
+                    <label for="username" class="required">Username:</label>
+                    <input type="text" name="username" required>
+
+                    <label for="password" class="required">Password:</label>
+                    <input type="password" name="password" required>
+
+                </fieldset>
+
+                <fieldset id="contact-information">
+                    <legend>Contact Information</legend>
+
+
+                </fieldset>
+
+                <button id="submit-button" type="submit">Submit</button>
             </form>
         </div>
 
-        <div id="signup-div">
-            <h3>Or, if you don't have a profile:</h3>
-            <a href="/html/form.html"><button id="signup-button">Create Profile</button></a>
-        </div>
 
-    </div>
-</div>
+        <script>
+        </script>
+</body>
+
+</html>
