@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yucky Politicians | Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <%- include('partials/flash')%>
+
+        <div id="header-div">
+            <h1 id="header-text">Register your Yucky Politicians account!</h1>
+            <a href="/"><button id="home-button">Home</button></a>
+        </div>
+
+        <div id="sections-div">
+            <h2>Sections</h2>
+            <a class="navbar-link" href="#basic-information">Basic Information</a>
+            <a class="navbar-link" href="#contact-information">Contact Information</a>
+        </div>
+
+        <div id="form-div">
+            <form id="information-form" action="register" method="post">
+                <fieldset id="basic-information">
+                    <legend>Basic Information</legend>
+
+                    <label for="username" class="required">Username:</label>
+                    <input type="text" name="username" required>
+
+                    <label for="password" class="required">Password:</label>
+                    <input type="password" name="password" required>
+
+                </fieldset>
+
+                <fieldset id="bio">
+                    <legend>Bio</legend>
+
+                    <label for="bio" class="required">Bio:</label>
+                    <input type="text" name="bio" required>
+                </fieldset>
+
+                <button id="submit-button" type="submit">Submit</button>
+            </form>
+        </div>
+
+
+        <script>
+        </script>
+</body>
+
+</html>

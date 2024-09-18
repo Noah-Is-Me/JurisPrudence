@@ -71,3 +71,22 @@ a:visited {
 #home-button:hover {
     background-color: rgb(128, 51, 51);
 }
+
+
+.flash-message {
+    position: absolute;
+    border-radius: 5px;
+    z-index: 100;
+    right: 50%;
+    font-size: 30px;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
