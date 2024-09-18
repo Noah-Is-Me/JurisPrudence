@@ -10,22 +10,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
-<body>
-    <%- include('../partials/flash')%>
+<body onload="addLaws();">
+    <div id="header-div">
+        <h1 id="header-text">Applicable Laws</h1>
+        <a href="/html/index.html"><button id="home-button">Home</button></a>
+    </div>
 
-        <div>
-            <h1>Laws</h1>
-            <ul>
-                <% user.laws.forEach(function(result){ %>
-                    <li>
-                        <a
-                            href="/law/<%= result.requestData.congress %>/<%= result.requestData.lawType %>/<%= result.requestData.lawNumber %>">
-                            <%= result.lawData.title %>
-                        </a>
-                    </li>
-                    <% }); %>
-            </ul>
-        </div>
+    <div id="congresses-div">
+        <h2>Congress Number</h2>
+        <button class="congress-link">118th Congress</button>
+        <button class="congress-link">117th Congress</button>
+        <button class="congress-link">116th Congress</button>
+        <button class="congress-link">115th Congress</button>
+    </div>
+
+    <div id="law-list-container">
+        <% user.laws.forEach(function(result){ %>
+            <a
+                href="/law/<%= result.requestData.congress %>/<%= result.requestData.lawType %>/<%= result.requestData.lawNumber %>">
+                <div class='law'>
+                    <h3>
+                        <%= result.lawData.title %>
+                    </h3>
+                    <image src='/images/AMERICA.png'>
+                </div>
+            </a>
+            <% }); %>
+    </div>
 </body>
 
 </html>
