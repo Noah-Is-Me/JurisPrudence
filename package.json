@@ -16,13 +16,18 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.2",
     "node-fetch": "^3.3.2",
+    "openai": "^4.62.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
-    "xml2js": "^0.6.2"
+    "path": "^0.12.7",
+    "url": "^0.11.4",
+    "xml2js": "^0.6.2",
+    "zod": "^3.23.8"
   },
   "type": "module"
 }

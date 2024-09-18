@@ -12,6 +12,9 @@ import flash from "connect-flash"
 import dotenv from "dotenv";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
+import { filterAllPastLaws } from "./openai-api.js";
+import { getLawFromJson } from "./congress-api-law.js"
+
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
@@ -151,11 +154,15 @@ app.post('/register', async (req, res) => {
     const { username, password, bio } = req.body;
 
     try {
+        let filteredLaws = await filterAllPastLaws(bio);
+        console.log("Filtering laws...");
+
         // Create a new user
-        const newUser = new User({ username, password, bio });
+        const newUser = new User({ username, password, bio, laws: filteredLaws });
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
+
 
         // Flash success message and redirect to profile or login
         req.flash('success', 'Successfully registered! Please log in.');
@@ -189,7 +196,7 @@ app.get("/profile", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("users/profile", { user });
+        res.render("users/profile", { user, flashMessages: req.flash() });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
@@ -210,11 +217,20 @@ app.get("/laws", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("users/laws", { user });
+        res.render("users/laws", { user, flashMessages: req.flash() });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
     }
+});
+
+app.get("/law/:congress/:lawType/:lawNumber", async function (req, res) {
+    const congress = parseInt(req.params.congress);
+    const lawType = req.params.lawType;
+    const lawNumber = parseInt(req.params.lawNumber);
+    const law = await getLawFromJson(congress, lawType, lawNumber);
+
+    res.render('law', { law, flashMessages: req.flash() });
 });
 
 

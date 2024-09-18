@@ -73,7 +73,7 @@ async function determineMatch(userCategories, lawSummary) {
     }
 }
 
-async function filterAllPastLaws(userCategories) {
+export async function filterAllPastLaws(userCategories) {
     const allLaws = await getAllCachedLaws();
     var filteredLaws = [];
 
@@ -156,7 +156,7 @@ async function saveTestResponse(userCategories, filteredLaws) {
     });
 }
 
-const userCategories = "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience.";
+//const userCategories = "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience.";
 
 /*
 const law = await getRandomCachedLaw();
@@ -169,7 +169,7 @@ const response = await determineMatch(userCategories, lawSummary);
 console.log(response);
 */
 
-const filteredLaws = await filterAllPastLaws(userCategories);
+//const filteredLaws = await filterAllPastLaws(userCategories);
 //console.log(filteredLaws);
 
-await saveTestResponse(userCategories, filteredLaws);
+//await saveTestResponse(userCategories, filteredLaws);

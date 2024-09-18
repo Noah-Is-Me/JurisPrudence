@@ -441,6 +441,28 @@ export async function getAllCachedLaws() {
     }
 }
 
+export async function getLawFromJson(congress, lawType, lawNumber) {
+    const filePath = path.join(__dirname, "lawData.json");
+
+    try {
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(data);
+        const laws = jsonData.laws;
+
+        const found = laws.find(law =>
+            law.requestData.congress === congress &&
+            law.requestData.lawType === lawType &&
+            law.requestData.lawNumber === lawNumber
+        );
+
+        return found;
+
+    } catch (error) {
+        console.error("Error reading file: ", error);
+        return null;
+    }
+}
+
 
 //console.log(await getRandomCachedLaw());
 
@@ -450,3 +472,5 @@ export async function getAllCachedLaws() {
 
 
 //CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
+
+//const law = await getLawFromJson(118, "pub", 34);

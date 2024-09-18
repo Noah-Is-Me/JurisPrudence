@@ -15,6 +15,16 @@
 
         <div>
             <h1>Laws</h1>
+            <ul>
+                <% user.laws.forEach(function(result){ %>
+                    <li>
+                        <a
+                            href="/law/<%= result.requestData.congress %>/<%= result.requestData.lawType %>/<%= result.requestData.lawNumber %>">
+                            <%= result.lawData.title %>
+                        </a>
+                    </li>
+                    <% }); %>
+            </ul>
         </div>
 </body>
 
