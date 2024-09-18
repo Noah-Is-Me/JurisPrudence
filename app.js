@@ -10,7 +10,7 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import flash from "connect-flash"
 import dotenv from "dotenv";
-import { MongoClient, ServerApiVersion } from "mongodb";
+//import { MongoClient, ServerApiVersion } from "mongodb";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -128,8 +128,6 @@ app.get("/", function (req, res) {
 // show login page
 app.get("/login", function (req, res) {
     res.render('login', { flashMessages: req.flash() });
-    console.log('Flash messages after setting:', req.flash('success')); // Should show the message
-    //req.flash('success', 'Operation was successful!');
 });
 
 //handle login logic
@@ -150,11 +148,11 @@ app.get("/register", function (req, res) {
 
 // handle register logic
 app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, bio } = req.body;
 
     try {
         // Create a new user
-        const newUser = new User({ username, password });
+        const newUser = new User({ username, password, bio });
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
@@ -192,6 +190,27 @@ app.get("/profile", async function (req, res) {
         }
 
         res.render("users/profile", { user });
+    } catch (err) {
+        req.flash("error", "Something went wrong.")
+        res.redirect("/");
+    }
+});
+
+app.get("/laws", async function (req, res) {
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You must be logged in to view your profile.");
+        return res.redirect("/login");
+    }
+    // This should be in a middleware file. Too bad!
+
+    try {
+        const user = await User.findById(req.user._id).exec();
+        if (!user) {
+            req.flash("error", "User not found.");
+            return res.redirect("/");
+        }
+
+        res.render("users/laws", { user });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
