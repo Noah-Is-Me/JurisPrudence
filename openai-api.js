@@ -1,12 +1,14 @@
-// Must 'npm install openai'
-// Must 'npm install zod'
-
-import fetch from "node-fetch";
 import dotenv from "dotenv";
 import OpenAI from "openai"
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import congressApi from "congress-api.js";
+import { getRandomCachedLaw, getAllCachedLaws, getCachedLaw } from "./congress-api-law.js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -17,28 +19,29 @@ const openai = new OpenAI({
 const affectedCategoriesFormat = z.object({
     affectedCategories: z.array(z.object({
         categoryName: z.string(),
-        impactLevel: z.number().gte(0).lte(10)
+        impactLevel: z.number()//.gte(0).lte(10)
     })),
 });
 
-
-async function generateCategories(prompt) {
+async function determineMatch(userCategories, lawSummary) {
     try {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
-                { role: "system", content: "You are an expert at structured data extraction. Given an unstructured text from a legislative bill summary, identify what categories of people (e.g., low-income families, doctors, seniors, marylanders) the bill would affect and rate the impact for each category from 0-10. Convert this category/impact data into the given structured format. If no category is affected, leave the array empty." },
+                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is likely to affect the person. If so, identify which traits/categories of the person make this true, and rate the amount of impact the law has on each category from 0-10. Return this data in the given structured format. If the person is not affected by the law, leave the array empty." },
                 {
                     role: "user",
-                    content: `Analyze the following legislative bill summary and apply the instructions provided:
+                    content: `Analyze the following legislative law summary and the person's information and apply the instructions provided:
 
-                    ${prompt}
+                    User information: ${userCategories}.
+
+                    Law: "${lawSummary}"
                     
-                    Output the affected categories and their impact ratings in the given structured format.`,
+                    Determine if the person will be affected directly by the law and, if the law is applicable, output which traits/categories of the person make this true and the impact ratings of each trait/category in the given structured format. Be specific and exclusive with the categories.`,
                 },
             ],
             response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
-            temperature: 0.3, // default is 1
+            temperature: 1, // default is 1
             max_tokens: 200, // https://platform.openai.com/tokenizer
 
             //frequency_penalty: 0, // default
@@ -48,12 +51,13 @@ async function generateCategories(prompt) {
 
         const categoriesResponse = completion.choices[0].message;
 
-        if (categoriesResponse.parsed) {
-            return categoriesResponse.parsed;
-        }
-        else if (categoriesResponse.refusal) {
+        if (categoriesResponse.refusal) {
             // handle refusal
+            console.log("Prompt Refusal");
             return null;
+        }
+        else {
+            return JSON.parse(categoriesResponse.content);
         }
 
     } catch (error) {
@@ -69,71 +73,103 @@ async function generateCategories(prompt) {
     }
 }
 
-async function determineMatch(userCategories, billSummary) {
-    try {
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative bill and the information of a person, determine if the bill is likely to affect the person. If so, identify which traits/categories of the person make this true, and rate the amount of impact the bill has on each category from 0-10. Return this data in the given structured format. If the person is not affected by the bill, leave the array empty." },
-                {
-                    role: "user",
-                    content: `Analyze the following legislative bill summary and the person's information and apply the instructions provided:
+async function filterAllPastLaws(userCategories) {
+    const allLaws = await getAllCachedLaws();
+    var filteredLaws = [];
 
-                    ${prompt}
-                    
-                    Determine if the person will be affected directly by the bill and, if applicable, output the affected categories and their impact ratings in the given structured format.`,
-                },
-            ],
-            response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
-            temperature: 0.3, // default is 1
-            max_tokens: 200, // https://platform.openai.com/tokenizer
+    for (let i = 0; i < allLaws.length; i++) {
+        console.log(`${i + 1}/${allLaws.length}`);
 
-            //frequency_penalty: 0, // default
-            //presence_penalty: 0, // default
-            //top_p: 1, // default
+        const law = allLaws[i];
+        const lawData = law.lawData;
+        const summary = lawData.summary;
+
+        let response;
+        let affectedCategories;
+
+        do {
+            response = await determineMatch(userCategories, summary);
+            affectedCategories = response.affectedCategories;
+
+        } while (affectedCategories == null || response == null);
+
+        //console.log(summary);
+        //console.log(response);
+
+        for (let j = 0; j < affectedCategories.length; j++) {
+            if (affectedCategories[j].impactLevel < 5) {
+                affectedCategories.splice(j, 1);
+                j--;
+            }
+        }
+
+        if (affectedCategories.length == 0) {
+            continue;
+        }
+
+        const filteredLaw = {
+            lawData: lawData,
+            requestData: law.requestData,
+            affectedCategories: affectedCategories
+        }
+
+        filteredLaws.push(filteredLaw);
+    }
+
+    return filteredLaws;
+}
+
+
+async function testResponse() {
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            {
+                role: "user",
+                content: "Write a haiku about recursion in programming.",
+            },
+        ],
+    });
+
+    return completion.choices[0].message;
+}
+
+async function saveTestResponse(userCategories, filteredLaws) {
+    const filePath = path.join(__dirname, "testResponse.json");
+    fs.readFile(filePath, 'utf8', (error, data) => {
+        if (error) {
+            console.error("Error reading file: ", error);
+            return null;
+        }
+
+        let jsonData = JSON.parse(data)
+
+        jsonData.userCategories = userCategories;
+        jsonData.filteredLaws = filteredLaws;
+
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+            if (error) {
+                console.error("error writing file: ", error);
+            }
         });
-
-        const categoriesResponse = completion.choices[0].message;
-
-        if (categoriesResponse.parsed) {
-            return categoriesResponse.parsed;
-        }
-        else if (categoriesResponse.refusal) {
-            // handle refusal
-            return null;
-        }
-
-    } catch (error) {
-        if (error.constructor.name == "LengthFinishReasonError") {
-            // Retry with a higher max tokens
-            console.log("Too many tokens: ", error.message);
-            return null;
-        } else {
-            // Handle other exceptions
-            console.log("An error occurred: ", error.message);
-            return null;
-        }
-    }
+    });
 }
 
-async function filterAllPastBills(userCategories) {
-    var filteredBills = [];
+const userCategories = "Teacher, age 60, female, married, no children, lives in Washington DC, low-income, tax bracket 10%, 3 DUIs (on probation), driving license suspended, works at a public high school, Master's degree in Education, 35 years teaching experience.";
 
-    for (let i=0; i<3000; i++) {
-        const billData = await congressApi.fetchBill(118, "hr", i);
-        const summaries = await congressApi.extractSummariesFromData(billData);
-        const summary = await congressApi.extractSummary(summaries);
+/*
+const law = await getRandomCachedLaw();
+const lawSummary = law["lawData"]["summary"];
 
-        const affectedCategories = determineMatch(userCategories, summary);
-        const filteredBill = {
-            billData : billData,
-            affectedCategories : affectedCategories
-        }
+console.log(law);
+//console.log(lawSummary);
 
-        filteredBills.push(filteredBill);
-    }
+const response = await determineMatch(userCategories, lawSummary);
+console.log(response);
+*/
 
-    return filteredBills;
-}
+const filteredLaws = await filterAllPastLaws(userCategories);
+//console.log(filteredLaws);
 
-console.log(generateCategories(""));
+await saveTestResponse(userCategories, filteredLaws);
