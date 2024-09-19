@@ -2,11 +2,21 @@ body {
     background-image: url("/images/Sand Tileable.jpg");
     background-size: contain;
     background-repeat: repeat;
-    background-attachment: fixed;
     background-position: center;
+
+    overflow-y: scroll;
+    /*scrollbar-gutter: stable;*/
+    /* This sucks */
 }
 
+/*
+#home-button {
+    left: 30px;
+}
+    */
+
 #congresses-div {
+    /*left: 14px;*/
     position: absolute;
     background-color: whitesmoke;
     padding: 10px 10px 20px 15px;
@@ -47,6 +57,7 @@ h2 {
     background-color: whitesmoke;
     border: black solid 5px;
     padding: 5px 30px 30px 30px;
+    width: 625px;
 }
 
 img {

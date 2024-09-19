@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { filterAllPastLaws } from "./openai-api.js";
-import { getLawFromJson } from "./congress-api-law.js"
+import { getLawFromJson, fetchVotes } from "./congress-api-law.js"
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -40,32 +40,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
     console.log("Database connected");
 });
-
-async function addUser() {
-
-    try {
-        const newUser = new User({
-            username: "testUsername",
-            password: "testPassword"
-        });
-
-        // Save the new user to the 'users' collection in the 'userData' database
-        await newUser.save();
-
-        console.log("added user");
-    } catch (err) {
-        console.log("failed to add user");
-    }
-}
-
-async function getUsers() {
-    try {
-        const users = await User.find({});
-        console.log(users);
-    } catch (err) {
-        console.log("failed to get users");
-    }
-}
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -154,8 +128,8 @@ app.post('/register', async (req, res) => {
     const { username, password, bio } = req.body;
 
     try {
-        let filteredLaws = await filterAllPastLaws(bio);
         console.log("Filtering laws...");
+        const filteredLaws = await filterAllPastLaws(bio);
 
         // Create a new user
         const newUser = new User({ username, password, bio, laws: filteredLaws });
@@ -224,13 +198,15 @@ app.get("/laws", async function (req, res) {
     }
 });
 
-app.get("/law/:congress/:lawType/:lawNumber", async function (req, res) {
+app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
     const congress = parseInt(req.params.congress);
-    const lawType = req.params.lawType;
-    const lawNumber = parseInt(req.params.lawNumber);
-    const law = await getLawFromJson(congress, lawType, lawNumber);
+    const billType = req.params.billType;
+    const billNumber = parseInt(req.params.billNumber);
+    const law = await getLawFromJson(congress, billType, billNumber);
 
-    res.render('law', { law, flashMessages: req.flash() });
+    const votes = await fetchVotes(congress, billType, billNumber);
+
+    res.render('law', { law, votes, flashMessages: req.flash() });
 });
 
 

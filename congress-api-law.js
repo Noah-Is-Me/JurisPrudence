@@ -71,11 +71,12 @@ function extractRequestData(lawData) {
     return requestData;
 }
 
-async function fetchVotes(congress, billType, billNumber) {
+export async function fetchVotes(congress, billType, billNumber) {
     const billActions = await fetchBillDetails(congress, billType, billNumber, "actions");
     const voteActions = billActions.actions.filter(action => action.recordedVotes);
 
     if (voteActions.length == 0) {
+        console.log(`${congress}, ${billType}, ${billNumber} ; no votes`);
         return null;
     }
 
@@ -91,6 +92,11 @@ async function fetchVotes(congress, billType, billNumber) {
             members: rollCallsJson.roll_call_vote.members[0].member
         };
 
+        if (members == null) {
+            console.log(`${congress}, ${billType}, ${billNumber} ; null return 1`);
+        } else {
+            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 1`);
+        }
         return members;
     }
     else if ("rollcall-vote" in rollCallsJson) {
@@ -100,6 +106,11 @@ async function fetchVotes(congress, billType, billNumber) {
             members: rollCallsJson["rollcall-vote"]["vote-data"]
         };
 
+        if (members == null) {
+            console.log(`${congress}, ${billType}, ${billNumber} ; null return 2`);
+        } else {
+            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 2`);
+        }
         return members;
     }
     else {
@@ -441,7 +452,7 @@ export async function getAllCachedLaws() {
     }
 }
 
-export async function getLawFromJson(congress, lawType, lawNumber) {
+export async function getLawFromJson(congress, billType, billNumber) {
     const filePath = path.join(__dirname, "lawData.json");
 
     try {
@@ -451,8 +462,8 @@ export async function getLawFromJson(congress, lawType, lawNumber) {
 
         const found = laws.find(law =>
             law.requestData.congress === congress &&
-            law.requestData.lawType === lawType &&
-            law.requestData.lawNumber === lawNumber
+            law.requestData.billType === billType &&
+            law.requestData.billNumber === billNumber
         );
 
         return found;

@@ -10,10 +10,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
-<body onload="addLaws();">
+<body>
     <div id="header-div">
         <h1 id="header-text">Applicable Laws</h1>
-        <a href="/html/index.html"><button id="home-button">Home</button></a>
+        <a href="/"><button id="home-button">Home</button></a>
     </div>
 
     <div id="congresses-div">
@@ -27,12 +27,20 @@
     <div id="law-list-container">
         <% user.laws.forEach(function(result){ %>
             <a
-                href="/law/<%= result.requestData.congress %>/<%= result.requestData.lawType %>/<%= result.requestData.lawNumber %>">
+                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>">
                 <div class='law'>
-                    <h3>
+                    <h2>
                         <%= result.lawData.title %>
-                    </h3>
-                    <image src='/images/AMERICA.png'>
+                    </h2>
+
+                    <h4>Flagged Categories:</h4>
+                    <ul>
+                        <% result.affectedCategories.forEach(function(category){ %>
+                            <li>
+                                <%= category.categoryName%>
+                            </li>
+                            <% }); %>
+                    </ul>
                 </div>
             </a>
             <% }); %>
