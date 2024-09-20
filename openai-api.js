@@ -28,6 +28,7 @@ async function determineMatch(userCategories, lawSummary) {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
+                // NOTE: In the role section, you have to explicitly tell the AI to "Return this data in the given structured format. If the person is not affected by the law, leave the array empty.".
                 { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is likely to affect the person. If so, identify which traits/categories of the person make this true, and rate the amount of impact the law has on each category from 0-10. Return this data in the given structured format. If the person is not affected by the law, leave the array empty." },
                 {
                     role: "user",
@@ -41,9 +42,9 @@ async function determineMatch(userCategories, lawSummary) {
                 },
             ],
             response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
-            temperature: 1, // default is 1
             max_tokens: 200, // https://platform.openai.com/tokenizer
 
+            temperature: 1, // default is 1
             //frequency_penalty: 0, // default
             //presence_penalty: 0, // default
             //top_p: 1, // default
