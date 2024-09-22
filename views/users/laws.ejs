@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
-<body>
+<body onload="filterByCongress(118)">
     <div id="header-div">
         <h1 id="header-text">Applicable Laws</h1>
         <a href="/"><button id="home-button">Home</button></a>
@@ -18,33 +18,46 @@
 
     <div id="congresses-div">
         <h2>Congress Number</h2>
-        <button class="congress-link">118th Congress</button>
-        <button class="congress-link">117th Congress</button>
-        <button class="congress-link">116th Congress</button>
-        <button class="congress-link">115th Congress</button>
+        <button class="congress-link" onclick="filterByCongress(118)">118th Congress</button>
+        <button class="congress-link" onclick="filterByCongress(117)">117th Congress</button>
+        <button class="congress-link" onclick="filterByCongress(116)">116th Congress</button>
+        <button class="congress-link" onclick="filterByCongress(115)">115th Congress</button>
     </div>
 
     <div id="law-list-container">
         <% user.laws.forEach(function(result){ %>
-            <a
-                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>">
-                <div class='law'>
-                    <h2>
-                        <%= result.lawData.title %>
-                    </h2>
 
-                    <h4>Flagged Categories:</h4>
-                    <ul>
-                        <% result.affectedCategories.forEach(function(category){ %>
-                            <li>
-                                <%= category.categoryName%>
-                            </li>
-                            <% }); %>
-                    </ul>
-                </div>
+            <a class="law congress-<%= result.requestData.congress %>"
+                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>">
+                <h2>
+                    <%= result.lawData.title %>
+                </h2>
+
+                <h4>Flagged Categories:</h4>
+                <ul>
+                    <% result.affectedCategories.forEach(function(category){ %>
+                        <li>
+                            <%= category.categoryName%>
+                        </li>
+                        <% }); %>
+                </ul>
             </a>
+
             <% }); %>
     </div>
+
+    <script>
+        function filterByCongress(congress) {
+            $(".law").each(function (i, obj) {
+                console.log(obj);
+                if ($(obj).hasClass("congress-" + congress)) {
+                    $(obj).css("display", "unset")
+                } else {
+                    $(obj).css("display", "none")
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

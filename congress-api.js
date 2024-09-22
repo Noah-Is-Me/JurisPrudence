@@ -274,7 +274,7 @@ function storeBill(billData, billSummary, billVotes) {
 
 
     const filePath = path.join(__dirname, "billData.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -283,7 +283,7 @@ function storeBill(billData, billSummary, billVotes) {
         let jsonData = JSON.parse(data)
         jsonData.bills.push(billJson);
 
-        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
             if (error) {
                 console.error("error writing file: ", error);
             }
@@ -293,7 +293,7 @@ function storeBill(billData, billSummary, billVotes) {
 
 function storeBills(billsData) {
     const filePath = path.join(__dirname, "billData.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -305,7 +305,7 @@ function storeBills(billsData) {
             jsonData.bills.push(billJson);
         }
 
-        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
             if (error) {
                 console.error("error writing file: ", error);
             }
@@ -332,7 +332,7 @@ async function fetchBills(congress, startingBill, billCount) {
 function CLEAR_BILLDATA_JSON(verification) {
     if (verification == "I AM SURE I WANT TO DELETE ALL OF THE DATA IN BILLDATA.JSON!") {
         const filePath = path.join(__dirname, "billData.json");
-        fs.readFile(filePath, 'utf8', (error, data) => {
+        fs.readFile(filePath, 'utf8', function (error, data) {
             if (error) {
                 console.error("Error reading file: ", error);
                 return null;
@@ -341,7 +341,7 @@ function CLEAR_BILLDATA_JSON(verification) {
             let jsonData = JSON.parse(data)
             jsonData.bills.length = 0;
 
-            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
                 if (error) {
                     console.error("error writing file: ", error);
                 }

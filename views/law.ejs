@@ -29,7 +29,11 @@
 
             <h3>Raw vote data (ugly)</h3>
             <p>
-                <%- JSON.stringify(votes) %>
+                <% if (votes==null) { %>
+                    <p>Unable to retrieve voter data! Sorry!</p>
+                    <% } else { %>
+                        <p><%- JSON.stringify(votes) %></p>
+                        <% } %>
             </p>
 
         </div>

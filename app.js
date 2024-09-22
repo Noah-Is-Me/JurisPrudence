@@ -28,16 +28,16 @@ if (!process.env.MONGODB_URI) {
     throw new Error("Please add your Mongo URI to .env");
 }
 
-mongoose.connect(uri).then(() => {
+mongoose.connect(uri).then(function () {
     console.log("Connected to MongoDB Atlas");
-}).catch((err) => {
+}).catch(function (err) {
     console.error("Error connecting to MongoDB Atlas:", err.message);
 });
 
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
+db.once("open", function () {
     console.log("Database connected");
 });
 
@@ -86,7 +86,7 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(new LocalStrategy(User.authenticate()));
 
 app.use(flash());
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -103,19 +103,39 @@ app.get("/", function (req, res) {
 
 
 // show login page
-app.get("/login", function (req, res) {
-    res.render('login', { flashMessages: req.flash() });
-});
+app.get("/login",
+    function (req, res, next) {
+        //console.log(req.session);
+        //console.log(req.session.user);
+        if (req.session && req.session.passport) {
+            return res.redirect("/profile");
+        }
+        next();
+    },
+    function (req, res) {
+        res.render('login', { flashMessages: req.flash() });
+    }
+);
 
 //handle login logic
-app.post("/login", passport.authenticate("local",
-    {
-        failureFlash: "Invalid username or password!",
-        successFlash: "Welcome to Yucky Politicians!",
-        successRedirect: "/profile",
-        failureRedirect: "/login",
-    }
-));
+app.post("/login",
+    /*
+        function (req, res, next) {
+            const { username, password } = req.body;
+            console.log(username);
+            req.session.user = { username };
+            console.log(req.session.user);
+            next();
+        },
+        */
+    passport.authenticate("local",
+        {
+            failureFlash: "Invalid username or password!",
+            successFlash: "Welcome to Yucky Politicians!",
+            successRedirect: "/profile",
+            failureRedirect: "/login",
+        }
+    ));
 
 // show register page
 app.get("/register", function (req, res) {
@@ -124,7 +144,7 @@ app.get("/register", function (req, res) {
 
 
 // handle register logic
-app.post('/register', async (req, res) => {
+app.post('/register', async function (req, res) {
     const { username, password, bio } = req.body;
 
     try {
@@ -151,9 +171,11 @@ app.post('/register', async (req, res) => {
 
 //logout route
 app.get("/logout", function (req, res) {
-    req.logout();
-    req.flash("success", "See you later!");
-    res.redirect("/");
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        req.flash("success", "See you later!");
+        res.redirect('/');
+    });
 })
 
 app.get("/profile", async function (req, res) {
@@ -211,6 +233,6 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, function () {
     console.log(`Server running on http://localhost:${PORT}`);
 });

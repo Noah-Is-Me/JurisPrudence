@@ -52,6 +52,8 @@ h2 {
 
 
 .law {
+    display: none;
+
     height: auto;
     margin-top: 30px;
     background-color: whitesmoke;

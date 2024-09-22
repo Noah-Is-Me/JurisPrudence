@@ -78,6 +78,7 @@ export async function filterAllPastLaws(userCategories) {
     const allLaws = await getAllCachedLaws();
     var filteredLaws = [];
 
+    lawLoop:
     for (let i = 0; i < allLaws.length; i++) {
         console.log(`${i + 1}/${allLaws.length}`);
 
@@ -89,8 +90,19 @@ export async function filterAllPastLaws(userCategories) {
         let affectedCategories;
 
         do {
-            response = await determineMatch(userCategories, summary);
-            affectedCategories = response.affectedCategories;
+            try {
+                response = await determineMatch(userCategories, summary);
+                if (response == null) {
+                    console.log("Error! determineMatch response is null!");
+                    continue lawLoop;
+                }
+
+                affectedCategories = response.affectedCategories;
+            }
+            catch (error) {
+                console.log("Error determining match!");
+                continue lawLoop;
+            }
 
         } while (affectedCategories == null || response == null);
 
@@ -105,7 +117,7 @@ export async function filterAllPastLaws(userCategories) {
         }
 
         if (affectedCategories.length == 0) {
-            continue;
+            continue lawLoop;
         }
 
         const filteredLaw = {
@@ -138,7 +150,7 @@ async function testResponse() {
 
 async function saveTestResponse(userCategories, filteredLaws) {
     const filePath = path.join(__dirname, "testResponse.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -149,7 +161,7 @@ async function saveTestResponse(userCategories, filteredLaws) {
         jsonData.userCategories = userCategories;
         jsonData.filteredLaws = filteredLaws;
 
-        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
             if (error) {
                 console.error("error writing file: ", error);
             }

@@ -304,7 +304,7 @@ function storeLaw(lawData, lawSummary, lawVotes) {
 
 
     const filePath = path.join(__dirname, "lawData.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -313,7 +313,7 @@ function storeLaw(lawData, lawSummary, lawVotes) {
         let jsonData = JSON.parse(data)
         jsonData.laws.push(lawJson);
 
-        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
             if (error) {
                 console.error("error writing file: ", error);
             }
@@ -323,7 +323,7 @@ function storeLaw(lawData, lawSummary, lawVotes) {
 
 function storeLaws(lawsData) {
     const filePath = path.join(__dirname, "lawData.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -335,7 +335,7 @@ function storeLaws(lawsData) {
             jsonData.laws.push(lawJson);
         }
 
-        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
             if (error) {
                 console.error("error writing file: ", error);
             }
@@ -362,7 +362,7 @@ async function fetchLaws(congress, startingLaw, lawCount) {
 function CLEAR_LAWDATA_JSON(verification) {
     if (verification == "I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!") {
         const filePath = path.join(__dirname, "lawData.json");
-        fs.readFile(filePath, 'utf8', (error, data) => {
+        fs.readFile(filePath, 'utf8', function (error, data) {
             if (error) {
                 console.error("Error reading file: ", error);
                 return null;
@@ -371,7 +371,7 @@ function CLEAR_LAWDATA_JSON(verification) {
             let jsonData = JSON.parse(data)
             jsonData.laws.length = 0;
 
-            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (error) => {
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), function (error) {
                 if (error) {
                     console.error("error writing file: ", error);
                 }
@@ -386,7 +386,7 @@ function CLEAR_LAWDATA_JSON(verification) {
 
 function getLawDataJsonLength() {
     const filePath = path.join(__dirname, "lawData.json");
-    fs.readFile(filePath, 'utf8', (error, data) => {
+    fs.readFile(filePath, 'utf8', function (error, data) {
         if (error) {
             console.error("Error reading file: ", error);
             return null;
@@ -477,7 +477,7 @@ export async function getLawFromJson(congress, billType, billNumber) {
 
 //console.log(await getRandomCachedLaw());
 
-//await storeAllLaws(118);
+//await storeAllLaws(117);
 //await getRemainingRequests();
 //getLawDataJsonLength();
 
