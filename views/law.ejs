@@ -30,7 +30,7 @@
             <h3>Raw vote data (ugly)</h3>
             <p>
                 <% if (votes==null) { %>
-                    <p>Unable to retrieve voter data! Sorry!</p>
+                    <p>Whoops! Looks like Congress did a stupid and forgot to record their voting data!</p>
                     <% } else { %>
                         <p><%- JSON.stringify(votes) %></p>
                         <% } %>
