@@ -28,7 +28,7 @@
         <% user.laws.forEach(function(result){ %>
 
             <a class="law congress-<%= result.requestData.congress %>"
-                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>">
+                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>?house_rep=<%= user.reps.houseRep %>&senate_rep_1=<%= user.reps.senateRep1 %>&senate_rep_2=<%= user.reps.senateRep2 %>">
                 <h2>
                     <%= result.lawData.title %>
                 </h2>

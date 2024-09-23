@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { filterAllPastLaws } from "./openai-api.js";
-import { getLawFromJson, fetchVotes } from "./congress-api-law.js"
+import { getLawFromJson, fetchVotes, getRepresentativeVote } from "./congress-api-law.js"
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -102,7 +102,6 @@ app.get("/", function (req, res) {
 });
 
 
-// show login page
 app.get("/login",
     function (req, res, next) {
         //console.log(req.session);
@@ -137,7 +136,6 @@ app.post("/login",
         }
     ));
 
-// show register page
 app.get("/register", function (req, res) {
     res.render("register", { flashMessages: req.flash() });
 });
@@ -145,20 +143,21 @@ app.get("/register", function (req, res) {
 
 // handle register logic
 app.post('/register', async function (req, res) {
-    const { username, password, bio } = req.body;
+    const { username, password, bio, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
         console.log("Filtering laws...");
         const filteredLaws = await filterAllPastLaws(bio);
 
-        // Create a new user
-        const newUser = new User({ username, password, bio, laws: filteredLaws });
+        const reps = {
+            houseRep, senateRep1, senateRep2
+        }
+
+        const newUser = new User({ username, password, bio, laws: filteredLaws, reps });
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
 
-
-        // Flash success message and redirect to profile or login
         req.flash('success', 'Successfully registered! Please log in.');
         res.redirect('/login');
     } catch (err) {
@@ -169,7 +168,6 @@ app.post('/register', async function (req, res) {
 });
 
 
-//logout route
 app.get("/logout", function (req, res) {
     req.logout(function (err) {
         if (err) { return next(err); }
@@ -225,10 +223,37 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
     const billType = req.params.billType;
     const billNumber = parseInt(req.params.billNumber);
     const law = await getLawFromJson(congress, billType, billNumber);
-
     const votes = await fetchVotes(congress, billType, billNumber);
 
-    res.render('law', { law, votes, flashMessages: req.flash() });
+    const { house_rep, senate_rep_1, senate_rep_2 } = req.query;
+    let houseRepVote, senateRep1Vote, senateRep2Vote = null;
+
+    if (votes != null) {
+        if (house_rep) houseRepVote = getRepresentativeVote(votes, house_rep);
+        if (senate_rep_1) senateRep1Vote = getRepresentativeVote(votes, senate_rep_1);
+        if (senate_rep_2) senateRep2Vote = getRepresentativeVote(votes, senate_rep_2);
+    }
+    else {
+        houseRepVote = "No vote data available";
+        senateRep1Vote = "No vote data available";
+        senateRep2Vote = "No vote data available";
+    }
+
+    const voteData = {
+        houseRepVote,
+        senateRep1Vote,
+        senateRep2Vote,
+        votes
+    };
+
+    const reps = {
+        house_rep, senate_rep_1, senate_rep_2
+    };
+
+
+    // I'm going to be honest I completely forgot the Senate existed and I have to rewrite the whole system
+
+    res.render('law', { law, votes, voteData, reps, flashMessages: req.flash() });
 });
 
 

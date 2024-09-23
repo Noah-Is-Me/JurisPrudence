@@ -76,7 +76,7 @@ export async function fetchVotes(congress, billType, billNumber) {
     const voteActions = billActions.actions.filter(action => action.recordedVotes);
 
     if (voteActions.length == 0) {
-        console.log(`${congress}, ${billType}, ${billNumber} ; no votes`);
+        //console.log(`${congress}, ${billType}, ${billNumber} ; no votes`);
         return null;
     }
 
@@ -88,28 +88,28 @@ export async function fetchVotes(congress, billType, billNumber) {
     if ("roll_call_vote" in rollCallsJson) {
         // newer json format?
         const members = {
-            jsonFormat: "new",
+            chamber: "senate",
             members: rollCallsJson.roll_call_vote.members[0].member
         };
 
         if (members == null) {
-            console.log(`${congress}, ${billType}, ${billNumber} ; null return 1`);
+            console.error(`${congress}, ${billType}, ${billNumber} ; null return 1`);
         } else {
-            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 1`);
+            //console.log(`${congress}, ${billType}, ${billNumber} ; successful return 1`);
         }
         return members;
     }
     else if ("rollcall-vote" in rollCallsJson) {
         // older json format?
         const members = {
-            jsonFormat: "old",
+            chamber: "house",
             members: rollCallsJson["rollcall-vote"]["vote-data"]
         };
 
         if (members == null) {
-            console.log(`${congress}, ${billType}, ${billNumber} ; null return 2`);
+            console.error(`${congress}, ${billType}, ${billNumber} ; null return 2`);
         } else {
-            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 2`);
+            //console.log(`${congress}, ${billType}, ${billNumber} ; successful return 2`);
         }
         return members;
     }
@@ -471,6 +471,32 @@ export async function getLawFromJson(congress, billType, billNumber) {
     } catch (error) {
         console.error("Error reading file: ", error);
         return null;
+    }
+}
+
+export function getRepresentativeVote(votes, representative) {
+    if (votes.chamber == "senate") {
+        const repVotes = votes.members.filter(member => member.last_name[0].toLowerCase() == representative.toLowerCase());
+        //(member.first_name[0].toLowerCase() + " " + member.last_name[0].toLowerCase()) == representative.toLowerCase();
+
+        if (repVotes.length == 0) {
+            //console.log("No recorded votes for senate rep: " + representative);
+            return "No vote data available.";
+        }
+        return repVotes[0].vote_cast[0];
+    }
+
+    else if (votes.chamber == "house") {
+        const repVotes = votes.members[0]["recorded-vote"].filter(member => member.legislator[0]["_"].toLowerCase() == representative.toLowerCase());
+        if (repVotes.length == 0) {
+            //console.log("No recorded votes for house rep: " + representative);
+            return "No vote data available.";
+        }
+        return repVotes[0].vote[0];
+    }
+    else {
+        console.error("Error: Unknown vote json format! (unknown chamber)");
+        return "Whoops! Looks like Congress did a stupid and forgot to normalize their voting data!";
     }
 }
 

@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
     bio: String,
     //firstName: String,
     //lastName: String,
-    laws: Array
+    laws: Array,
+    reps: Object
 });
 
 UserSchema.plugin(passportLocalMongoose);

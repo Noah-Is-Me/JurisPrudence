@@ -21,7 +21,8 @@
         <div id="sections-div">
             <h2>Sections</h2>
             <a class="navbar-link" href="#basic-information">Basic Information</a>
-            <a class="navbar-link" href="#contact-information">Contact Information</a>
+            <a class="navbar-link" href="#bio">Bio</a>
+            <a class="navbar-link" href="#representative-information">Representative Information</a>
         </div>
 
         <div id="form-div">
@@ -44,12 +45,49 @@
                     <input type="text" name="bio" required>
                 </fieldset>
 
+                <fieldset id="representative-information">
+                    <legend>Representative Information</legend>
+
+                    <h3>Give only last names for reps for now</h3>
+
+                    <label for="houseRep" class="required">House Representative:</label>
+                    <input type="text" name="houseRep" required>
+
+                    <label for="senateRep1" class="required">Senate Representative 1:</label>
+                    <input type="text" name="senateRep1" required>
+
+                    <label for="senateRep2" class="required">Senate Representative 2:</label>
+                    <input type="text" name="senateRep2" required>
+
+                    <!--Ewww yucky html camel case-->
+
+                </fieldset>
+
                 <button id="submit-button" type="submit">Submit</button>
             </form>
         </div>
 
 
         <script>
+            /*
+            $(document).ready(function () {
+                var $inputs = $('input[name=zip],input[name=house-rep]');
+                $inputs.on('input', function () {
+                    // Set the required property of the other input to false if this input is not empty.
+                    if (!$(this).val().length) {
+                        $inputs.not(this).prop('required', true);
+                        $inputs.not(this).addClass('required');
+
+                    } else {
+                        $inputs.not(this).prop('required', false);
+                        $inputs.not(this).removeClass('required');
+
+                    }
+                });
+            });
+            // This is some very funky code
+            */
+
         </script>
 </body>
 

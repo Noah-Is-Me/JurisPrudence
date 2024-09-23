@@ -27,14 +27,39 @@
                 <%- JSON.stringify(law.requestData) %>
             </p>
 
-            <h3>Raw vote data (ugly)</h3>
-            <p>
+            <h3>Your representatives' vote:</h3>
+            <div>
+                <% if (reps.house_rep!=null) { %>
+                    <h2>
+                        <%= reps.house_rep %>: <%= voteData.houseRepVote %>
+                    </h2>
+                    <% }%>
+            </div>
+            <div>
+                <% if (reps.senate_rep_1!=null) { %>
+                    <h2>
+                        <%= reps.senate_rep_1 %>: <%= voteData.senateRep1Vote %>
+                    </h2>
+                    <% }%>
+            </div>
+            <div>
+                <% if (reps.senate_rep_2!=null) { %>
+                    <h2>
+                        <%= reps.senate_rep_2 %>: <%= voteData.senateRep2Vote %>
+                    </h2>
+                    <% }%>
+            </div>
+
+
+            <div>
+                <h3>Raw vote data (ugly)</h3>
                 <% if (votes==null) { %>
                     <p>Whoops! Looks like Congress did a stupid and forgot to record their voting data!</p>
                     <% } else { %>
-                        <p><%- JSON.stringify(votes) %></p>
+                        <p><%- JSON.stringify(voteData.votes) %></p>
                         <% } %>
-            </p>
+            </div>
+
 
         </div>
 
