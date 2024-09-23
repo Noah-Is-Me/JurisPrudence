@@ -23,9 +23,6 @@
             <p>
                 <%= law.lawData.summary %>
             </p>
-            <p>
-                <%- JSON.stringify(law.requestData) %>
-            </p>
 
             <h3>Your representatives' vote:</h3>
             <div>
@@ -50,15 +47,11 @@
                     <% }%>
             </div>
 
+            <br>
 
-            <div>
-                <h3>Raw vote data (ugly)</h3>
-                <% if (votes==null) { %>
-                    <p>Whoops! Looks like Congress did a stupid and forgot to record their voting data!</p>
-                    <% } else { %>
-                        <p><%- JSON.stringify(voteData.votes) %></p>
-                        <% } %>
-            </div>
+            <p> Request Data (for debugging purposes): <br><br>
+                <%- JSON.stringify(law.requestData) %>
+            </p>
 
 
         </div>

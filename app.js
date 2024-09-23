@@ -243,7 +243,6 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
         houseRepVote,
         senateRep1Vote,
         senateRep2Vote,
-        votes
     };
 
     const reps = {
@@ -253,7 +252,7 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
 
     // I'm going to be honest I completely forgot the Senate existed and I have to rewrite the whole system
 
-    res.render('law', { law, votes, voteData, reps, flashMessages: req.flash() });
+    res.render('law', { law, voteData, reps, flashMessages: req.flash() });
 });
 
 

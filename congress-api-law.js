@@ -477,6 +477,9 @@ export async function getLawFromJson(congress, billType, billNumber) {
 }
 
 export function getRepresentativeVote(voteData, representative, repType) {
+    //console.log(JSON.stringify(voteData.houseVote));
+    //console.log(voteData.houseVote);
+
     if (repType == "house") {
         const houseVote = voteData.houseVote;
 
@@ -517,10 +520,83 @@ export function getRepresentativeVote(voteData, representative, repType) {
         return "Error! Tell Congress to fix their API."
     }
 
+    // TODO: This system is bad because if the vote is unanimous, it says the representative voted Yea even if they weren't in Congress at the time.
+
 
     console.error("Error: Invalid repType: " + repType + "!");
     return null;
 }
+
+/*
+export function getRepresentativeVotes(voteData, state, district) {
+    const houseVote = voteData.houseVote;
+    const senateVote = voteData.senateVote;
+
+
+    let votes = {
+        "houseRep": {
+            "name": null,
+            "vote": null,
+        },
+        "senateRep1": {
+            "name": null,
+            "vote": null,
+        },
+        "senateRep2": {
+            "name": null,
+            "vote": null,
+        }
+    }
+
+    if (houseVote == null) {
+        votes.houseRep.name = "Representative data unavailable.";
+        votes.houseRep.vote = "Voting data unavailable.";
+    }
+    else if (houseVote == "unanimous") {
+        votes.houseRep.name = "Representative data unavailable.";
+        votes.houseRep.vote = "Yea (unanimous)";
+    }
+    else {
+        const repVotes = houseVote.members[0]["recorded-vote"].filter(member => member.legislator[0]["_"].toLowerCase() == representative.toLowerCase());
+        if (repVotes.length > 0) {
+            votes.houseRep.name = repVotes[0].legislator[0]["_"];
+            votes.houseRep.vote = repVotes[0].vote[0];
+        } else {
+            console.error("Error! House representative not found or something.");
+        }
+    }
+
+    if (senateVote == null) {
+        votes.senateRep1.name = "Representative data unavailable.";
+        votes.senateRep1.vote = "Voting data unavailable.";
+
+        votes.senateRep2.name = "Representative data unavailable.";
+        votes.senateRep2.vote = "Voting data unavailable.";
+    }
+    else if (senateVote == "unanimous") {
+        votes.senateRep1.name = "Representative data unavailable.";
+        votes.senateRep1.vote = "Yea (unanimous)";
+
+        votes.senateRep2.name = "Representative data unavailable.";
+        votes.senateRep2.vote = "Yea (unanimous)";
+    }
+    else {
+        const repVotes = senateVote.members.filter(member => member.state[0].toLowerCase() == state.toLowerCase());
+        if (repVotes.length > 0) {
+            votes.senateRep1.name = repVotes[0].firstName[0] + " " + repVotes[0].last_name[0];
+            votes.senateRep1.vote = repVotes[0].vote_cast[0];
+            if (repVotes.length > 1) {
+                votes.senateRep2.name = repVotes[1].firstName[0] + " " + repVotes[1].last_name[0];
+                votes.senateRep2.vote = repVotes[1].vote_cast[0];
+            }
+        } else {
+            console.error("Error! Senate representative not found or something.");
+        }
+    }
+
+    return votes;
+}
+*/
 
 
 //console.log(await getRandomCachedLaw());
