@@ -75,61 +75,63 @@ export async function fetchVotes(congress, billType, billNumber) {
     const billActions = await fetchBillDetails(congress, billType, billNumber, "actions");
     const voteActions = billActions.actions.filter(action => action.recordedVotes);
 
-    if (voteActions.length == 0) {
-        //console.log(`${congress}, ${billType}, ${billNumber} ; no votes`);
-        return null;
-    }
+    const houseRecordedVotes = voteActions.find(obj => obj.recordedVotes[0].chamber == "House") || null;
+    const senateRecordedVotes = voteActions.find(obj => obj.recordedVotes[0].chamber == "Senate") || null;
 
-    const recordedVotes = voteActions[0].recordedVotes[0];
-    const url = recordedVotes.url;
-    const rollCallsXml = await fetchXmlFromUrl(url);
-    const rollCallsJson = await xmlToJson(rollCallsXml);
+    let houseVote = null;
+    let senateVote = null;
 
-    if ("roll_call_vote" in rollCallsJson) {
-        // newer json format?
-        const members = {
-            chamber: "senate",
-            members: rollCallsJson.roll_call_vote.members[0].member
-        };
-
-        if (members == null) {
-            console.error(`${congress}, ${billType}, ${billNumber} ; null return 1`);
-        } else {
-            //console.log(`${congress}, ${billType}, ${billNumber} ; successful return 1`);
+    if (houseRecordedVotes == null) {
+        if (billActions.actions.some(obj => obj.text.toLowerCase().includes("passed house") && obj.text.toLowerCase().includes("unanimous consent"))) {
+            houseVote = "unanimous";
         }
-        return members;
-    }
-    else if ("rollcall-vote" in rollCallsJson) {
-        // older json format?
+    } else {
+        const url = houseRecordedVotes.recordedVotes[0].url;
+        const rollCallsXml = await fetchXmlFromUrl(url);
+        const rollCallsJson = await xmlToJson(rollCallsXml);
+
         const members = {
             chamber: "house",
             members: rollCallsJson["rollcall-vote"]["vote-data"]
         };
 
         if (members == null) {
-            console.error(`${congress}, ${billType}, ${billNumber} ; null return 2`);
-        } else {
-            //console.log(`${congress}, ${billType}, ${billNumber} ; successful return 2`);
+            console.error(`${congress}, ${billType}, ${billNumber} ; null return house`);
         }
-        return members;
+        /*else {
+            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 2`);
+        }*/
+        houseVote = members;
     }
-    else {
-        console.log(rollCallsJson);
-        console.error(`Unknown vote json format for bill: ${congress}-${billType}-${billNumber}!`);
-        return null;
-    }
-    /*
-    let allMembersAllVotes = [];
-    for (const action of voteActions) {
-        for (const vote of action.recordedVotes) {
-            const url = vote.url;
-            const rollCallsXml = await fetchXmlFromUrl(url);
-            const rollCallsJson = await xmlToJson(rollCallsXml);
-            const members = rollCallsJson.roll_call_vote.members[0].member;
-            allMembersAllVotes.push(members);
+
+    if (senateRecordedVotes == null) {
+        if (billActions.actions.some(obj => obj.text.toLowerCase().includes("passed senate") && obj.text.toLowerCase().includes("unanimous consent"))) {
+            senateVote = "unanimous";
         }
+    } else {
+        const url = senateRecordedVotes.recordedVotes[0].url;
+        const rollCallsXml = await fetchXmlFromUrl(url);
+        const rollCallsJson = await xmlToJson(rollCallsXml);
+
+        const members = {
+            chamber: "senate",
+            members: rollCallsJson.roll_call_vote.members[0].member
+        };
+
+        if (members == null) {
+            console.error(`${congress}, ${billType}, ${billNumber} ; null return senate`);
+        }
+        /*else {
+            console.log(`${congress}, ${billType}, ${billNumber} ; successful return 1`);
+        }*/
+        senateVote = members;
     }
-    */
+
+    const voteData = {
+        houseVote,
+        senateVote
+    }
+    return voteData;
 }
 
 async function getRemainingRequests() {
@@ -474,30 +476,50 @@ export async function getLawFromJson(congress, billType, billNumber) {
     }
 }
 
-export function getRepresentativeVote(votes, representative) {
-    if (votes.chamber == "senate") {
-        const repVotes = votes.members.filter(member => member.last_name[0].toLowerCase() == representative.toLowerCase());
-        //(member.first_name[0].toLowerCase() + " " + member.last_name[0].toLowerCase()) == representative.toLowerCase();
+export function getRepresentativeVote(voteData, representative, repType) {
+    if (repType == "house") {
+        const houseVote = voteData.houseVote;
 
-        if (repVotes.length == 0) {
-            //console.log("No recorded votes for senate rep: " + representative);
-            return "No vote data available.";
+        if (houseVote == null) {
+            return "Voting data unavailable.";
         }
-        return repVotes[0].vote_cast[0];
+
+        if (houseVote == "unanimous") {
+            return "Yea (unanimous)";
+        }
+
+        const repVotes = houseVote.members[0]["recorded-vote"].filter(member => member.legislator[0]["_"].toLowerCase() == representative.toLowerCase());
+        if (repVotes.length > 0) {
+            return repVotes[0].vote[0];
+        }
+
+        console.log("Error! House representative not found or something.");
+        return "Error! Tell Congress to fix their API."
     }
 
-    else if (votes.chamber == "house") {
-        const repVotes = votes.members[0]["recorded-vote"].filter(member => member.legislator[0]["_"].toLowerCase() == representative.toLowerCase());
-        if (repVotes.length == 0) {
-            //console.log("No recorded votes for house rep: " + representative);
-            return "No vote data available.";
+    else if (repType == "senate") {
+        const senateVote = voteData.senateVote;
+
+        if (senateVote == null) {
+            return "Voting data unavailable.";
         }
-        return repVotes[0].vote[0];
+
+        if (senateVote == "unanimous") {
+            return "Yea (unanimous)";
+        }
+
+        const repVotes = senateVote.members.filter(member => member.last_name[0].toLowerCase() == representative.toLowerCase());
+        if (repVotes.length > 0) {
+            return repVotes[0].vote_cast[0];
+        }
+
+        console.log("Error! House representative not found or something.");
+        return "Error! Tell Congress to fix their API."
     }
-    else {
-        console.error("Error: Unknown vote json format! (unknown chamber)");
-        return "Whoops! Looks like Congress did a stupid and forgot to normalize their voting data!";
-    }
+
+
+    console.error("Error: Invalid repType: " + repType + "!");
+    return null;
 }
 
 

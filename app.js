@@ -229,9 +229,9 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
     let houseRepVote, senateRep1Vote, senateRep2Vote = null;
 
     if (votes != null) {
-        if (house_rep) houseRepVote = getRepresentativeVote(votes, house_rep);
-        if (senate_rep_1) senateRep1Vote = getRepresentativeVote(votes, senate_rep_1);
-        if (senate_rep_2) senateRep2Vote = getRepresentativeVote(votes, senate_rep_2);
+        if (house_rep) houseRepVote = getRepresentativeVote(votes, house_rep, "house");
+        if (senate_rep_1) senateRep1Vote = getRepresentativeVote(votes, senate_rep_1, "senate");
+        if (senate_rep_2) senateRep2Vote = getRepresentativeVote(votes, senate_rep_2, "senate");
     }
     else {
         houseRepVote = "No vote data available";
