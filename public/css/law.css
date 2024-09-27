@@ -1,3 +1,42 @@
 body {
     color: white;
 }
+
+.grid {
+  width: 50%;
+  border: 1px solid red;
+  padding: 0;
+  display: flex;                       
+  flex-wrap: wrap; 
+  justify-content: space-around;
+  background-color: white;
+  overflow: hidden;
+
+  display: grid;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   overflow: hidden;
+   gap: var(--gap);
+
+   width: 50%;
+   background-color: white;
+}
+
+.cell {
+  flex: 0 0 23%;
+  height: 50px;
+  background-color: white;
+  color: black;
+  padding: 2px 5px;
+  margin: 0;
+  border: blue solid 1px;
+
+  
+}
+
+.cell p {
+  color: black;
+}
+
+.cell:nth-child(1n) {
+  background-color: white;
+}

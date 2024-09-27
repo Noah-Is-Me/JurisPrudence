@@ -28,19 +28,17 @@ if (!process.env.MONGODB_URI) {
     throw new Error("Please add your Mongo URI to .env");
 }
 
-mongoose.connect(uri).then(function () {
+mongoose.connect(uri, {}).then(function () {
     console.log("Connected to MongoDB Atlas");
 }).catch(function (err) {
     console.error("Error connecting to MongoDB Atlas:", err.message);
 });
-
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
     console.log("Database connected");
 });
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
