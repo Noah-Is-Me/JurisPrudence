@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yucky Politicians | test</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/test-page.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
@@ -14,29 +14,39 @@
 <body>
     <%- include('partials/flash')%>
 
-        <div id="background-div">
-            <div id="login-container">
+    <header>
+        <nav>
+            <div class="logo">Law Insight</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-                <div id="login-div">
-                    <h1>How are you</h1>
-                    <form action="/login" method="post">
-                        <label for="username">HI!:</label>
-                        <input type="text" name="username" required>
-
-                        <label for="password">NO!</label>
-                        <input type="password" name="password" required>
-
-                        <button id="login-button" type="submit">bye.</button>
-                    </form>
-                </div>
-
-                <div id="signup-div">
-                    <h3>Or, if you don't have a profile:</h3>
-                    <a href="/register"><button id="signup-button">Go Fuck yourself</button></a>
-                </div>
-
-            </div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Congressional Laws That Impact You</h1>
+            <p>Input your details to find relevant laws and regulations tailored to your circumstances.</p>
+            <a href="#get-started" class="cta-button">Get Started</a>
         </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h2>Personalized Insights</h2>
+            <p>Enter your details, and our tool will match you with the most relevant laws that affect your daily life.</p>
+        </div>
+        <div class="feature">
+            <h2>Up-to-Date Information</h2>
+            <p>Stay informed with the latest congressional updates, ensuring you’re aware of any new legislation.</p>
+        </div>
+        <div class="feature">
+            <h2>Confidential & Secure</h2>
+            <p>Your information is handled with care and security, ensuring your privacy at all times.</p>
+        </div>
+    </section>
 
 
 </body>
