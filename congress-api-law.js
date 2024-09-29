@@ -527,6 +527,355 @@ export function getRepresentativeVote(voteData, representative, repType) {
     return null;
 }
 
+export function getRepresentativesVote(voteData, repData) {
+    const houseRep = repData.houseRep;
+    const senateRep1 = repData.senateRep1;
+    const senateRep2 = repData.senateRep2;
+
+    const houseVote = voteData.houseVote;
+    const senateVote = voteData.senateVote;
+
+    //console.log(JSON.stringify(houseVote));
+
+    let votes = {
+        houseVote: null,
+        senateVote1: null,
+        senateVote2: null
+    };
+
+
+    houseBlock: { // I want to break out of this scope
+        if (houseVote == null) {
+            votes.houseVote = "Voting data unavailable.";
+            break houseBlock;
+        }
+
+        if (houseVote == "unanimous") {
+            votes.houseVote = "Yea (unanimous)";
+            break houseBlock;
+        }
+
+        const repVotes = houseVote.members[0]["recorded-vote"].filter(member => member.legislator[0]["_"].toLowerCase() == houseRep.toLowerCase());
+        if (repVotes.length > 0) {
+            votes.houseVote = repVotes[0].vote[0];
+        }
+        else {
+            console.log("Error! House representative not found or something.");
+            votes.houseVote = "Error! Tell Congress to fix their API.";
+        }
+    }
+
+
+    senateBlock: {
+        if (senateVote == null) {
+            votes.senateVote1 = "Voting data unavailable.";
+            votes.senateVote2 = "Voting data unavailable.";
+            break senateBlock;
+        }
+
+        if (senateVote == "unanimous") {
+            votes.senateVote1 = "Yea (unanimous)";
+            votes.senateVote2 = "Yea (unanimous)";
+            break senateBlock;
+        }
+
+        const repVotes = senateVote.members.filter(member =>
+            member.last_name[0].toLowerCase() == senateRep1.toLowerCase() ||
+            member.last_name[0].toLowerCase() == senateRep2.toLowerCase()
+        );
+
+        if (repVotes.length > 0) {
+            if (repVotes[0].last_name == senateRep1.toLowerCase()) {
+                votes.senateVote1 = repVotes[0].vote_cast[0];
+            } else {
+                votes.senateVote2 = repVotes[0].vote_cast[0];
+            }
+
+            if (repVotes.length > 1) {
+                if (votes.senateVote1 == null) {
+                    votes.senateVote1 = repVotes[1].vote_cast[0];
+                } else {
+                    votes.senateVote2 = repVotes[1].vote_cast[0];
+                }
+            }
+            else {
+                if (votes.senateVote1 == null) {
+                    console.log("Error! Senate representative not found or something. Trigger 1.");
+                    votes.senateVote1 = "Error! Tell Congress to fix their API.";
+                } else {
+                    console.log("Error! Senate representative not found or something. Trigger 2.");
+                    votes.senateVote2 = "Error! Tell Congress to fix their API.";
+                }
+            }
+        }
+        else {
+            console.log("Error! Senate representative not found or something.");
+            votes.senateVote1 = "Error! Tell Congress to fix their API.";
+            votes.senateVote2 = "Error! Tell Congress to fix their API.";
+        }
+    }
+
+    // TODO: This system is bad because if the vote is unanimous, it says the representative voted Yea even if they weren't in Congress at the time.
+    return votes;
+}
+
+export function analyzeVotes(voteData, repData) {
+
+    let votes = {
+        houseVote: null,
+        senateVote1: null,
+        senateVote2: null
+    };
+
+    let voteBreakdown = {
+        senate: {
+            democratic: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            republican: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            independent: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            total: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            }
+        },
+        house: {
+            democratic: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            republican: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            independent: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            },
+            total: {
+                yes: 0,
+                no: 0,
+                "p/nv": 0
+            }
+        }
+    }
+
+    if (voteData == null) {
+        for (let chamber in voteBreakdown) {
+            for (let party in voteBreakdown[chamber]) {
+                for (let prop in voteBreakdown[chamber][party]) {
+                    voteBreakdown[chamber][party][prop] = "N/A";
+                }
+            }
+        }
+
+        return {
+            voteData: {
+                houseVote: "No vote data available (API error)",
+                senateVote1: "No vote data available (API error)",
+                senateVote2: "No vote data available (API error)"
+            },
+            voteBreakdown
+        };
+    }
+
+    const houseRep = repData.houseRep;
+    const senateRep1 = repData.senateRep1;
+    const senateRep2 = repData.senateRep2;
+
+    const houseVote = voteData.houseVote;
+    const senateVote = voteData.senateVote;
+
+
+
+    houseBlock: { // I want to break out of this scope
+        if (houseVote == null) {
+            votes.houseVote = "Voting data unavailable.";
+
+            for (let party in voteBreakdown.house) {
+                for (let prop in voteBreakdown.house[party]) {
+                    voteBreakdown.house[party][prop] = "N/A";
+                }
+            }
+
+            break houseBlock;
+        }
+
+        if (houseVote == "unanimous") {
+            votes.houseVote = "Yea (unanimous)";
+
+            for (let party in voteBreakdown.house) {
+                for (let prop in voteBreakdown.house[party]) {
+                    voteBreakdown.house[party][prop] = "N/A";
+                }
+            }
+            voteBreakdown.house.total.yes == 435;
+
+            break houseBlock;
+        }
+
+        let repVotes = [];
+        for (let member of houseVote.members[0]["recorded-vote"]) {
+            if (member.legislator[0]["_"].toLowerCase() == houseRep.toLowerCase()) {
+                repVotes.push(member);
+            }
+
+            let party;
+            switch (member.legislator[0]["$"].party) {
+                case "D":
+                    party = "democratic";
+                    break;
+                case "R":
+                    party = "republican";
+                    break;
+                default:
+                    party = "independent";
+            }
+
+            switch (member.vote[0]) {
+                case "Yea":
+                case "Aye":
+                    voteBreakdown.house[party].yes++;
+                    voteBreakdown.house.total.yes++;
+                    break;
+                case "Nay":
+                case "No":
+                    voteBreakdown.house[party].no++;
+                    voteBreakdown.house.total.no++;
+                    break;
+                default:
+                    voteBreakdown.house[party]["p/nv"]++;
+                    voteBreakdown.house.total["p/nv"]++;
+                    break;
+            }
+        }
+
+        if (repVotes.length > 0) {
+            votes.houseVote = repVotes[0].vote[0];
+        }
+        else {
+            console.log("Error! House representative not found or something.");
+            votes.houseVote = "Error! Tell Congress to fix their API.";
+        }
+    }
+
+
+    senateBlock: {
+        if (senateVote == null) {
+            votes.senateVote1 = "Voting data unavailable.";
+            votes.senateVote2 = "Voting data unavailable.";
+
+            for (let party in voteBreakdown.senate) {
+                for (let prop in voteBreakdown.senate[party]) {
+                    voteBreakdown.senate[party][prop] = "N/A";
+                }
+            }
+
+            break senateBlock;
+        }
+
+        if (senateVote == "unanimous") {
+            votes.senateVote1 = "Yea (unanimous)";
+            votes.senateVote2 = "Yea (unanimous)";
+
+            for (let party in voteBreakdown.senate) {
+                for (let prop in voteBreakdown.senate[party]) {
+                    voteBreakdown.senate[party][prop] = "N/A";
+                }
+            }
+
+            voteBreakdown.house.total.yes == 100;
+
+            break senateBlock;
+        }
+
+        let repVotes = [];
+        for (let member of senateVote.members) {
+            if (member.last_name[0].toLowerCase() == senateRep1.toLowerCase() ||
+                member.last_name[0].toLowerCase() == senateRep2.toLowerCase()) {
+
+                repVotes.push(member);
+            }
+
+            let party;
+            switch (member.party[0]) {
+                case "D":
+                    party = "democratic";
+                    break;
+                case "R":
+                    party = "republican";
+                    break;
+                default:
+                    party = "independent";
+            }
+
+            switch (member["vote_cast"][0]) {
+                case "Yea":
+                case "Aye":
+                    voteBreakdown.senate[party].yes++;
+                    voteBreakdown.senate.total.yes++;
+                    break;
+                case "Nay":
+                case "No":
+                    voteBreakdown.senate[party].no++;
+                    voteBreakdown.senate.total.no++;
+                    break;
+                default:
+                    voteBreakdown.senate[party]["p/nv"]++;
+                    voteBreakdown.senate.total["p/nv"]++;
+                    break;
+            }
+        }
+
+        if (repVotes.length > 0) {
+            if (repVotes[0].last_name == senateRep1.toLowerCase()) {
+                votes.senateVote1 = repVotes[0].vote_cast[0];
+            } else {
+                votes.senateVote2 = repVotes[0].vote_cast[0];
+            }
+
+            if (repVotes.length > 1) {
+                if (votes.senateVote1 == null) {
+                    votes.senateVote1 = repVotes[1].vote_cast[0];
+                } else {
+                    votes.senateVote2 = repVotes[1].vote_cast[0];
+                }
+            }
+            else {
+                if (votes.senateVote1 == null) {
+                    console.log("Error! Senate representative not found or something. Trigger 1.");
+                    votes.senateVote1 = "Error! Tell Congress to fix their API.";
+                } else {
+                    console.log("Error! Senate representative not found or something. Trigger 2.");
+                    votes.senateVote2 = "Error! Tell Congress to fix their API.";
+                }
+            }
+        }
+        else {
+            console.log("Error! Senate representative not found or something.");
+            votes.senateVote1 = "Error! Tell Congress to fix their API.";
+            votes.senateVote2 = "Error! Tell Congress to fix their API.";
+        }
+    }
+
+    // TODO: This system is bad because if the vote is unanimous, it says the representative voted Yea even if they weren't in Congress at the time.
+    return { voteData: votes, voteBreakdown };
+}
+
 /*
 export function getRepresentativeVotes(voteData, state, district) {
     const houseVote = voteData.houseVote;

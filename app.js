@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { filterAllPastLaws } from "./openai-api.js";
-import { getLawFromJson, fetchVotes, getRepresentativeVote } from "./congress-api-law.js"
+import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes } from "./congress-api-law.js"
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -224,33 +224,60 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
     const votes = await fetchVotes(congress, billType, billNumber);
 
     const { house_rep, senate_rep_1, senate_rep_2 } = req.query;
-    let houseRepVote, senateRep1Vote, senateRep2Vote = null;
+    //let houseRepVote, senateRep1Vote, senateRep2Vote = null;
 
-    if (votes != null) {
-        if (house_rep) houseRepVote = getRepresentativeVote(votes, house_rep, "house");
-        if (senate_rep_1) senateRep1Vote = getRepresentativeVote(votes, senate_rep_1, "senate");
-        if (senate_rep_2) senateRep2Vote = getRepresentativeVote(votes, senate_rep_2, "senate");
-    }
-    else {
-        houseRepVote = "No vote data available";
-        senateRep1Vote = "No vote data available";
-        senateRep2Vote = "No vote data available";
-    }
-
-    const voteData = {
-        houseRepVote,
-        senateRep1Vote,
-        senateRep2Vote,
+    const repData = {
+        houseRep: house_rep,
+        senateRep1: senate_rep_1,
+        senateRep2: senate_rep_2
     };
 
-    const reps = {
-        house_rep, senate_rep_1, senate_rep_2
+    const voteAnalysis = analyzeVotes(votes, repData);
+    const voteBreakdown = voteAnalysis.voteBreakdown;
+    const voteData = voteAnalysis.voteData;
+
+    let colorData = {
+        senate: {
+            democratic: {
+                yes: 0,
+                no: 0,
+            },
+            republican: {
+                yes: 0,
+                no: 0,
+            }
+        },
+        house: {
+            democratic: {
+                yes: 0,
+                no: 0,
+            },
+            republican: {
+                yes: 0,
+                no: 0,
+            }
+        }
     };
 
+    for (let chamber in colorData) {
+        let colorMult = chamber == "house" ? 0.75 : 2;
+        for (let party in colorData[chamber]) {
+            for (let prop in colorData[chamber][party]) {
+                if (party == "democratic") {
+                    colorData[chamber][party][prop] = `rgb(${Math.max(255 - voteBreakdown[chamber][party][prop] * colorMult, 100)}, ${Math.max(255 - voteBreakdown[chamber][party][prop] * colorMult, 100)}, ${255})`;
+                } else if (party == "republican") {
+                    colorData[chamber][party][prop] = `rgb(${255}, ${Math.max(255 - voteBreakdown[chamber][party][prop] * colorMult, 100)}, ${Math.max(255 - voteBreakdown[chamber][party][prop] * colorMult, 100)})`;
+                }
+            }
+        }
+    }
 
-    // I'm going to be honest I completely forgot the Senate existed and I have to rewrite the whole system
+    //console.log(voteAnalysis);
+    //console.log(voteAnalysis.voteBreakdown);
 
-    res.render('law', { law, voteData, reps, flashMessages: req.flash() });
+    //voteData = getRepresentativesVote(votes, repData);
+
+    res.render('law', { law, voteData, voteBreakdown, repData, colorData, flashMessages: req.flash() });
 });
 
 

@@ -1,42 +1,88 @@
 body {
-    color: white;
+  color: white;
+  width: 95%;
+  margin: auto;
+}
+
+#grids-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.child-container {
+  flex: 1 1 0px;
+  margin: 0px 50px;
+  background-color: cadetblue;
+}
+
+.grid-label {
+  padding: 0px 20px;
 }
 
 .grid {
-  width: 50%;
-  border: 1px solid red;
-  padding: 0;
-  display: flex;                       
-  flex-wrap: wrap; 
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   background-color: white;
   overflow: hidden;
 
-  display: grid;
-   grid-template-columns: repeat(3, minmax(0, 1fr));
-   overflow: hidden;
-   gap: var(--gap);
+  /*
+  --gap: 1em;
+  --line-offset: calc(var(--gap) / 2);
+  --line-thickness: 1px;
+  --line-color: grey;
+  gap: var(--gap);
 
-   width: 50%;
-   background-color: white;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  */
+
 }
 
 .cell {
-  flex: 0 0 23%;
+  position: relative;
+  width: 25%;
   height: 50px;
   background-color: white;
   color: black;
-  padding: 2px 5px;
   margin: 0;
-  border: blue solid 1px;
-
-  
 }
+
+/*
+.cell:nth-child(4n - 3) {
+  width: 55%;
+}
+  */
+
+/*
+.cell::before,
+.cell::after {
+  content: '';
+  position: absolute;
+  background-color: var(--line-color);
+  z-index: 1;
+}
+
+.cell::after {
+  inline-size: 100vw;
+  block-size: var(--line-thickness);
+  inset-inline-start: 0;
+  inset-block-start: calc(var(--line-offset) * -1);
+}
+
+.cell::before {
+  inline-size: var(--line-thickness);
+  block-size: 100vh;
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--line-offset) * -1);
+}
+  */
 
 .cell p {
+  text-align: center;
   color: black;
-}
-
-.cell:nth-child(1n) {
-  background-color: white;
 }

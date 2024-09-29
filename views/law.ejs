@@ -26,47 +26,210 @@
 
             <h3>Your representatives' vote:</h3>
             <div>
-                <% if (reps.house_rep!=null) { %>
+                <% if (repData.houseRep!=null) { %>
                     <h2>
-                        <%= reps.house_rep %>: <%= voteData.houseRepVote %>
+                        <%= repData.houseRep %>: <%= voteData.houseVote %>
                     </h2>
                     <% }%>
             </div>
             <div>
-                <% if (reps.senate_rep_1!=null) { %>
+                <% if (repData.senateRep1!=null) { %>
                     <h2>
-                        <%= reps.senate_rep_1 %>: <%= voteData.senateRep1Vote %>
+                        <%= repData.senateRep1 %>: <%= voteData.senateVote1 %>
                     </h2>
                     <% }%>
             </div>
             <div>
-                <% if (reps.senate_rep_2!=null) { %>
+                <% if (repData.senateRep2!=null) { %>
                     <h2>
-                        <%= reps.senate_rep_2 %>: <%= voteData.senateRep2Vote %>
+                        <%= repData.senateRep2 %>: <%= voteData.senateVote2 %>
                     </h2>
                     <% }%>
             </div>
-            <div class="grid">
-                <div class="cell"></div>
-                <div class="cell"><p>Yes</p></div>
-              <div class="cell">  <p>No</p></div>
-              <div class="cell">  <p>P/NV</p></div>
-               <div class="cell"> <p>Democratic</p></div>
-              <div class="cell">  <p>1</p></div>
-               <div class="cell"> <p>0</p></div>
-              <div class="cell">  <p>1</p></div>
-               <div class="cell"> <p>Republican</p></div>
-               <div class="cell"> <p>1</p></div>
-               <div class="cell"> <p>0</p></div>
-             <div class="cell">   <p>1</p></div>
-              <div class="cell">  <p>Independent</p></div>
-              <div class="cell">  <p>1</p></div>
-              <div class="cell">  <p>0</p></div>
-               <div class="cell"> <p>1</p></div>
-               <div class="cell"> <p>Total</p></div>
-               <div class="cell"> <p>1</p></div>
-                <div class="cell"><p>0</p></div>
-                <div class="cell"><p>1</p></div>
+            <div id="grids-container">
+                <div class="child-container">
+                    <h2 class="grid-label">House Vote Breakdown</h2>
+                    <div class="grid">
+                        <div class="cell"></div>
+                        <div class="cell">
+                            <p>Yes</p>
+                        </div>
+                        <div class="cell">
+                            <p>No</p>
+                        </div>
+                        <div class="cell">
+                            <p>P/NV</p>
+                        </div>
+                        <div class="cell">
+                            <p>Democratic</p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.house.democratic.yes %>;">
+                                <p>
+                                    <%= voteBreakdown.house.democratic.yes %>
+                                </p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.house.democratic.no %>;">
+                                <p>
+                                    <%= voteBreakdown.house.democratic.no %>
+                                </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.democratic["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Republican</p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.house.republican.yes %>;">
+                                <p>
+                                    <%= voteBreakdown.house.republican.yes %>
+                                </p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.house.republican.no %>;">
+                                <p>
+                                    <%= voteBreakdown.house.republican.no %>
+                                </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.republican["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Independent</p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.independent.yes %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.independent.no %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.independent["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Total</p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.total.yes %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.total.no %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.house.total["p/nv"] %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="child-container">
+                    <h2 class="grid-label">Senate Vote Breakdown</h2>
+                    <div class="grid">
+                        <div class="cell"></div>
+                        <div class="cell">
+                            <p>Yes</p>
+                        </div>
+                        <div class="cell">
+                            <p>No</p>
+                        </div>
+                        <div class="cell">
+                            <p>P/NV</p>
+                        </div>
+                        <div class="cell">
+                            <p>Democratic</p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.senate.democratic.yes %>;">
+                                <p>
+                                    <%= voteBreakdown.senate.democratic.yes %>
+                                </p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.senate.democratic.no %>;">
+                                <p>
+                                    <%= voteBreakdown.senate.democratic.no %>
+                                </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.democratic["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Republican</p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.senate.republican.yes %>;">
+                                <p>
+                                    <%= voteBreakdown.senate.republican.yes %>
+                                </p>
+                        </div>
+                        <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
+                            <%= colorData.senate.republican.no %>;">
+                                <p>
+                                    <%= voteBreakdown.senate.republican.no %>
+                                </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.republican["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Independent</p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.independent.yes %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.independent.no %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.independent["p/nv"] %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>Total</p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.total.yes %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.total.no %>
+                            </p>
+                        </div>
+                        <div class="cell">
+                            <p>
+                                <%= voteBreakdown.senate.total["p/nv"] %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <br>
@@ -74,6 +237,8 @@
             <p> Request Data (for debugging purposes): <br><br>
                 <%- JSON.stringify(law.requestData) %>
             </p>
+
+
 
 
         </div>
