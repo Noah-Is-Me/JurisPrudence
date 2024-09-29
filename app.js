@@ -99,6 +99,9 @@ app.get("/", function (req, res) {
     res.render("index", { flashMessages: req.flash() });
 });
 
+app.get("/test", function (req, res) {
+    res.render("test", { flashMessages: req.flash() });
+});
 
 app.get("/login",
     function (req, res, next) {
