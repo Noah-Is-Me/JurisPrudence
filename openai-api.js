@@ -87,24 +87,35 @@ export async function filterAllPastLaws(userCategories) {
         const summary = lawData.summary;
 
         let response;
-        let affectedCategories;
+        let attempt = 0;
 
         do {
             try {
                 response = await determineMatch(userCategories, summary);
                 if (response == null) {
                     console.log("Error! determineMatch response is null!");
-                    continue lawLoop;
+
+                    if (attempt > 5) {
+                        continue lawLoop;
+                    }
+                    attempt++;
+                    continue;
                 }
 
-                affectedCategories = response.affectedCategories;
             }
             catch (error) {
                 console.log("Error determining match!");
-                continue lawLoop;
+
+                if (attempt > 5) {
+                    continue lawLoop;
+                }
+                attempt++;
+                continue;
             }
 
-        } while (affectedCategories == null || response == null);
+        } while (response == null || response.affectedCategories == null);
+
+        const affectedCategories = response.affectedCategories;
 
         //console.log(summary);
         //console.log(response);

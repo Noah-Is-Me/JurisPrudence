@@ -63,7 +63,8 @@ nav {
     text-align: center;
     color: white;
     padding: 0 20px;
-    margin-top: 80px; /* Adjust for the fixed header */
+    margin-top: 80px;
+    /* Adjust for the fixed header */
 }
 
 .hero-content h1 {
@@ -107,15 +108,25 @@ nav {
 
 .feature h2 {
     color: #004080;
-    margin-bottom: 1rem;
 }
 
-footer {
-    background-color: #002855;
-    color: white;
+#about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333;
+}
+
+.poem {
     text-align: center;
-    padding: 1rem 0;
-    position: relative;
-    width: 100%;
-    bottom: 0;
+    padding: 40px;
+    background: #cfcfcf;
+}
+
+.poem p {
+    font-size: 24px;
+    font-style: italic;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black;
 }

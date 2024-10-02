@@ -13,7 +13,8 @@ import dotenv from "dotenv";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { filterAllPastLaws } from "./openai-api.js";
-import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes } from "./congress-api-law.js"
+import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes } from "./congress-api-law.js";
+import { fetchRepsFromAddress, getLastName } from "./civicInfo-api.js";
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -107,6 +108,7 @@ app.get("/test", function (req, res) {
     res.render("test", { flashMessages: req.flash() });
 });
 
+
 app.get("/login",
     function (req, res, next) {
         //console.log(req.session);
@@ -148,14 +150,16 @@ app.get("/register", function (req, res) {
 
 // handle register logic
 app.post('/register', async function (req, res) {
-    const { username, password, bio, houseRep, senateRep1, senateRep2 } = req.body;
+    const { username, password, bio, address, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
         console.log("Filtering laws...");
         const filteredLaws = await filterAllPastLaws(bio);
 
         const reps = {
-            houseRep, senateRep1, senateRep2
+            houseRep: getLastName(houseRep),
+            senateRep1: getLastName(senateRep1),
+            senateRep2: getLastName(senateRep2)
         }
 
         const newUser = new User({ username, password, bio, laws: filteredLaws, reps });
@@ -169,6 +173,22 @@ app.post('/register', async function (req, res) {
         console.log(err);
         req.flash('error', err.message);
         res.redirect('/register');
+    }
+});
+
+// Define the route for fetching representatives
+app.post('/api/reps', async (req, res) => {
+    const { address } = req.body;
+    try {
+        const reps = await fetchRepsFromAddress(address);
+        if (reps) {
+            res.json(reps);
+        } else {
+            res.status(404).json({ message: 'Representatives not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
