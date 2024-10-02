@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <%- include('partials/flash')%>
+    <%- include("partials/flash")%>
 
         <div id="header-div">
             <h1 id="header-text">Register your Yucky Politicians account!</h1>
@@ -45,10 +45,28 @@
                     <input type="text" name="bio" required>
                 </fieldset>
 
+                <fieldset id="address">
+                    <legend>Address</legend>
+
+                    <label for="address" class="required">Street Address:</label>
+                    <input type="text" name="address" required>
+
+                    <label for="city" class="required">City:</label>
+                    <input type="text" name="city" required>
+
+                    <label for="state" class="required">State:</label>
+                    <input type="text" name="state" required>
+
+                    <label for="zip" class="required">Zip Code:</label>
+                    <input type="number" name="zip" required>
+                </fieldset>
+
                 <fieldset id="representative-information">
                     <legend>Representative Information</legend>
 
-                    <h3>Give only last names for reps for now</h3>
+                    <h4>Click below to autofill your representative information using your address.</h4>
+                    <button type="button" id="autofill-btn">Autofill</button>
+                    <h4>Please review the information below and correct it if needed.</h4>
 
                     <label for="houseRep" class="required">House Representative:</label>
                     <input type="text" name="houseRep" required>
@@ -69,25 +87,69 @@
 
 
         <script>
-            /*
+            async function fetchRepresentatives(address) {
+                try {
+                    const response = await fetch("/api/reps", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ address })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+
+                    const reps = await response.json();
+                    return reps;
+
+                    // For example, display them on the page
+                } catch (error) {
+                    console.error("Error fetching representatives:", error);
+                    return null;
+                }
+            }
+
             $(document).ready(function () {
-                var $inputs = $('input[name=zip],input[name=house-rep]');
-                $inputs.on('input', function () {
-                    // Set the required property of the other input to false if this input is not empty.
-                    if (!$(this).val().length) {
-                        $inputs.not(this).prop('required', true);
-                        $inputs.not(this).addClass('required');
+                const $addressInput = $('input[name="address"]');
+                const $cityInput = $('input[name="city"]');
+                const $stateInput = $('input[name="state"]');
+                const $zipInput = $('input[name="zip"]');
+                const $houseRepInput = $('input[name="houseRep"]');
+                const $senateRep1Input = $('input[name="senateRep1"]');
+                const $senateRep2Input = $('input[name="senateRep2"]');
 
+                $("#autofill-btn").click(function () {
+                    const address = $addressInput.val();
+                    const city = $cityInput.val();
+                    const state = $stateInput.val();
+                    const zip = $zipInput.val();
+
+                    if (address && city && zip && state) {
+                        const fullAddress = `${address}, ${city} ${state} ${zip.toString()}`;
+                        fetchRepresentatives(fullAddress)
+                            .then(function (reps) {
+                                // Update the representative fields with the returned values
+                                $houseRepInput.val(reps.houseRep || "");
+                                $senateRep1Input.val(reps.senateRep1 || "");
+                                $senateRep2Input.val(reps.senateRep2 || "");
+                            })
+                            .catch(function (error) {
+                                console.error("Error fetching representatives:", error);
+                                // Optionally clear the fields or handle the error appropriately
+                                $houseRepInput.val("");
+                                $senateRep1Input.val("");
+                                $senateRep2Input.val("");
+                            });
                     } else {
-                        $inputs.not(this).prop('required', false);
-                        $inputs.not(this).removeClass('required');
-
+                        // Optionally, clear the fields if the address is empty
+                        $houseRepInput.val("");
+                        $senateRep1Input.val("");
+                        $senateRep2Input.val("");
                     }
                 });
             });
-            // This is some very funky code
-            */
-
         </script>
 </body>
 
