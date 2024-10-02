@@ -45,12 +45,12 @@ export async function fetchRepsFromAddress(address) {
 }
 
 export function getLastName(fullName) {
-    let nameParts = fullName.split(' ');
+    let nameParts = fullName.split(" ");
     if (nameParts.length == 1) {
         return fullName;
     }
 
-    let lastName = nameParts.slice(1).join(' ');
+    let lastName = nameParts.slice(1).join(" ");
     return lastName;
 }
 

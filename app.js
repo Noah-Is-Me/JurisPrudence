@@ -44,7 +44,7 @@ db.once("open", function () {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
 const store = MongoStore.create({
     mongoUrl: uri,
@@ -66,7 +66,7 @@ app.use(session({
 
     cookie: {
         httpOnly: true,  // Prevents client-side JavaScript from accessing the cookie
-        secure: process.env.NODE_ENV === 'production',  // Ensure it's secure only in production
+        secure: process.env.NODE_ENV === "production",  // Ensure it's secure only in production
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,  // 7 days
         maxAge: 1000 * 60 * 60 * 24 * 7  // 7 days
     }
@@ -86,12 +86,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 app.use(flash());
 app.use(function (req, res, next) {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
     next();
 });
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -119,7 +119,7 @@ app.get("/login",
         next();
     },
     function (req, res) {
-        res.render('login', { flashMessages: req.flash() });
+        res.render("login", { flashMessages: req.flash() });
     }
 );
 
@@ -149,7 +149,7 @@ app.get("/register", function (req, res) {
 
 
 // handle register logic
-app.post('/register', async function (req, res) {
+app.post("/register", async function (req, res) {
     const { username, password, bio, address, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
@@ -167,28 +167,28 @@ app.post('/register', async function (req, res) {
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
 
-        req.flash('success', 'Successfully registered! Please log in.');
-        res.redirect('/login');
+        req.flash("success", "Successfully registered! Please log in.");
+        res.redirect("/login");
     } catch (err) {
         console.log(err);
-        req.flash('error', err.message);
-        res.redirect('/register');
+        req.flash("error", err.message);
+        res.redirect("/register");
     }
 });
 
 // Define the route for fetching representatives
-app.post('/api/reps', async (req, res) => {
+app.post("/api/reps", async (req, res) => {
     const { address } = req.body;
     try {
         const reps = await fetchRepsFromAddress(address);
         if (reps) {
             res.json(reps);
         } else {
-            res.status(404).json({ message: 'Representatives not found' });
+            res.status(404).json({ message: "Representatives not found" });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: "Server error" });
     }
 });
 
@@ -197,7 +197,7 @@ app.get("/logout", function (req, res) {
     req.logout(function (err) {
         if (err) { return next(err); }
         req.flash("success", "See you later!");
-        res.redirect('/');
+        res.redirect("/");
     });
 })
 
@@ -304,7 +304,7 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
 
     //voteData = getRepresentativesVote(votes, repData);
 
-    res.render('law', { law, voteData, voteBreakdown, repData, colorData, flashMessages: req.flash() });
+    res.render("law", { law, voteData, voteBreakdown, repData, colorData, flashMessages: req.flash() });
 });
 
 
