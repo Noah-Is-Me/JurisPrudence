@@ -50,7 +50,13 @@ export function getLastName(fullName) {
         return fullName;
     }
 
-    let lastName = nameParts.slice(1).join(" ");
+    // Remove middle initials (single letters followed by a period)
+    if (nameParts.length > 2 && nameParts[1].length === 2 && nameParts[1][1] === '.') {
+        nameParts.splice(1, 1);  // Remove the middle initial
+    }
+
+    // Join everything after the first name as the last name
+    let lastName = nameParts.slice(1).join(' ');
     return lastName;
 }
 
