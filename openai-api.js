@@ -20,7 +20,7 @@ const affectedCategoriesFormat = z.object({
     affectedCategories: z.array(z.object({
         categoryName: z.string(),
         impactLevel: z.number(),//.gte(0).lte(10)
-        explanation: z.string()
+        //explanation: z.string()
     })),
 });
 
@@ -30,7 +30,7 @@ async function determineMatch(userCategories, lawSummary) {
             model: "gpt-4o-mini",
             messages: [
                 // NOTE: In the role section, you have to explicitly tell the AI to "Return this data in the given structured format. If the person is not affected by the law, leave the array empty.".
-                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is likely to affect the person. If so, identify which traits/categories of the person make this true, rate the amount of impact the law has on each category from 0-10, and write an explanation for the decision. Return this data in the given structured format. If the person is not affected by the law, leave the array empty." },
+                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is likely to affect the person. If so, identify which traits/categories of the person make this true and rate the amount of impact the law has on each category from 0-10. Return this data in the given structured format. If the person is not affected by the law, leave the array empty." },
                 {
                     role: "user",
                     content: `Analyze the following legislative law summary and the person's information and apply the instructions provided:
@@ -39,7 +39,7 @@ async function determineMatch(userCategories, lawSummary) {
 
                     Law: "${lawSummary}"
                     
-                    Determine if the person will be affected directly by the law and, if the law is applicable, output which traits/categories of the person make this true and the impact ratings of each trait/category in the given structured format, along with an explanation of the decision. Be specific and exclusive with the categories.`,
+                    Determine if the person will be affected directly by the law and, if the law is applicable, output which traits/categories of the person make this true and the impact ratings of each trait/category in the given structured format. Be specific and exclusive with the categories.`,
                 },
             ],
             response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
@@ -77,7 +77,11 @@ async function determineMatch(userCategories, lawSummary) {
 
 export async function filterAllPastLaws(userCategories) {
     const allLaws = await getAllCachedLaws();
-    var filteredLaws = [];
+    return await filterLaws(userCategories, allLaws);
+}
+
+export async function filterLaws(userCategories, allLaws) {
+    let filteredLaws = [];
 
     lawLoop:
     for (let i = 0; i < allLaws.length; i++) {

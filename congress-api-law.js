@@ -56,7 +56,7 @@ async function fetchBillDetails(congress, billType, billNumber, details) {
     }
 }
 
-function extractRequestData(lawData) {
+function extractLawRequestData(lawData) {
     const requestLawData = lawData.bill.laws[0];
     const parts = requestLawData.number.split("-");
 
@@ -66,6 +66,16 @@ function extractRequestData(lawData) {
         lawNumber: parseInt(parts[1]),
         billType: lawData.request.billType,
         billNumber: parseInt(lawData.request.billNumber)
+    }
+
+    return requestData;
+}
+
+function extractBillRequestData(billData) {
+    const requestData = {
+        congress: billData.request.congress,
+        billType: billData.request.billType,
+        billNumber: billData.request.billNumber,
     }
 
     return requestData;
@@ -136,7 +146,7 @@ export async function fetchVotes(congress, billType, billNumber) {
 
 async function getRemainingRequests() {
     try {
-        const response = await fetch(`https://api.congress.gov/v3/bill?api_key=${congress_api_key}`);
+        const response = await fetch(`https://api.congress.gov/v3/bill?limit=1&api_key=${congress_api_key}`);
 
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -154,6 +164,7 @@ async function getRemainingRequests() {
         return null;
     }
 }
+
 
 async function extractFullText(lawTextData) {
     const textVersions = lawTextData.textVersions;
@@ -232,7 +243,7 @@ async function xmlToJson(xml) {
 
 async function fetchAndStoreLaw(congress, lawType, lawNumber) {
     const lawData = await fetchLaw(congress, lawType, lawNumber);
-    const requestData = extractRequestData(lawData);
+    const requestData = extractLawRequestData(lawData);
     const lawVotes = await fetchVotes(requestData.congress, requestData.lawType, requestData.lawNumber);
     if (lawVotes == 0 || lawVotes == null) return;
 
@@ -258,7 +269,7 @@ async function fetchAndStoreLaws(congress, startingLaw, lawCount) {
             //console.log("Law data:");
             //console.log(lawData);
 
-            const requestData = extractRequestData(lawData);
+            const requestData = extractLawRequestData(lawData);
             //const lawVotes = await fetchVotes(requestData.congress, requestData.billType, requestData.billNumber);
             //if (lawVotes == 0 || lawVotes == null) continue;
 
@@ -349,6 +360,21 @@ function storeLaws(lawsData) {
 async function fetchLaws(congress, startingLaw, lawCount) {
     try {
         const response = await fetch(`https://api.congress.gov/v3/law/${congress}?format=json&offset=${startingLaw}&limit=${lawCount}&api_key=${congress_api_key}`);
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+    }
+}
+
+async function fetchNewBills(startingLaw, billCount) {
+    try {
+        const response = await fetch(`https://api.congress.gov/v3/bill?format=json&offset=${startingLaw}&limit=${billCount}&api_key=${congress_api_key}`);
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -463,10 +489,12 @@ export async function getLawFromJson(congress, billType, billNumber) {
         const laws = jsonData.laws;
 
         const found = laws.find(law =>
-            law.requestData.congress === congress &&
-            law.requestData.billType === billType &&
-            law.requestData.billNumber === billNumber
+            law.requestData.congress == congress &&
+            law.requestData.billType == billType &&
+            law.requestData.billNumber == billNumber
         );
+
+        if (!found) return null;
 
         return found;
 
@@ -876,6 +904,90 @@ export function analyzeVotes(voteData, repData) {
     return { voteData: votes, voteBreakdown };
 }
 
+
+export async function getNewLaws() {
+    let newLaws = [];
+
+    fetchLoop:
+    for (let i = 0; i < 100; i++) {
+        //console.log(i + " fetching");
+        const data = await fetchNewBills(250 * i, 250);
+        //console.log(i + " fetched");
+        if (!data) {
+            console.log("null return");
+            break;
+        }
+
+        if (data.bills.length == 0) {
+            console.log("zero bills");
+            console.log(data);
+        }
+
+        for (const bill of data.bills) {
+
+            const latestAction = bill.latestAction.text.toLowerCase();
+            if (!latestAction.includes("became public law") && !latestAction.includes("signed by president")) {
+                //console.log("not a law continue");
+                continue;
+            }
+
+            const url = bill.url;
+            try {
+                const response = await fetch(`${url}&api_key=${congress_api_key}`);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const billData = await response.json();
+
+                const requestData = extractBillRequestData(billData);
+
+                const found = await getLawFromJson(requestData.congress, requestData.billType, requestData.billNumber);
+                if (found == null) {
+                    const lawSummary = await fetchSummary(requestData.congress, requestData.billType, requestData.billNumber);
+                    if (lawSummary == null) {
+                        //console.log("no summary continue");
+                        continue;
+                    }
+
+                    const shortenedData = {
+                        title: billData.bill.title,
+                        date: billData.bill.latestAction.actionDate,
+                        summary: lawSummary,
+                    }
+
+                    const lawJson = {
+                        lawData: shortenedData,
+                        requestData: requestData
+                    }
+
+                    newLaws.push(lawJson);
+                }
+                else {
+                    //console.log("broke loop");
+                    //console.log(billData);
+                    //console.log(requestData);
+                    break fetchLoop;
+                };
+
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                continue;
+            }
+        }
+
+        if (data.bills.length < 250) break fetchLoop;
+    }
+
+    //console.log(newLaws);
+    //console.log(newLaws.length);
+
+    storeLaws(newLaws);
+
+    //await getRemainingRequests();
+    return newLaws;
+}
+
 /*
 export function getRepresentativeVotes(voteData, state, district) {
     const houseVote = voteData.houseVote;
@@ -952,8 +1064,11 @@ export function getRepresentativeVotes(voteData, state, district) {
 
 //await storeAllLaws(117);
 //await getRemainingRequests();
-//getLawDataJsonLength();
+//await getNewLaws();
+//await getRemainingRequests();
 
+//console.log("done");
+//getLawDataJsonLength();
 
 //CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
 

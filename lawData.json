@@ -1035,6 +1035,318 @@
         "billType": "hjres",
         "billNumber": 26
       }
+    },
+    {
+      "lawData": {
+        "title": "Building Chips in America Act of 2023",
+        "date": "2024-10-02",
+        "summary": "Building Chips in America Act of 2023This bill modifies and limits the review of certain semiconductor (i.e., microchip) projects under the National Environmental Policy Act of 1969 (NEPA) and the National Historic Preservation Act (NHPA).Specifically, the bill exempts from NEPA and NHPA specified semiconductor projects that receive financial assistance under the William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021.Next, the bill allows the Department of Commerce to serve as the lead agency for the review of a semiconductor project that receives such financial assistance but is not exempted from review under NEPA. A single environmental document and joint record of decision must be prepared for a semiconductor project.&nbsp;In completing the environmental review, Commerce may adopt a prior study or decision under certain circumstances. The bill also allows a state to assume the responsibility of an environmental review under NEPA for a semiconductor project.Finally, the bill sets a statute of limitations for certain claims under NEPA."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "2228"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Congressional Budget Office Data Access Act",
+        "date": "2024-10-02",
+        "summary": "Congressional Budget Office Data Access Act This bill exempts the Congressional Budget Office (CBO) from the Privacy Act of 1974 to expedite the sharing of data and information between CBO and federal agencies.  Under current law, the Privacy Act of 1974 generally prohibits federal agencies from disclosing certain records pertaining to an individual without the individual's prior written consent. This bill allows federal agencies to disclose such records to CBO (or to an authorized representative of CBO) without obtaining the prior written consent of the individual.  Several agencies, including the Government Accountability Office and the National Archives and Records Administration, are currently exempt from these requirements, and this bill adds CBO to the list of exemptions."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "1549"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Enhanced Presidential Security Act of 2024",
+        "date": "2024-10-01",
+        "summary": "Enhanced Presidential Security Act of 2024This bill requires the U.S. Secret Service to apply the same standards for determining the number of agents required to protect Presidents, Vice Presidents, and major Presidential and Vice Presidential candidates. (The Department of Homeland Security identifies major Presidential and Vice Presidential candidates after consultation with an advisory committee composed of congressional leaders.)"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "9106"
+      }
+    },
+    {
+      "lawData": {
+        "title": "CTPAT Pilot Program Act of 2023",
+        "date": "2024-10-01",
+        "summary": "Customs Trade Partnership Against Terrorism Pilot Program Act of 2023 or the CTPAT Pilot Program Act of 2023 This bill requires the Department of Homeland Security to carry out a pilot program that assesses whether allowing certain entities to participate in the Customs Trade Partnership Against Terrorism (CTPAT) would enhance port security, combat terrorism, prevent supply chain security breaches, or otherwise meet the goals of CTPAT. Such entities are (1) non-asset-based third-party logistics providers that arrange international freight transportation and are licensed by the Department of Transportation; or (2) asset-based third-party logistics providers that facilitate cross-border activity, are licensed or bonded by specified federal agencies, and execute logistics services using their own warehousing assets and resources. The bill requires the Government Accountability Office to report on the effectiveness of CTPAT."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "794"
+      }
+    },
+    {
+      "lawData": {
+        "title": "GAO Database Modernization Act of 2023",
+        "date": "2024-10-01",
+        "summary": "GAO Database Modernization Act of 2023 This bill requires federal agencies to report to the Government Accountability Office certain information about agency rules that are made ineffective due to an agency action or other reason."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "679"
+      }
+    },
+    {
+      "lawData": {
+        "title": "IMPACTT Human Trafficking Act",
+        "date": "2024-10-01",
+        "summary": "IMPACTT Human Trafficking Act This bill establishes a program within U.S. Immigration and Customs Enforcement, Homeland Security Investigations (HSI) to provide outreach and training to HSI employees who have been exposed to various forms of trauma in working with victims of human trafficking. The bill also provides statutory authority for the HSI Victim Assistance Program. The bill ceases to have effect beginning October 1, 2030."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "670"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Veteran Improvement Commercial Driver License Act of 2023",
+        "date": "2024-10-01",
+        "summary": "Veteran Improvement Commercial Driver License Act of 2023 This bill authorizes approval of certain commercial driver education programs for purposes of Department of Veterans Affairs (VA) educational assistance if the programs meet specified requirements. Under current law, the VA may not approve enrollment of a veteran in courses for programs that do not lead to a standard degree that are offered at a new branch (i.e., a branch that has been operating for less than 2 years) of an educational institution. Under the bill, a commercial driver education program offered at a new branch of an educational institution may be approved if it is appropriately licensed and uses the same curriculum as a commercial driver education program offered by the educational institution at another location that is already approved for purposes of VA educational assistance. The educational institution must submit a report demonstrating the curriculum at the new branch is the same as the curriculum at the primary location in order to be exempt from the current prohibition against course approval at new branches."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "656"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Lake Tahoe Restoration Reauthorization Act",
+        "date": "2024-10-01",
+        "summary": "Lake Tahoe Restoration Reauthorization ActThis bill reauthorizes through September 30, 2034, activities to restore Lake Tahoe and its surrounding basin. Lake Tahoe is a large freshwater lake on the border of California and Nevada."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "612"
+      }
+    },
+    {
+      "lawData": {
+        "title": "A bill to designate the facility of the United States Postal Service located at 90 McCamly Street South in Battle Creek, Michigan, as the \"Sojourner Truth Post Office\".",
+        "date": "2024-10-01",
+        "summary": "Designates the facility of the United States Postal Service located at 90 McCamly Street South in Battle Creek, Michigan, as the \"Sojourner Truth Post Office.\""
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "3851"
+      }
+    },
+    {
+      "lawData": {
+        "title": "A bill to designate the facility of the United States Postal Service located at 155 South Main Street in Mount Clemens, Michigan, as the \"Lieutenant Colonel Alexander Jefferson Post Office\".",
+        "date": "2024-10-01",
+        "summary": "Designates the facility of the United States Postal Service located at 155 South Main Street in Mount Clemens, Michigan, as the \"Lieutenant Colonel Alexander Jefferson Post Office.\""
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "3640"
+      }
+    },
+    {
+      "lawData": {
+        "title": "A bill to designate the facility of the United States Postal Service located at 2075 West Stadium Boulevard in Ann Arbor, Michigan, as the \"Robert Hayden Post Office\".",
+        "date": "2024-10-01",
+        "summary": "Designates the facility of the United States Postal Service located at 2075 West Stadium Boulevard in Ann Arbor, Michigan, as the \"Robert Hayden Post Office.\""
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "3639"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Reuse Excess Property Act",
+        "date": "2024-10-01",
+        "summary": "Reuse Excess Property ActThis bill requires the General Services Administration (GSA) to make publicly available on the internet the data contained in specified federal agency reports on excess personal property. (Personal property is any property except real property and includes vehicles, furniture, and office equipment.)&nbsp;The bill also requires federal agencies to make public their internal guidance on using excess personal property to meet agency needs. Such guidance must include certain topics, such as (1) a requirement to consider excess personal property before buying new, and (2) how to evaluate the suitability of excess personal property for use. Federal agencies must also provide this information to the GSA.&nbsp;"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "2685"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Alzheimer’s Accountability and Investment Act",
+        "date": "2024-10-01",
+        "summary": "Alzheimer's Accountability and Investment ActThis bill requires the National Institutes of Health to annually submit, beginning in FY2024, an estimate of its budget and personnel needs for carrying out initiatives pursuant to the National Alzheimer's Project directly to the President for review and transmittal to Congress. The Department of Health and Human Services and the Advisory Council on Alzheimer's Research, Care, and Services may comment on the budget estimate but may not change it. The National Alzheimer's Project supports coordination of federal planning, research, and other efforts to address Alzheimer's disease and related dementias."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "134"
+      }
+    },
+    {
+      "lawData": {
+        "title": "NAPA Reauthorization Act",
+        "date": "2024-10-01",
+        "summary": "NAPA Reauthorization ActThis bill extends through 2035 and makes other changes to the National Alzheimer's Project. This project supports coordination of federal planning, programs, and other efforts to address Alzheimer's disease and related dementias.In particular, the bill incorporates a focus on promoting healthy aging and reducing risk factors associated with cognitive decline.The bill also expands the Advisory Council on Alzheimer's Research, Care, and Services to include additional members, such as (1) a researcher with experience recruiting and retaining diverse clinical trial participants, (2) an individual diagnosed with Alzheimer's disease, and (3) representatives from additional federal agencies (e.g., the Department of Justice)."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "133"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Congressional Budget Office Data Sharing Act",
+        "date": "2024-09-30",
+        "summary": "Congressional Budget Office Data Sharing ActThis bill specifies that the Congressional Budget Office (CBO) is authorized to obtain data from executive branch agencies with or without a written agreement if CBO maintains the same level of confidentiality that is required of the agency that provides the data.The bill also requires CBO to submit a report to Congress regarding requests for information from executive branch agencies and any challenges it faced in accessing the information."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "7032"
+      }
+    },
+    {
+      "lawData": {
+        "title": "United States Commission on International Religious Freedom Reauthorization Act of 2024",
+        "date": "2024-09-30",
+        "summary": "United States Commission on International Religious Freedom Reauthorization Act of 2024This bill reauthorizes the U.S. Commission on International Religious Freedom through FY2026."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "3764"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Continuing Appropriations and Extensions Act, 2025",
+        "date": "2024-09-26",
+        "summary": "Continuing Appropriations and Extensions Act, 2025This bill provides continuing FY2025 appropriations for federal agencies, provides additional funding for the U.S. Secret Service, and extends various expiring programs and authorities.Specifically, the bill provides continuing FY2025 appropriations to federal agencies through the earlier of December 20, 2024, or the enactment of the applicable appropriations act. It is known as a continuing resolution (CR) and prevents a government shutdown that would otherwise occur if the FY2025 appropriations bills have not been enacted when FY2025 begins on October 1, 2024.&nbsp;The CR funds most programs and activities at the FY2024 levels with several exceptions that provide funding flexibility and additional appropriations for various programs. For example, the bill provides additional funding for the Secret Service to carry out protective operations, including for the 2024 presidential campaign and National Special Security Events.&nbsp;In addition, the bill extends several expiring programs and authorities, includingseveral public health programs,various programs and authorities related to veterans,the National Flood Insurance Program,the Temporary Assistance for Needy Families (TANF) program,the Food for Peace program,the authorities of the&nbsp;U.S. Parole Commission,the Department of Homeland Security (DHS) National Cybersecurity Protection System,authorities for DHS and the Department of Justice to take certain actions to mitigate a credible threat from an unmanned aircraft system,&nbsp;several Department of Agriculture programs and authorities,the Department of Defense's authority to use funds for certain military construction projects, andauthorities for sanctions related to human rights abuses in Hong Kong.&nbsp;&nbsp;"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "9747"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Poison Control Centers Reauthorization Act of 2024",
+        "date": "2024-09-26",
+        "summary": "Poison Control Centers Reauthorization Act of 2024This act reauthorizes through FY2029 several poison control center resources and services.Specifically, the act reauthorizes (1) the national poison control center help line (i.e., the&nbsp;Poison Help line), (2) a national media campaign to educate the public and health care providers about the help line and other resources, and (3) a grant program to support the ability of poison control centers to provide services."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "4351"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Billie Jean King Congressional Gold Medal Act",
+        "date": "2024-09-26",
+        "summary": "Billie Jean King Congressional Gold Medal ActThis bill provides for&nbsp;the award of a Congressional Gold Medal to Billie Jean King in recognition of her&nbsp;courageous a groundbreaking leadership in advancing equal rights for women&nbsp;in athletics, education, and society."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "2861"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Dustoff Crews of the Vietnam War Congressional Gold Medal Act",
+        "date": "2024-09-26",
+        "summary": "Dustoff Crews of the Vietnam War Congressional Gold Medal Act This bill provides for the award of a single Congressional Gold Medal to Dustoff crews (helicopter air ambulance crews) of the Vietnam War in recognition of their heroic military service."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "2825"
+      }
+    },
+    {
+      "lawData": {
+        "title": "SIREN Reauthorization Act",
+        "date": "2024-09-26",
+        "summary": "Supporting and Improving Rural EMS Needs Reauthorization Act or the SIREN Reauthorization Act This bill reauthorizes through FY2028 and otherwise modifies a grant program for improving emergency medical services (EMS) in rural areas. The modifications include requiring the use of grant funds to train EMS personnel on caring for individuals with mental health and substance use disorders in emergency situations and permitting the use of grant funds to acquire overdose reversal drugs and devices."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "265"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Launch Communications Act",
+        "date": "2024-09-26",
+        "summary": "Launch Communications ActThis bill requires the Federal Communications Commission (FCC) to facilitate access to specified broadband spectrum frequencies for commercial space launches and reentries.Under current law, commercial missions launching from the United States to space must use government-owned spectrum to communicate with the rockets during launch, and private companies must apply to the FCC to receive special temporary authority to use such spectrum. On June 28, 2021, the FCC issued a final rule adopting a nonfederal secondary allocation of the 2200-2290 megahertz frequencies of the electromagnetic spectrum for use during commercial space launches and reentries.The bill requires the FCC to (1) adopt service rules for access to additional frequencies for commercial space launches and reentries and complete associated rulemaking activities (e.g., those that set technical specifications and eligibility requirements), and (2) allocate the frequencies.The FCC must also streamline the process for access authorizations, including by providing for (1) authorizations to access specified frequencies for multiple commercial space launches and reentries from one or more federal or private launch or reentry sites, (2) authorizations for multiple uses of such frequencies for a commercial space launch or reentry, (3) electronic filing and processing of access applications, and (4) improved coordination between the FCC and the National Telecommunications and Information Administration to increase the speed of the review of such applications.&nbsp;"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "1648"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Veterans Benefits Continuity and Accountability Supplemental Appropriations Act, 2024",
+        "date": "2024-09-20",
+        "summary": "Veterans Benefits Continuity and Accountability Supplemental Appropriations Act, 2024This bill provides FY2024 supplemental appropriations to the Veterans Benefits Administration (VBA) within the Department of Veterans Affairs (VA) and establishes reporting requirements related to VA funding and projected shortfalls.&nbsp;&nbsp;Specifically, the bill provides FY2024 supplemental appropriations to the VBA forCompensation and Pensions, and&nbsp;Readjustment Benefits.In addition, the bill requires the VA to report to Congress on (1) corrections the VA will make to improve forecasting, data quality, and budget assumptions relating to budget submissions for the VBA's Compensation and Pensions and Readjustment Benefits accounts; and (2) the status of funds provided to these accounts for FY2024, FY2025, and FY2026 by this or any other act.The bill also requires the VA Office of Inspector General to report to Congress on (1) the circumstances and causes of certain funding shortfalls that the VA has projected for the VBA and the Veterans Health Administration, and (2) actions that the VA can take to improve the accuracy of the supporting information submitted with the President's budget and prevent funding shortfalls.&nbsp;"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "9468"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Royalty Resiliency Act",
+        "date": "2024-09-20",
+        "summary": "Royalty Resiliency ActThis bill modifies the process under which oil and gas leaseholders who have entered into certain joint drilling agreements (i.e., a communitization agreement or a unit agreement, except agreements containing Indian lands) to drill wells on leased land pay royalties to the Department of the Interior under the Federal Oil and Gas Royalty Management Act of 1982.Under current law, Interior must issue a determination of allocations of royalty payments for oil and gas production under a joint agreement within 120 days of a request for determination. Generally, the first leaseholder to drill must pay any royalties due to Interior for all oil and gas production on the land subject to the agreement until Interior determines the royalty allocations of each leaseholder. If Interior fails to issue the determination by that deadline, then it must waive interest due on royalty obligations until the end of the month following the month in which the determination was made.Under the bill, a leaseholder must pay royalties on oil and gas production based on the lessee's proposed allocation of production under the joint agreement until Interior issues a determination of royalty allocations. After Interior issues the determination, then the lessee must correct, if necessary, the amount of royalties paid by the end of the third month following the month in which the lessee received the determination from Interior. Subject to the full and timely payment of monthly royalties in accordance with the agreement,&nbsp;Interior must waive interest due on royalty obligations until the end of the third month.&nbsp;&nbsp;&nbsp;"
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "7377"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Starr–Camargo Bridge Expansion Act",
+        "date": "2024-09-13",
+        "summary": "Starr–Camargo Bridge Expansion ActThis bill authorizes the Starr-Camargo Bridge Company to expand the Starr-Camargo international toll bridge near Rio Grande City, Texas, including expanding and adding adjacent spans to the existing bridge."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "s",
+        "billNumber": "1608"
+      }
+    },
+    {
+      "lawData": {
+        "title": "Preventing the Financing of Illegal Synthetic Drugs Act",
+        "date": "2024-09-13",
+        "summary": "Preventing the Financing of Illegal Synthetic Drugs Act This bill requires the Government Accountability Office to carry out a study on illicit financing in connection with the trafficking of synthetic drugs, including fentanyl and methamphetamine, fentanyl- and methamphetamine-related substances, Captagon, and fentanyl and methamphetamine precursors, and to report to Congress."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "1076"
+      }
     }
   ]
 }

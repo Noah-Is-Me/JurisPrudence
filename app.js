@@ -10,10 +10,11 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import flash from "connect-flash"
 import dotenv from "dotenv";
+import cron from "node-cron";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { filterAllPastLaws } from "./openai-api.js";
-import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes } from "./congress-api-law.js";
+import { filterAllPastLaws, filterLaws } from "./openai-api.js";
+import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes, getNewLaws } from "./congress-api-law.js";
 import { fetchRepsFromAddress, getLastName } from "./civicInfo-api.js";
 
 if (process.env.NODE_ENV !== "production") {
@@ -95,6 +96,36 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
+
+cron.schedule("0 12 * * *", function () {
+    updateLaws();
+}, {
+    scheduled: true,
+    timezone: "America/New_York"
+});
+// The law cache and profiles update every day at 12:00 PM while the app is running.
+
+async function updateLaws() {
+    console.log("Updating laws...");
+    const newLaws = await getNewLaws();
+
+    try {
+        const users = await User.find({});
+
+        //for (let user of users) {
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+
+            const filteredLaws = await filterLaws(user.bio, newLaws);
+            user.laws.push(...filteredLaws);
+
+            await user.save();
+            console.log(`Updated ${user.username}`);
+        }
+    } catch (error) {
+        console.error('Error updating ${user.username}:', error);
+    }
+}
 
 // root page
 app.get("/", function (req, res) {
