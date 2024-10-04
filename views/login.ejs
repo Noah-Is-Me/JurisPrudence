@@ -13,13 +13,23 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <h1 class="navbar-header">Login</h1>
+
+        <div class="navbar-content">
+            <a class="navbar-link" href="/">Home</a>
+            <a class="navbar-link" id="current-page" href="/login">Login</a>
+            <a class="navbar-link" href="/register">Register</a>
+            <a class="navbar-link" href="/profile">Profile</a>
+            <a class="navbar-link" href="/laws">Laws</a>
+            <a class="navbar-link" href="/about">About</a>
+        </div>
+    </nav>
+
     <%- include('partials/flash')%>
 
-        <a href="/"><button id="home-button">Home</button></a>
-
-        <div id="background-div">
+        <main>
             <div id="login-container">
-
                 <div id="login-div">
                     <h1>Login</h1>
                     <form action="/login" method="post">
@@ -39,7 +49,8 @@
                 </div>
 
             </div>
-        </div>
+
+        </main>
 
         <script>
 

@@ -1,11 +1,4 @@
-#background-div {
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-
+main {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,8 +10,8 @@
 }
 
 #login-container {
-    width: 350px;
-    height: 500px;
+    width: 360px;
+    height: 510px;
     background-color: rgba(255, 255, 255, 0.96);
     border: 5px solid black;
     padding: 15px;
@@ -69,18 +62,25 @@ h3 {
 }
 
 #login-button {
-    background-color: rgb(35, 160, 133);
+    background-color: white;
+    border: rgb(35, 160, 133) solid 3px;
+    color: rgb(35, 160, 133);
     width: 50%;
 }
 
 #login-button:hover {
     background-color: rgb(76, 179, 156);
+    color: white;
 }
 
 #signup-button {
     width: 100%;
+    background-color: white;
+    border: rgb(48, 100, 160) solid 3px;
+    color: rgb(48, 100, 160);
 }
 
-a {
-    width: 50%;
+#signup-button:hover {
+    background-color: rgb(63, 109, 161);
+    color: white;
 }

@@ -86,6 +86,7 @@ input {
     justify-content: start;
 }
 
-.navbar-link {
-    margin-bottom: 5px;
+#sections-div a {
+    color: black;
+    font-size: small;
 }

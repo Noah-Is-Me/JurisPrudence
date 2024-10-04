@@ -1,12 +1,7 @@
-body {
+main {
     background-image: url("/images/Sand Tileable.jpg");
-    background-size: contain;
     background-repeat: repeat;
     background-position: center;
-
-    overflow-y: scroll;
-    /*scrollbar-gutter: stable;*/
-    /* This sucks */
 }
 
 /*

@@ -141,6 +141,7 @@ app.get("/test", function (req, res) {
 
 
 app.get("/login",
+    /*
     function (req, res, next) {
         //console.log(req.session);
         //console.log(req.session.user);
@@ -148,7 +149,7 @@ app.get("/login",
             return res.redirect("/profile");
         }
         next();
-    },
+    },*/
     function (req, res) {
         res.render("login", { flashMessages: req.flash() });
     }
@@ -165,6 +166,15 @@ app.post("/login",
             next();
         },
         */
+    /*
+ function (req, res, next) {
+     //console.log(req.session);
+     //console.log(req.session.user);
+     if (req.session && req.session.passport) {
+         return res.redirect("/profile");
+     }
+     next();
+ },*/
     passport.authenticate("local",
         {
             failureFlash: "Invalid username or password!",
@@ -246,7 +256,7 @@ app.get("/profile", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("users/profile", { user, flashMessages: req.flash() });
+        res.render("profile", { user, flashMessages: req.flash() });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
@@ -267,7 +277,7 @@ app.get("/laws", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("users/laws", { user, flashMessages: req.flash() });
+        res.render("laws", { user, flashMessages: req.flash() });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
