@@ -4,53 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yucky Politicians | test</title>
+    <title>Yucky Politicians</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/test-page.css">
+    <link rel="stylesheet" href="/css/test.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
 </head>
 
 <body>
     <%- include('partials/flash')%>
 
-        <header>
-            <nav>
-                <div class="logo">Law Insight</div>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#ho6767w-it-works">Guide</a></li>
-                </ul>
-            </nav>
+    <div id="home-div">
+        <image id="home-image" src="/images/WHO'S THAT.png"></image>
 
-        </header>
+        <div id="start-div-container">
+            <div id="start-div">
+                <h1 id="start-text">LEARN WHO THEY ARE HERE:</h1>
+                <a href="/login"><button id="start-button">Log In</button></a>
 
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Discover Congressional Laws That Impact You</h1>
-                <p>Input your details to find relevant laws and regulations tailored to your circumstances.</p>
-                <a href="/login" class="cta-button">Get Started</a>
+                <a href="/test"><button id="start-button">Real Homepage</button></a>
+                <p>(We will not sell your data to China)</p>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="about">
-            <div class="poem">
-                <p>
-                    Three bills for construction-workers under the sky,<br>
-                    Seven for the coal-miners in their halls of stone,<br>
-                    Nine for seniors age 80+ doomed to die<br>
-                    One for the 1% on their dark throne;<br>
-                    In the Land of Congress where the Shadows lie.<br>
-                    <br>
-                    One App to rule the bills, one App to find them,<br>
-                    One App to bring them all, and in the 2024 election cycle,<br>
-                    teach you about your representatives' political ideologies;<br>
-                    <br>
-                    In the Land of Congress where the Shadows lie.<br>
-                </p>
-            </div>
-        </section>
+    <script>
 
+    </script>
 </body>
 
 </html>

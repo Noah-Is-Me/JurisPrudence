@@ -1,29 +1,27 @@
-main {
+body {
     background-image: url("/images/Sand Tileable.jpg");
     background-repeat: repeat;
     background-position: center;
 }
 
-/*
-#home-button {
-    left: 30px;
-}
-    */
 
 #congresses-div {
-    /*left: 14px;*/
     position: absolute;
-    background-color: whitesmoke;
-    padding: 10px 10px 20px 15px;
-    padding-bottom: 5px;
+    width: 200px;
+    height: auto;
+    left: 30px;
+    margin-top: 50px;
+    padding: 20px;
+    padding-top: 10px;
+
+    border: black solid 5px;
+    background-color: white;
+
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    width: 200px;
-    border: black solid 5px;
-    border-left: none;
-    margin-top: 50px;
-    height: auto;
+    justify-content: flex-start;
+
+    text-align: center;
 }
 
 h2 {
@@ -31,7 +29,28 @@ h2 {
 }
 
 .congress-link {
-    margin-bottom: 5px;
+    margin-top: 20px;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-bottom: #0a1319 solid 1px;
+    border-radius: 0;
+
+    transition: 0.2s;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    text-align: center;
+}
+
+.congress-link:hover {
+    background-color: rgba(211, 211, 211, 0.212);
+}
+
+.congress-link.active {
+    background-color: rgba(211, 211, 211, 0.212);
 }
 
 #law-list-container {
@@ -43,6 +62,7 @@ h2 {
     margin: auto;
     flex-direction: column;
     padding: 0;
+    margin-bottom: 50px;
 }
 
 

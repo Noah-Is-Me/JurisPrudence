@@ -525,7 +525,7 @@ export function getRepresentativeVote(voteData, representative, repType) {
         }
 
         console.log("Error! House representative not found or something.");
-        return "Error! Tell Congress to fix their API."
+        return "Vote data unavailable."
     }
 
     else if (repType == "senate") {
@@ -545,7 +545,7 @@ export function getRepresentativeVote(voteData, representative, repType) {
         }
 
         console.log("Error! House representative not found or something.");
-        return "Error! Tell Congress to fix their API."
+        return "Vote data unavailable."
     }
 
     // TODO: This system is bad because if the vote is unanimous, it says the representative voted Yea even if they weren't in Congress at the time.
@@ -589,7 +589,7 @@ export function getRepresentativesVote(voteData, repData) {
         }
         else {
             console.log("Error! House representative not found or something.");
-            votes.houseVote = "Error! Tell Congress to fix their API.";
+            votes.houseVote = "Vote data unavailable.";
         }
     }
 
@@ -629,17 +629,17 @@ export function getRepresentativesVote(voteData, repData) {
             else {
                 if (votes.senateVote1 == null) {
                     console.log("Error! Senate representative not found or something. Trigger 1.");
-                    votes.senateVote1 = "Error! Tell Congress to fix their API.";
+                    votes.senateVote1 = "Vote data unavailable.";
                 } else {
                     console.log("Error! Senate representative not found or something. Trigger 2.");
-                    votes.senateVote2 = "Error! Tell Congress to fix their API.";
+                    votes.senateVote2 = "Vote data unavailable.";
                 }
             }
         }
         else {
             console.log("Error! Senate representative not found or something.");
-            votes.senateVote1 = "Error! Tell Congress to fix their API.";
-            votes.senateVote2 = "Error! Tell Congress to fix their API.";
+            votes.senateVote1 = "Vote data unavailable.";
+            votes.senateVote2 = "Vote data unavailable.";
         }
     }
 
@@ -732,7 +732,7 @@ export function analyzeVotes(voteData, repData) {
 
     houseBlock: { // I want to break out of this scope
         if (houseVote == null) {
-            votes.houseVote = "Voting data unavailable.";
+            votes.houseVote = "Vote data unavailable.";
 
             for (let party in voteBreakdown.house) {
                 for (let prop in voteBreakdown.house[party]) {
@@ -797,15 +797,15 @@ export function analyzeVotes(voteData, repData) {
         }
         else {
             console.log("Error! House representative not found or something.");
-            votes.houseVote = "Error! Tell Congress to fix their API.";
+            votes.houseVote = "Vote data unavailable.";
         }
     }
 
 
     senateBlock: {
         if (senateVote == null) {
-            votes.senateVote1 = "Voting data unavailable.";
-            votes.senateVote2 = "Voting data unavailable.";
+            votes.senateVote1 = "Vote data unavailable.";
+            votes.senateVote2 = "Vote data unavailable.";
 
             for (let party in voteBreakdown.senate) {
                 for (let prop in voteBreakdown.senate[party]) {
@@ -886,17 +886,17 @@ export function analyzeVotes(voteData, repData) {
             else {
                 if (votes.senateVote1 == null) {
                     console.log("Error! Senate representative not found or something. Trigger 1.");
-                    votes.senateVote1 = "Error! Tell Congress to fix their API.";
+                    votes.senateVote1 = "Vote data unavailable.";
                 } else {
                     console.log("Error! Senate representative not found or something. Trigger 2.");
-                    votes.senateVote2 = "Error! Tell Congress to fix their API.";
+                    votes.senateVote2 = "Vote data unavailable.";
                 }
             }
         }
         else {
             console.log("Error! Senate representative not found or something.");
-            votes.senateVote1 = "Error! Tell Congress to fix their API.";
-            votes.senateVote2 = "Error! Tell Congress to fix their API.";
+            votes.senateVote1 = "Vote data unavailable.";
+            votes.senateVote2 = "Vote data unavailable.";
         }
     }
 

@@ -1,23 +1,108 @@
 body {
-  color: white;
-  width: 95%;
-  margin: auto;
+
+  background-image: url("/images/cool tileable.png");
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 30%;
+
+  background-color: whitesmoke;
 }
 
-#grids-container {
+#law-info-container {
+  background-color: white;
+  border: 5px solid black;
+  margin: 30px;
+  padding: 20px;
+  padding-top: 0;
+}
+
+#law-info-container h1 {
+  text-align: center;
+}
+
+#law-info-container h2 {
+  text-align: center;
+  font-weight: normal;
+  margin-bottom: 40px;
+}
+
+#law-info-container p {
+  line-height: 160%;
+}
+
+
+
+#vote-info-container {
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.child-container {
+.vote-info {
+  background-color: white;
+  border: 5px solid black;
+  margin: 30px;
+  margin-top: 0;
+  padding: 20px;
+  padding-top: 0;
+  flex: 1;
+}
+
+#house-vote-container {
+  margin-right: 15px;
+}
+
+#senate-vote-container {
+  margin-left: 15px;
+}
+
+.vote-info h1 {
+  text-align: center;
+}
+
+.rep-vote-container {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.rep-vote {
+  display: flex;
+  flex-direction: column;
+}
+
+.rep-vote h2 {
+  margin: 2px;
+}
+
+.vote-yea {
+  color: green;
+}
+
+.vote-nay {
+  color: red;
+}
+
+.vote-unavailable {
+  font-size: 20px;
+}
+
+
+.grid-container {
   flex: 1 1 0px;
   margin: 0px 50px;
   background-color: cadetblue;
+  border: 10px solid cadetblue;
 }
 
 .grid-label {
-  padding: 0px 20px;
+  margin: auto;
+  padding: 10px 20px;
+  padding-top: 0;
 }
 
 .grid {

@@ -117,6 +117,7 @@ async function updateLaws() {
             let user = users[i];
 
             const filteredLaws = await filterLaws(user.bio, newLaws);
+            user.newLaws.push(...filteredLaws);
             user.laws.push(...filteredLaws);
 
             await user.save();
@@ -129,29 +130,33 @@ async function updateLaws() {
 
 // root page
 app.get("/", function (req, res) {
-    res.render("index", { flashMessages: req.flash() });
+    res.render("index", {});
 });
 // This is how you make it start on a page!
 
+app.get("/about", function (req, res) {
+    res.render("about", {});
+});
 
 
 app.get("/test", function (req, res) {
-    res.render("test", { flashMessages: req.flash() });
+    res.render("test", {});
 });
 
 
 app.get("/login",
-    /*
-    function (req, res, next) {
+    async function (req, res, next) {
         //console.log(req.session);
         //console.log(req.session.user);
         if (req.session && req.session.passport) {
-            return res.redirect("/profile");
+            const user = await User.findById(req.user._id).exec();
+            return res.render("login", { user });
         }
         next();
-    },*/
+    },
     function (req, res) {
-        res.render("login", { flashMessages: req.flash() });
+        //console.log(req.flash());
+        res.render("login", { user: null });
     }
 );
 
@@ -177,33 +182,35 @@ app.post("/login",
  },*/
     passport.authenticate("local",
         {
-            failureFlash: "Invalid username or password!",
-            successFlash: "Welcome to Yucky Politicians!",
+            successFlash: true,
+            failureFlash: true,
+
             successRedirect: "/profile",
             failureRedirect: "/login",
         }
-    ));
+    )
+);
 
 app.get("/register", function (req, res) {
-    res.render("register", { flashMessages: req.flash() });
+    res.render("register", {});
 });
 
 
 // handle register logic
 app.post("/register", async function (req, res) {
-    const { username, password, bio, address, houseRep, senateRep1, senateRep2 } = req.body;
+    const { username, password, bio, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
         console.log("Filtering laws...");
         const filteredLaws = await filterAllPastLaws(bio);
 
         const reps = {
-            houseRep: getLastName(houseRep),
-            senateRep1: getLastName(senateRep1),
-            senateRep2: getLastName(senateRep2)
+            houseRep: houseRep,
+            senateRep1: senateRep1,
+            senateRep2: senateRep2
         }
 
-        const newUser = new User({ username, password, bio, laws: filteredLaws, reps });
+        const newUser = new User({ username, password, bio, laws: filteredLaws, reps, newLaws: filteredLaws });
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
@@ -234,13 +241,40 @@ app.post("/api/reps", async (req, res) => {
 });
 
 
+app.post("/remove-new-law/:index", async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const index = req.params.index;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        if (index >= 0 && index < user.newLaws.length) {
+            user.newLaws.splice(index, 1);
+            await user.save();
+
+            return res.status(200).json({ redirectUrl: "/profile" });
+        } else {
+            return res.status(400).json({ message: "Invalid index." });
+        }
+    }
+    catch (err) {
+        console.log("Error updating profile:", err);
+        return res.status(500).json({ message: "Error updating profile." });
+    }
+});
+
+
 app.get("/logout", function (req, res) {
     req.logout(function (err) {
         if (err) { return next(err); }
         req.flash("success", "See you later!");
         res.redirect("/");
     });
-})
+});
 
 app.get("/profile", async function (req, res) {
     if (!req.isAuthenticated()) {
@@ -256,12 +290,45 @@ app.get("/profile", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("profile", { user, flashMessages: req.flash() });
+        res.render("profile", { user });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
     }
 });
+
+app.post("/update-profile", async function (req, res) {
+    try {
+        const userId = req.user._id;
+        const updatedProperties = req.body;
+
+        if (updatedProperties.houseRep || updatedProperties.senateRep1 || updatedProperties.senateRep2) {
+            updatedProperties.reps = {
+                houseRep: updatedProperties.houseRep,
+                senateRep1: updatedProperties.senateRep1,
+                senateRep2: updatedProperties.senateRep2
+            };
+            delete updatedProperties.houseRep;
+            delete updatedProperties.senateRep1;
+            delete updatedProperties.senateRep2;
+        }
+
+        // console.log(updatedProperties);
+        // console.log(userId);
+
+
+        await User.findByIdAndUpdate(userId, { $set: updatedProperties });
+
+        req.flash("success", "Profile successfully updated!");
+
+        const section = req.body.section || 'general';
+        res.redirect(`/profile?section=${section}`);
+    }
+    catch (err) {
+        console.log('Error updating profile:', err);
+        res.status(500).send('Error updating profile.');
+    }
+})
 
 app.get("/laws", async function (req, res) {
     if (!req.isAuthenticated()) {
@@ -277,7 +344,7 @@ app.get("/laws", async function (req, res) {
             return res.redirect("/");
         }
 
-        res.render("laws", { user, flashMessages: req.flash() });
+        res.render("laws", { user });
     } catch (err) {
         req.flash("error", "Something went wrong.")
         res.redirect("/");
@@ -295,9 +362,9 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
     //let houseRepVote, senateRep1Vote, senateRep2Vote = null;
 
     const repData = {
-        houseRep: house_rep,
-        senateRep1: senate_rep_1,
-        senateRep2: senate_rep_2
+        houseRep: getLastName(house_rep),
+        senateRep1: getLastName(senate_rep_1),
+        senateRep2: getLastName(senate_rep_2)
     };
 
     const voteAnalysis = analyzeVotes(votes, repData);
@@ -345,7 +412,7 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
 
     //voteData = getRepresentativesVote(votes, repData);
 
-    res.render("law", { law, voteData, voteBreakdown, repData, colorData, flashMessages: req.flash() });
+    res.render("law", { law, voteData, voteBreakdown, repData, colorData });
 });
 
 

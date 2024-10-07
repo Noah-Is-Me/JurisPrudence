@@ -7,7 +7,11 @@
     <title>Yucky Politicians | Register</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/register.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
 </head>
 
 <body>
@@ -24,143 +28,259 @@
         </div>
     </nav>
 
-    <%- include('./partials/flash')%>
+    <%- include("partials/flash")%>
 
-        <main>
-            <div id="sections-div">
-                <h2>Sections</h2>
-                <a class="navbar-link" href="#basic-information">Basic Information</a>
-                <a class="navbar-link" href="#bio">Bio</a>
-                <a class="navbar-link" href="#representative-information">Representative Information</a>
-            </div>
+    <main>
+        <div id="sections-navbar">
+            <h3>Sections</h3>
+            <a href="#basic-information">Basic Information</a>
+            <a href="#contact-information">Contact Information</a>
+            <a href="#biography">Biography</a>
+            <a href="#address">Address</a>
+            <a href="#representative-information">Representative Information</a>
+        </div>
 
-            <div id="form-div">
-                <form id="information-form" action="register" method="post">
-                    <fieldset id="basic-information">
-                        <legend>Basic Information</legend>
+        <div id="form-div">
+            <form id="information-form" action="register" method="post">
+                <fieldset id="basic-information">
+                    <legend>Basic Information</legend>
 
-                        <label for="username" class="required">Username:</label>
-                        <input type="text" name="username" required>
+                    <label for="username" class="required">Username:</label>
+                    <input type="text" name="username" required>
 
-                        <label for="password" class="required">Password:</label>
-                        <input type="password" name="password" required>
+                    <label for="password" class="required">Password:</label>
+                    <input type="password" name="password" required>
 
-                    </fieldset>
+                </fieldset>
 
-                    <fieldset id="bio">
-                        <legend>Bio</legend>
+                <fieldset id="contact-information">
+                    <legend>Contact Information</legend>
 
-                        <label for="bio" class="required">Bio:</label>
-                        <input type="text" name="bio" required>
-                    </fieldset>
+                    <p>How may we contact you about new legislation that may impact you? (Leave
+                        unselected for none)</p>
 
-                    <fieldset id="address">
-                        <legend>Address</legend>
+                    <div class="form-select">
+                        <div class="form-select-option">
+                            <label for="email">Email</label>
+                            <input for="contact-method" id="email-checkbox" name="email" type="checkbox">
+                        </div>
 
-                        <label for="address" class="required">Street Address:</label>
-                        <input type="text" name="address" required>
+                        <div class="form-select-option">
+                            <label for="text">Text</label>
+                            <input for="contact-method" id="text-checkbox" name="text" type="checkbox">
+                        </div>
+                    </div>
 
-                        <label for="city" class="required">City:</label>
-                        <input type="text" name="city" required>
+                    <div id="email-input" class="hidden">
+                        <label for="email" class="required">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
 
-                        <label for="state" class="required">State:</label>
-                        <input type="text" name="state" required>
+                    <div id="phone-number-input" class="hidden">
+                        <label for="phone-number" class="required">Phone Number:</label>
+                        <input type="number" id="phone-number" name="phone-number" required>
+                    </div>
 
-                        <label for="zip" class="required">Zip Code:</label>
-                        <input type="number" name="zip" required>
-                    </fieldset>
+                </fieldset>
 
-                    <fieldset id="representative-information">
-                        <legend>Representative Information</legend>
+                <fieldset id="biography">
+                    <legend>Biography</legend>
 
-                        <h4>Click below to autofill your representative information using your address.</h4>
-                        <button type="button" id="autofill-btn">Autofill</button>
-                        <h4>Please review the information below and correct it if needed.</h4>
+                    <label for="bio" class="required">Bio:</label>
+                    <textarea name="bio" rows="10" required></textarea>
 
-                        <label for="houseRep" class="required">House Representative:</label>
-                        <input type="text" name="houseRep" required>
+                    <label for="interests">Personal Interests:</label>
+                    <ul class="interest-list" id="interest-list"></ul>
+                    <input type="text" id="interest-input" placeholder="Enter an interest">
+                    <button type="button" id="add-interest">Add Interest</button>
+                </fieldset>
 
-                        <label for="senateRep1" class="required">Senate Representative 1:</label>
-                        <input type="text" name="senateRep1" required>
+                <fieldset id="address">
+                    <legend>Address</legend>
 
-                        <label for="senateRep2" class="required">Senate Representative 2:</label>
-                        <input type="text" name="senateRep2" required>
+                    <p>Your address is optional and only used to autofill your representatives in the section
+                        below. Your address will <em>not</em>
+                        be saved.
+                    </p>
 
-                        <!--Ewww yucky html camel case-->
+                    <label for="address">Street Address:</label>
+                    <input type="text" name="address">
 
-                    </fieldset>
+                    <label for="city">City:</label>
+                    <input type="text" name="city">
 
-                    <button id="submit-button" type="submit">Submit</button>
-                </form>
-            </div>
-        </main>
+                    <label for="state">State:</label>
+                    <input type="text" name="state">
+
+                    <label for="zip">Zip Code:</label>
+                    <input type="number" name="zip">
+                </fieldset>
+
+                <fieldset id="representative-information">
+                    <legend>Representative Information</legend>
+
+                    <p>Click below to autofill your representative information using your address.</p>
+                    <button type="button" id="autofill-btn">Autofill</button>
+                    <h4>Please review the information below and correct it if needed.</h4>
+
+                    <label for="houseRep" class="required">House Representative:</label>
+                    <input type="text" name="houseRep" required>
+
+                    <label for="senateRep1" class="required">Senate Representative 1:</label>
+                    <input type="text" name="senateRep1" required>
+
+                    <label for="senateRep2" class="required">Senate Representative 2:</label>
+                    <input type="text" name="senateRep2" required>
+
+                    <!--Ewww yucky html camel case-->
+
+                </fieldset>
+
+                <button id="submit-button" type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
 
 
-        <script>
-            async function fetchRepresentatives(address) {
-                try {
-                    const response = await fetch("/api/reps", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ address })
-                    });
+    <script>
+        async function fetchRepresentatives(address) {
+            try {
+                const response = await fetch("/api/reps", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ address })
+                });
 
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-
-                    const reps = await response.json();
-                    return reps;
-
-                    // For example, display them on the page
-                } catch (error) {
-                    console.error("Error fetching representatives:", error);
-                    return null;
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
                 }
+
+                const reps = await response.json();
+                return reps;
+
+                // For example, display them on the page
+            } catch (error) {
+                console.error("Error fetching representatives:", error);
+                return null;
             }
+        }
 
-            $(document).ready(function () {
-                const $addressInput = $('input[name="address"]');
-                const $cityInput = $('input[name="city"]');
-                const $stateInput = $('input[name="state"]');
-                const $zipInput = $('input[name="zip"]');
-                const $houseRepInput = $('input[name="houseRep"]');
-                const $senateRep1Input = $('input[name="senateRep1"]');
-                const $senateRep2Input = $('input[name="senateRep2"]');
+        $(document).ready(function () {
+            const $addressInput = $("input[name='address']");
+            const $cityInput = $("input[name='city']");
+            const $stateInput = $("input[name='state']");
+            const $zipInput = $("input[name='zip']");
+            const $houseRepInput = $("input[name='houseRep']");
+            const $senateRep1Input = $("input[name='senateRep1']");
+            const $senateRep2Input = $("input[name='senateRep2']");
 
-                $("#autofill-btn").click(function () {
-                    const address = $addressInput.val();
-                    const city = $cityInput.val();
-                    const state = $stateInput.val();
-                    const zip = $zipInput.val();
+            $("#autofill-btn").click(function () {
+                const address = $addressInput.val();
+                const city = $cityInput.val();
+                const state = $stateInput.val();
+                const zip = $zipInput.val();
 
-                    if (address && city && zip && state) {
-                        const fullAddress = `${address}, ${city} ${state} ${zip.toString()}`;
-                        fetchRepresentatives(fullAddress)
-                            .then(function (reps) {
-                                // Update the representative fields with the returned values
-                                $houseRepInput.val(reps.houseRep || "");
-                                $senateRep1Input.val(reps.senateRep1 || "");
-                                $senateRep2Input.val(reps.senateRep2 || "");
-                            })
-                            .catch(function (error) {
-                                console.error("Error fetching representatives:", error);
-                                // Optionally clear the fields or handle the error appropriately
-                                $houseRepInput.val("");
-                                $senateRep1Input.val("");
-                                $senateRep2Input.val("");
-                            });
-                    } else {
-                        // Optionally, clear the fields if the address is empty
-                        $houseRepInput.val("");
-                        $senateRep1Input.val("");
-                        $senateRep2Input.val("");
+                if (address && city && zip && state) {
+                    const fullAddress = `${address}, ${city} ${state} ${zip.toString()}`;
+                    fetchRepresentatives(fullAddress)
+                        .then(function (reps) {
+                            $houseRepInput.val(reps.houseRep || "");
+                            $senateRep1Input.val(reps.senateRep1 || "");
+                            $senateRep2Input.val(reps.senateRep2 || "");
+                        })
+                        .catch(function (error) {
+                            console.error("Error fetching representatives:", error);
+                            $houseRepInput.val("");
+                            $senateRep1Input.val("");
+                            $senateRep2Input.val("");
+                        });
+                } else {
+                    $houseRepInput.val("");
+                    $senateRep1Input.val("");
+                    $senateRep2Input.val("");
+                }
+            });
+
+
+            // Highlight sections when scrolling
+            const sections = $("fieldset");
+            const navLinks = $("#sections-navbar a");
+
+            function calcScroll() {
+                let scrollPosition = $(this).scrollTop();
+
+                sections.each(function () {
+                    const sectionTop = $(this).offset().top - 200;
+                    const sectionBottom = sectionTop + $(this).outerHeight();
+                    const sectionId = $(this).attr("id");
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        navLinks.removeClass("active");
+                        $("#sections-navbar a[href='#" + sectionId + "']").addClass("active");
                     }
                 });
+            }
+
+            $(window).on("scroll", function () {
+                calcScroll();
             });
-        </script>
+            calcScroll();
+
+
+            // Scroll to section when using navbar
+            $('#sections-navbar a').click(function (e) {
+                e.preventDefault();
+                const target = $(this).attr('href');
+
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 150
+                }, 500);
+            });
+
+
+
+            // Contact section checkboxes
+            $('#email-checkbox').change(function () {
+                $('#email-input').toggleClass('hidden', !this.checked);
+                $('#email').prop('required', this.checked);
+            });
+
+            $('#text-checkbox').change(function () {
+                $('#phone-number-input').toggleClass('hidden', !this.checked);
+                $('#phone-number').prop('required', this.checked);
+            });
+
+
+
+
+            // Interest list 
+            $('#add-interest').click(function () {
+                const interestText = $('#interest-input').val().trim();
+                if (interestText !== '') {
+                    addInterest(interestText);
+                    $('#interest-input').val('');
+                }
+            });
+
+            function addInterest(interest) {
+                const li = $('<li></li>').text(interest);
+                const deleteButton = $('<button type="button" class="delete-interest">x</button>');
+
+                li.append(deleteButton);
+                $('#interest-list').append(li);
+
+                deleteButton.click(function () {
+                    li.remove();
+                });
+            }
+
+
+        });
+
+
+    </script>
 </body>
 
 </html>

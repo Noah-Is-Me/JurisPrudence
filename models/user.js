@@ -5,10 +5,11 @@ const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     bio: String,
-    //firstName: String,
-    //lastName: String,
+    email: String,
+    phoneNumber: Number,
     laws: Array,
-    reps: Object
+    reps: Object,
+    newLaws: Array
 });
 
 UserSchema.plugin(passportLocalMongoose);

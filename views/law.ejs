@@ -7,47 +7,52 @@
     <title>Yucky Politicians | Law</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/law.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
 </head>
 
 <body>
+    <nav class="navbar">
+        <h1 class="navbar-header">Law Breakdown</h1>
+
+        <div class="navbar-content">
+            <a class="navbar-link" href="/">Home</a>
+            <a class="navbar-link" href="/login">Login</a>
+            <a class="navbar-link" href="/register">Register</a>
+            <a class="navbar-link" href="/profile">Profile</a>
+            <a class="navbar-link" href="/laws">Laws</a>
+            <a class="navbar-link" href="/about">About</a>
+        </div>
+    </nav>
+
     <%- include('partials/flash')%>
 
-        <div>
-            <h1>
-                <%= law.lawData.title %>
-            </h1>
-            <h2>
-                <%= law.lawData.date %>
-            </h2>
-            <p>
-                <%= law.lawData.summary %>
-            </p>
+    <main>
+        <div id="law-info-container">
+            <h1><%= law.lawData.title %></h1>
+            <h2>Passed <b><%= law.lawData.date %></b> by <b>Congress <%= law.requestData.congress %></b></h2>
 
-            <h3>Your representatives' vote:</h3>
-            <div>
-                <% if (repData.houseRep!=null) { %>
-                    <h2>
-                        <%= repData.houseRep %>: <%= voteData.houseVote %>
-                    </h2>
-                    <% }%>
-            </div>
-            <div>
-                <% if (repData.senateRep1!=null) { %>
-                    <h2>
-                        <%= repData.senateRep1 %>: <%= voteData.senateVote1 %>
-                    </h2>
-                    <% }%>
-            </div>
-            <div>
-                <% if (repData.senateRep2!=null) { %>
-                    <h2>
-                        <%= repData.senateRep2 %>: <%= voteData.senateVote2 %>
-                    </h2>
-                    <% }%>
-            </div>
-            <div id="grids-container">
-                <div class="child-container">
+            <h3>Official Summary:</h3>
+            <p><%= law.lawData.summary %></p>
+        </div>
+
+        <div id="vote-info-container">
+            <div class="vote-info" id="house-vote-container">
+                <h1>House of Representatives</h1>
+
+                <div class="rep-vote-container">
+                    <div class="rep-vote">
+                        <% if (repData.houseRep!=null) { %>
+                        <h2><%= repData.houseRep %>:</h2>
+                        <h2 class="vote-text"><%= voteData.houseVote %></h2>
+                        <% }%>
+                    </div>
+                </div>
+
+                <div class="grid-container">
                     <h2 class="grid-label">House Vote Breakdown</h2>
                     <div class="grid">
                         <div class="cell"></div>
@@ -65,15 +70,15 @@
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.house.democratic.yes %>;">
-                                <p>
-                                    <%= voteBreakdown.house.democratic.yes %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.house.democratic.yes %>
+                            </p>
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.house.democratic.no %>;">
-                                <p>
-                                    <%= voteBreakdown.house.democratic.no %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.house.democratic.no %>
+                            </p>
                         </div>
                         <div class="cell">
                             <p>
@@ -85,15 +90,15 @@
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.house.republican.yes %>;">
-                                <p>
-                                    <%= voteBreakdown.house.republican.yes %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.house.republican.yes %>
+                            </p>
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.house.republican.no %>;">
-                                <p>
-                                    <%= voteBreakdown.house.republican.no %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.house.republican.no %>
+                            </p>
                         </div>
                         <div class="cell">
                             <p>
@@ -138,8 +143,28 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="child-container">
+            <div class="vote-info" id="senate-vote-container">
+                <h1>Senate</h1>
+
+                <div class="rep-vote-container">
+                    <div class="rep-vote">
+                        <% if (repData.senateRep1!=null) { %>
+                        <h2><%= repData.senateRep1 %>:</h2>
+                        <h2 class="vote-text"> <%= voteData.senateVote1 %></h2>
+                        <% }%>
+                    </div>
+
+                    <div class="rep-vote">
+                        <% if (repData.senateRep2!=null) { %>
+                        <h2><%= repData.senateRep2 %>:</h2>
+                        <h2 class="vote-text"><%= voteData.senateVote2 %></h2>
+                        <% }%>
+                    </div>
+                </div>
+
+                <div class="grid-container">
                     <h2 class="grid-label">Senate Vote Breakdown</h2>
                     <div class="grid">
                         <div class="cell"></div>
@@ -157,15 +182,15 @@
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.senate.democratic.yes %>;">
-                                <p>
-                                    <%= voteBreakdown.senate.democratic.yes %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.senate.democratic.yes %>
+                            </p>
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.senate.democratic.no %>;">
-                                <p>
-                                    <%= voteBreakdown.senate.democratic.no %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.senate.democratic.no %>
+                            </p>
                         </div>
                         <div class="cell">
                             <p>
@@ -177,15 +202,15 @@
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.senate.republican.yes %>;">
-                                <p>
-                                    <%= voteBreakdown.senate.republican.yes %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.senate.republican.yes %>
+                            </p>
                         </div>
                         <div class="cell" <% /* eslint-disable css-propertyvalueexpected */ %> style="background-color:
                             <%= colorData.senate.republican.no %>;">
-                                <p>
-                                    <%= voteBreakdown.senate.republican.no %>
-                                </p>
+                            <p>
+                                <%= voteBreakdown.senate.republican.no %>
+                            </p>
                         </div>
                         <div class="cell">
                             <p>
@@ -231,18 +256,24 @@
                     </div>
                 </div>
             </div>
-
-            <br>
-
-            <p> Request Data (for debugging purposes): <br><br>
-                <%- JSON.stringify(law.requestData) %>
-            </p>
-
-
-
-
         </div>
 
+    </main>
+
+    <script>
+        $(document).ready(function () {
+            $(".vote-text").each(function () {
+                const voteText = $(this).text().toLowerCase();
+                if (voteText.includes("yea") || voteText.includes("yes")) {
+                    $(this).addClass("vote-yea");
+                } else if (voteText.includes("nay") || voteText.includes("no")) {
+                    $(this).addClass("vote-nay");
+                } else if (voteText.includes("unavailable")) {
+                    $(this).addClass("vote-unavailable");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -10,6 +10,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
 </head>
 
 <body>
@@ -28,33 +30,35 @@
 
     <%- include('partials/flash')%>
 
-        <main>
-            <div id="login-container">
-                <div id="login-div">
-                    <h1>Login</h1>
-                    <form action="/login" method="post">
-                        <label for="username">Username:</label>
-                        <input type="text" name="username" required>
+    <main>
+        <div id="login-container">
+            <div id="login-div">
+                <h1>Login</h1>
+                <form action="/login" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" <% if (user) { %> value="<%= user.username  %>"
+                        <% } %> required>
 
-                        <label for="password">Password:</label>
-                        <input type="password" name="password" required>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" <% if (user) { %> value="<%= user.password  %>"
+                        <% } %> required>
 
-                        <button id="login-button" type="submit">Login</button>
-                    </form>
-                </div>
-
-                <div id="signup-div">
-                    <h3>Or, if you don't have a profile:</h3>
-                    <a href="/register"><button id="signup-button">Create Profile</button></a>
-                </div>
-
+                    <button id="login-button" type="submit">Login</button>
+                </form>
             </div>
 
-        </main>
+            <div id="signup-div">
+                <h3>Or, if you don't have a profile:</h3>
+                <a href="/register"><button id="signup-button">Create Profile</button></a>
+            </div>
 
-        <script>
+        </div>
 
-        </script>
+    </main>
+
+    <script>
+
+    </script>
 </body>
 
 </html>

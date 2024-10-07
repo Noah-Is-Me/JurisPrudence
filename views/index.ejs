@@ -4,32 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yucky Politicians</title>
+    <title>Yucky Politicians | Home</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/index.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
+
 </head>
 
 <body>
+    <nav class="navbar">
+        <h1 class="navbar-header">Yucky Politicians</h1>
+
+        <div class="navbar-content">
+            <a class="navbar-link" id="current-page" href="/">Home</a>
+            <a class="navbar-link" href="/login">Login</a>
+            <a class="navbar-link" href="/register">Register</a>
+            <a class="navbar-link" href="/profile">Profile</a>
+            <a class="navbar-link" href="/laws">Laws</a>
+            <a class="navbar-link" href="/about">About</a>
+        </div>
+    </nav>
+
     <%- include('partials/flash')%>
 
-        <div id="home-div">
-            <image id="home-image" src="/images/WHO'S THAT.png"></image>
+    <main>
+        <div id="main-background"></div>
+        <div class="main-content">
+            <h1>Discover Congressional Laws That Impact You</h1>
+            <p>Input your details to find relevant laws and regulations tailored to your circumstances.</p>
 
-            <div id="start-div-container">
-                <div id="start-div">
-                    <h1 id="start-text">LEARN WHO THEY ARE HERE:</h1>
-                    <a href="/login"><button id="start-button">Log In</button></a>
-
-                    <a href="/test"><button id="start-button">Real Homepage</button></a>
-                    <p>(We will not sell your data to China)</p>
-                </div>
+            <div class="main-btn-container">
+                <a href="/login" class="main-btn" id="login-btn">Get Started</a>
+                <a href="/about" class="main-btn" id="about-btn">Learn More</a>
             </div>
         </div>
 
-        <script>
-
-        </script>
+        <div id="footer">
+            <p>Created by Noah Sonfield, Luka Saracevic, and Max Graham.</p>
+        </div>
+    </main>
 </body>
 
 </html>
