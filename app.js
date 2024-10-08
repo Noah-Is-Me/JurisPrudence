@@ -202,6 +202,12 @@ app.post("/register", async function (req, res) {
 
     try {
         console.log("Filtering laws...");
+
+        res.redirect("/loading");
+
+        console.log("test");
+
+        return;
         const filteredLaws = await filterAllPastLaws(bio);
 
         const reps = {
@@ -224,8 +230,12 @@ app.post("/register", async function (req, res) {
     }
 });
 
+app.get("/loading", function (req, res) {
+    res.render("loading", {});
+})
+
 // Define the route for fetching representatives
-app.post("/api/reps", async (req, res) => {
+app.post("/api/reps", async function (req, res) {
     const { address } = req.body;
     try {
         const reps = await fetchRepsFromAddress(address);
@@ -241,7 +251,7 @@ app.post("/api/reps", async (req, res) => {
 });
 
 
-app.post("/remove-new-law/:index", async (req, res) => {
+app.post("/remove-new-law/:index", async function (req, res) {
     try {
         const userId = req.user._id;
         const index = req.params.index;
