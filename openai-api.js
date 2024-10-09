@@ -94,6 +94,9 @@ export async function filterLaws(userCategories, allLaws) {
         let response;
         let attempt = 0;
 
+        sleep(100);
+
+
         do {
             try {
                 response = await determineMatch(userCategories, summary);
@@ -143,11 +146,86 @@ export async function filterLaws(userCategories, allLaws) {
         }
 
         filteredLaws.push(filteredLaw);
+
     }
 
     return filteredLaws;
 }
 
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
+export async function getAllPastLaws() {
+    return await getAllCachedLaws();
+}
+
+export async function filterLaw(allLaws, index, bio, res) {
+
+    console.log(`${index + 1}/${allLaws.length}`);
+
+    const law = allLaws[index];
+    const lawData = law.lawData;
+    const summary = lawData.summary;
+
+    let response;
+    let attempt = 0;
+
+    //sleep(100);
+    return index;
+
+    do {
+        try {
+            response = await determineMatch(userCategories, summary);
+            if (response == null) {
+                console.log("Error! determineMatch response is null!");
+
+                if (attempt > 5) {
+                    return null;
+                }
+                attempt++;
+                continue;
+            }
+
+        }
+        catch (error) {
+            console.log("Error determining match!");
+
+            if (attempt > 5) {
+                return null;
+            }
+            attempt++;
+            continue;
+        }
+
+    } while (response == null || response.affectedCategories == null);
+
+    const affectedCategories = response.affectedCategories;
+
+    for (let j = 0; j < affectedCategories.length; j++) {
+        if (affectedCategories[j].impactLevel < 5) {
+            affectedCategories.splice(j, 1);
+            j--;
+        }
+    }
+
+    if (affectedCategories.length == 0) {
+        return null;
+    }
+
+    const filteredLaw = {
+        lawData: lawData,
+        requestData: law.requestData,
+        affectedCategories: affectedCategories
+    }
+
+    return filteredLaw;
+}
 
 async function testResponse() {
     const completion = await openai.chat.completions.create({

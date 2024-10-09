@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 import cron from "node-cron";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { filterAllPastLaws, filterLaws } from "./openai-api.js";
+import { filterAllPastLaws, filterLaws, filterLaw, getAllPastLaws } from "./openai-api.js";
 import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes, getNewLaws } from "./congress-api-law.js";
 import { fetchRepsFromAddress, getLastName } from "./civicInfo-api.js";
 
@@ -201,12 +201,7 @@ app.post("/register", async function (req, res) {
     const { username, password, bio, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
-        console.log("Filtering laws...");
-
         res.redirect("/loading");
-
-        console.log("test");
-
         return;
         const filteredLaws = await filterAllPastLaws(bio);
 
@@ -232,7 +227,91 @@ app.post("/register", async function (req, res) {
 
 app.get("/loading", function (req, res) {
     res.render("loading", {});
-})
+});
+
+
+async function testWrite(res) {
+    await res.write(`data: ${42}\n\n`);
+    sleep(1000);
+    return;
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
+async function test() {
+    console.log("test");
+}
+
+// SSE endpoint
+app.get('/filter-stream', async function (req, res) {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // test().then(async () => {
+    //     console.log("Filtering laws...");
+    //     await res.write(`data: ${50}\n\n`);
+    //     sleep(1000);
+    //     console.log("finished");
+    // });
+
+    const allPastLaws = await getAllPastLaws();
+    let filteredLaws = [];
+    let index = 0;
+    const bio = "";
+
+    const intervalId = setInterval(async function () {
+        const filteredLaw = await filterLaw(allPastLaws, index++, bio, res)
+        filteredLaws.push(filteredLaw);
+        const percent = Math.floor((index / allPastLaws.length) * 100);
+        await res.write(`data: ${percent}\n\n`);
+
+        if (index == allPastLaws.length) {
+            console.log(filteredLaws);
+            clearInterval(intervalId);
+            res.end();
+        }
+    }, 10);
+
+    // try {
+    //     const filteredLaws = await filterAllPastLawsProgress(bio, res);
+
+    //     const reps = {
+    //         houseRep: houseRep,
+    //         senateRep1: senateRep1,
+    //         senateRep2: senateRep2
+    //     }
+
+    //     const newUser = new User({ username, password, bio, laws: filteredLaws, reps, newLaws: filteredLaws });
+
+    //     // Register the user using passport-local-mongoose (hashes the password)
+    //     await User.register(newUser, password);
+
+    //     req.flash("success", "Successfully registered! Please log in.");
+    //     res.redirect("/login");
+    // } catch (err) {
+    //     console.log(err);
+    //     req.flash("error", err.message);
+    //     res.redirect("/register");
+    // }
+
+    //res.write(`data: ${x}\n\n`);
+
+    // Listen for client disconnect
+
+    req.on("close", () => {
+        console.log("closed stream");
+        clearInterval(intervalId);
+        res.end();
+    });
+});
 
 // Define the route for fetching representatives
 app.post("/api/reps", async function (req, res) {
