@@ -8,6 +8,21 @@ body {
   background-color: whitesmoke;
 }
 
+#back-btn {
+  margin-left: 20px;
+  font-size: 26px;
+  background-color: transparent;
+  border: 4px solid #3c7dbd;
+  padding: 0;
+  height: 51.2px;
+  width: 130px;
+  transition: 0.2s;
+}
+
+#back-btn:hover {
+  border: 4px solid #d8ecff;
+}
+
 #law-info-container {
   background-color: white;
   border: 5px solid black;

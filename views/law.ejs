@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yucky Politicians | Law</title>
+    <title>JurisPrudence</title>
+    <link rel="icon" type="image/x-icon" href="/images/AMERICA.png">
+
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/law.css">
 
@@ -16,6 +18,7 @@
 
 <body>
     <nav class="navbar">
+        <button id="back-btn" onclick="history.back()">Go Back</button>
         <h1 class="navbar-header">Law Breakdown</h1>
 
         <div class="navbar-content">
@@ -46,8 +49,11 @@
                 <div class="rep-vote-container">
                     <div class="rep-vote">
                         <% if (repData.houseRep!=null) { %>
-                        <h2><%= repData.houseRep %>:</h2>
-                        <h2 class="vote-text"><%= voteData.houseVote %></h2>
+                        <h2><%= repData.houseRep %>
+                            <% if (voteData.houseVote.party!=null) { %>
+                            (<%= voteData.houseVote.party %>):</h2>
+                        <% }%>
+                        <h2 class="vote-text"><%= voteData.houseVote.vote %></h2>
                         <% }%>
                     </div>
                 </div>
@@ -151,15 +157,23 @@
                 <div class="rep-vote-container">
                     <div class="rep-vote">
                         <% if (repData.senateRep1!=null) { %>
-                        <h2><%= repData.senateRep1 %>:</h2>
-                        <h2 class="vote-text"> <%= voteData.senateVote1 %></h2>
+                        <h2><%= repData.senateRep1 %>
+                            <% if (voteData.senateVote1.party!=null) { %>
+                            (<%= voteData.senateVote1.party %>):
+                            <% }%>
+                        </h2>
+                        <h2 class="vote-text"> <%= voteData.senateVote1.vote %></h2>
                         <% }%>
                     </div>
 
                     <div class="rep-vote">
                         <% if (repData.senateRep2!=null) { %>
-                        <h2><%= repData.senateRep2 %>:</h2>
-                        <h2 class="vote-text"><%= voteData.senateVote2 %></h2>
+                        <h2><%= repData.senateRep2 %>
+                            <% if (voteData.senateVote2.party!=null) { %>
+                            (<%= voteData.senateVote2.party %>):
+                            <% }%>
+                        </h2>
+                        <h2 class="vote-text"><%= voteData.senateVote2.vote %></h2>
                         <% }%>
                     </div>
                 </div>
@@ -273,6 +287,22 @@
                 }
             });
         });
+
+        window.addEventListener('scroll', backButtonScroll);
+
+        function backButtonScroll() {
+            if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+                $("#back-btn").css("fontSize", "16px");
+                $("#back-btn").css("height", "30px");
+                $("#back-btn").css("width", "90px");
+                $("#back-btn").css("border-width", "3px");
+            } else {
+                $("#back-btn").css("fontSize", "26px");
+                $("#back-btn").css("height", "51.2px");
+                $("#back-btn").css("width", "130px");
+                $("#back-btn").css("border-width", "4px");
+            }
+        }
     </script>
 </body>
 

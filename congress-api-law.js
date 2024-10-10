@@ -504,7 +504,7 @@ export async function getLawFromJson(congress, billType, billNumber) {
     }
 }
 
-export function getRepresentativeVote(voteData, representative, repType) {
+function getRepresentativeVote(voteData, representative, repType) {
     //console.log(JSON.stringify(voteData.houseVote));
     //console.log(voteData.houseVote);
 
@@ -555,7 +555,7 @@ export function getRepresentativeVote(voteData, representative, repType) {
     return null;
 }
 
-export function getRepresentativesVote(voteData, repData) {
+function getRepresentativesVote(voteData, repData) {
     const houseRep = repData.houseRep;
     const senateRep1 = repData.senateRep1;
     const senateRep2 = repData.senateRep2;
@@ -650,9 +650,18 @@ export function getRepresentativesVote(voteData, repData) {
 export function analyzeVotes(voteData, repData) {
 
     let votes = {
-        houseVote: null,
-        senateVote1: null,
-        senateVote2: null
+        houseVote: {
+            party: null,
+            vote: null
+        },
+        senateVote1: {
+            party: null,
+            vote: null
+        },
+        senateVote2: {
+            party: null,
+            vote: null
+        },
     };
 
     let voteBreakdown = {
@@ -730,9 +739,9 @@ export function analyzeVotes(voteData, repData) {
 
 
 
-    houseBlock: { // I want to break out of this scope
+    houseBlock: {
         if (houseVote == null) {
-            votes.houseVote = "Vote data unavailable.";
+            votes.houseVote.vote = "Vote data unavailable.";
 
             for (let party in voteBreakdown.house) {
                 for (let prop in voteBreakdown.house[party]) {
@@ -744,7 +753,7 @@ export function analyzeVotes(voteData, repData) {
         }
 
         if (houseVote == "unanimous") {
-            votes.houseVote = "Yea (unanimous)";
+            votes.houseVote.vote = "Yea (unanimous)";
 
             for (let party in voteBreakdown.house) {
                 for (let prop in voteBreakdown.house[party]) {
@@ -757,9 +766,10 @@ export function analyzeVotes(voteData, repData) {
         }
 
         let repVotes = [];
-        for (let member of houseVote.members[0]["recorded-vote"]) {
+        for (const member of houseVote.members[0]["recorded-vote"]) {
             if (member.legislator[0]["_"].toLowerCase() == houseRep.toLowerCase()) {
                 repVotes.push(member);
+                //console.log(member);
             }
 
             let party;
@@ -793,19 +803,20 @@ export function analyzeVotes(voteData, repData) {
         }
 
         if (repVotes.length > 0) {
-            votes.houseVote = repVotes[0].vote[0];
+            votes.houseVote.vote = repVotes[0].vote[0];
+            votes.houseVote.party = repVotes[0].legislator[0]["$"].party;
         }
         else {
             console.log("Error! House representative not found or something.");
-            votes.houseVote = "Vote data unavailable.";
+            votes.houseVote.vote = "Vote data unavailable.";
         }
     }
 
 
     senateBlock: {
         if (senateVote == null) {
-            votes.senateVote1 = "Vote data unavailable.";
-            votes.senateVote2 = "Vote data unavailable.";
+            votes.senateVote1.vote = "Vote data unavailable.";
+            votes.senateVote2.vote = "Vote data unavailable.";
 
             for (let party in voteBreakdown.senate) {
                 for (let prop in voteBreakdown.senate[party]) {
@@ -817,8 +828,8 @@ export function analyzeVotes(voteData, repData) {
         }
 
         if (senateVote == "unanimous") {
-            votes.senateVote1 = "Yea (unanimous)";
-            votes.senateVote2 = "Yea (unanimous)";
+            votes.senateVote1.vote = "Yea (unanimous)";
+            votes.senateVote2.vote = "Yea (unanimous)";
 
             for (let party in voteBreakdown.senate) {
                 for (let prop in voteBreakdown.senate[party]) {
@@ -871,32 +882,36 @@ export function analyzeVotes(voteData, repData) {
 
         if (repVotes.length > 0) {
             if (repVotes[0].last_name == senateRep1.toLowerCase()) {
-                votes.senateVote1 = repVotes[0].vote_cast[0];
+                votes.senateVote1.vote = repVotes[0].vote_cast[0];
+                votes.senateVote1.party = repVotes[0].party[0]
             } else {
-                votes.senateVote2 = repVotes[0].vote_cast[0];
+                votes.senateVote2.vote = repVotes[0].vote_cast[0];
+                votes.senateVote2.party = repVotes[0].party[0]
             }
 
             if (repVotes.length > 1) {
-                if (votes.senateVote1 == null) {
-                    votes.senateVote1 = repVotes[1].vote_cast[0];
+                if (votes.senateVote1.vote == null) {
+                    votes.senateVote1.vote = repVotes[1].vote_cast[0];
+                    votes.senateVote1.party = repVotes[1].party[0]
                 } else {
-                    votes.senateVote2 = repVotes[1].vote_cast[0];
+                    votes.senateVote2.vote = repVotes[1].vote_cast[0];
+                    votes.senateVote2.party = repVotes[1].party[0]
                 }
             }
             else {
                 if (votes.senateVote1 == null) {
                     console.log("Error! Senate representative not found or something. Trigger 1.");
-                    votes.senateVote1 = "Vote data unavailable.";
+                    votes.senateVote1.vote = "Vote data unavailable.";
                 } else {
                     console.log("Error! Senate representative not found or something. Trigger 2.");
-                    votes.senateVote2 = "Vote data unavailable.";
+                    votes.senateVote2.vote = "Vote data unavailable.";
                 }
             }
         }
         else {
             console.log("Error! Senate representative not found or something.");
-            votes.senateVote1 = "Vote data unavailable.";
-            votes.senateVote2 = "Vote data unavailable.";
+            votes.senateVote1.vote = "Vote data unavailable.";
+            votes.senateVote2.vote = "Vote data unavailable.";
         }
     }
 

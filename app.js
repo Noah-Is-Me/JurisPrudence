@@ -14,7 +14,7 @@ import cron from "node-cron";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
 import { filterAllPastLaws, filterLaws, filterLaw, getAllPastLaws } from "./openai-api.js";
-import { getLawFromJson, fetchVotes, getRepresentativeVote, getRepresentativesVote, analyzeVotes, getNewLaws } from "./congress-api-law.js";
+import { getLawFromJson, fetchVotes, analyzeVotes, getNewLaws } from "./congress-api-law.js";
 import { fetchRepsFromAddress, getLastName } from "./civicInfo-api.js";
 
 if (process.env.NODE_ENV !== "production") {
