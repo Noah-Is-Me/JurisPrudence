@@ -126,11 +126,27 @@
             popup();
 
 
-            const eventSource = new EventSource('/filter-stream');
-            eventSource.onmessage = function (event) {
-                console.log(event);
-                const progress = Math.floor(JSON.parse(event.data));
-                $("#progress-bar").css("--value", progress);
+            const eventSource = new EventSource("/filter-stream");
+            eventSource.onmessage = async function (event) {
+                //console.log(event);
+                const data = JSON.parse(event.data);
+
+                if (data.complete) {
+                    console.log("done");
+                    eventSource.close();
+                    console.log("closed");
+
+                    await fetch('/set-flash-message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: 'Successfully registered! Please log in.', type: "success" })
+                    });
+
+                    window.location.href = '/login';
+                } else {
+                    const progress = Math.floor(data);
+                    $("#progress-bar").css("--value", progress);
+                }
             };
 
             eventSource.onerror = function (err) {

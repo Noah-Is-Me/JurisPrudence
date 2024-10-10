@@ -65,11 +65,14 @@
                     <form action="/update-profile" method="post">
                         <input type="hidden" name="section" value="contact">
 
-                        <label for="email" class="required">Email:</label>
-                        <input type="email" name="email" value="<%= user.email %>" required>
+                        <p>How may we contact you about new legislation that may impact you? (Leave
+                            blank for no contact)</p>
 
-                        <label for="phone-number" class="required">Phone Number:</label>
-                        <input type="number" name="phone-number" value="<%= user.phone %>" required>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" value="<%= user.email %>">
+
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="number" name="phoneNumber" value="<%= user.phoneNumber %>">
 
                         <button class="submit-button" type="submit">Save Changes</button>
                     </form>
@@ -87,6 +90,13 @@
                             might take some time!</h4>
                         <label for="bio" class="required">Bio:</label>
                         <textarea name="bio" rows="10" required><%= user.bio %></textarea>
+
+                        <label>Personal Interests:</label>
+                        <ul class="interest-list" id="interest-list"></ul>
+                        <input type="text" id="interest-input" placeholder="Enter an interest">
+                        <button type="button" id="add-interest">Add Interest</button>
+                        <input name="interests" type="hidden" id="interests-submission" value="<%=user.interests %>">
+
                         <button class="submit-button" type="submit">Save Changes</button>
                     </form>
                 </div>
@@ -311,7 +321,42 @@
                 }
             }
             );
+
+
+
+            // Interest list 
+            $('#add-interest').click(function () {
+                const interestText = $('#interest-input').val().trim();
+                if (interestText !== '') {
+                    addInterest(interestText);
+                    $('#interest-input').val('');
+                }
+            });
+
+            function addInterest(interest) {
+                $("#interests-submission").val($("#interests-submission").val() + interest + ", ");
+                const li = $('<li></li>').text(interest);
+                const deleteButton = $('<button type="button" class="delete-interest">x</button>');
+
+                li.append(deleteButton);
+                $('#interest-list').append(li);
+
+                deleteButton.click(function () {
+                    $("#interests-submission").val($("#interests-submission").val().replace(interest + ", ", ''));
+                    li.remove();
+                });
+            }
+
+            const interests = $("#interests-submission").val().split(',');
+            console.log(interests);
+            $("#interests-submission").val("");
+            for (const interest of interests) {
+                if (interest == " " || interest == "") continue;
+                addInterest(interest);
+            }
+
         });
+
     </script>
 </body>
 

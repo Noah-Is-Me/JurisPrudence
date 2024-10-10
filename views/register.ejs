@@ -77,8 +77,8 @@
                     </div>
 
                     <div id="phone-number-input" class="hidden">
-                        <label for="phone-number" class="required">Phone Number:</label>
-                        <input type="number" id="phone-number" name="phone-number">
+                        <label for="phoneNumber" class="required">Phone Number:</label>
+                        <input type="number" id="phone-number" name="phoneNumber">
                     </div>
 
                 </fieldset>
@@ -89,10 +89,12 @@
                     <label for="bio" class="required">Bio:</label>
                     <textarea name="bio" rows="10" required></textarea>
 
-                    <label for="interests">Personal Interests:</label>
+                    <label>Personal Interests:</label>
                     <ul class="interest-list" id="interest-list"></ul>
                     <input type="text" id="interest-input" placeholder="Enter an interest">
                     <button type="button" id="add-interest">Add Interest</button>
+                    <input name="interests" type="hidden" id="interests-submission">
+
                 </fieldset>
 
                 <fieldset id="address">
@@ -265,6 +267,7 @@
             });
 
             function addInterest(interest) {
+                $("#interests-submission").val($("#interests-submission").val() + interest + ", ");
                 const li = $('<li></li>').text(interest);
                 const deleteButton = $('<button type="button" class="delete-interest">x</button>');
 
@@ -272,6 +275,7 @@
                 $('#interest-list').append(li);
 
                 deleteButton.click(function () {
+                    $("#interests-submission").val($("#interests-submission").val().replace(interest + ", ", ''));
                     li.remove();
                 });
             }

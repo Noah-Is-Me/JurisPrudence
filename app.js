@@ -128,6 +128,7 @@ async function updateLaws() {
     }
 }
 
+
 // root page
 app.get("/", function (req, res) {
     res.render("index", {});
@@ -198,26 +199,30 @@ app.get("/register", function (req, res) {
 
 // handle register logic
 app.post("/register", async function (req, res) {
-    const { username, password, bio, houseRep, senateRep1, senateRep2 } = req.body;
+    const { username, password, email, phoneNumber, bio, houseRep, senateRep1, senateRep2 } = req.body;
 
     try {
-        res.redirect("/loading");
-        return;
-        const filteredLaws = await filterAllPastLaws(bio);
-
         const reps = {
             houseRep: houseRep,
             senateRep1: senateRep1,
             senateRep2: senateRep2
         }
 
-        const newUser = new User({ username, password, bio, laws: filteredLaws, reps, newLaws: filteredLaws });
+        const newUser = new User({
+            username,
+            password,
+            email,
+            bio,
+            laws: [],
+            reps,
+            newLaws: []
+        });
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
+        req.session.user = newUser;
 
-        req.flash("success", "Successfully registered! Please log in.");
-        res.redirect("/login");
+        res.redirect("/loading");
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -230,88 +235,46 @@ app.get("/loading", function (req, res) {
 });
 
 
-async function testWrite(res) {
-    await res.write(`data: ${42}\n\n`);
-    sleep(1000);
-    return;
-}
-
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
-}
-
-async function test() {
-    console.log("test");
-}
-
 // SSE endpoint
 app.get('/filter-stream', async function (req, res) {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    // test().then(async () => {
-    //     console.log("Filtering laws...");
-    //     await res.write(`data: ${50}\n\n`);
-    //     sleep(1000);
-    //     console.log("finished");
-    // });
+    if (!req.session.user) {
+        res.write(`data: ${JSON.stringify({ message: "Filter complete", complete: true })}\n\n`);
+        res.end();
+        return;
+    }
 
-    const allPastLaws = await getAllPastLaws();
-    let filteredLaws = [];
-    let index = 0;
-    const bio = "";
+    const userId = req.session.user._id;
+    const user = await User.findById(userId);
 
-    const intervalId = setInterval(async function () {
-        const filteredLaw = await filterLaw(allPastLaws, index++, bio, res)
-        filteredLaws.push(filteredLaw);
-        const percent = Math.floor((index / allPastLaws.length) * 100);
-        await res.write(`data: ${percent}\n\n`);
+    if (user != undefined && user != null) {
+        const filteredLaws = await filterAllPastLaws(user.bio, res);
+        user.laws = filteredLaws;
+        user.newLaws = filteredLaws;
+        await user.save();
+    } else {
+        await filterAllPastLaws("", res);
+    }
 
-        if (index == allPastLaws.length) {
-            console.log(filteredLaws);
-            clearInterval(intervalId);
-            res.end();
-        }
-    }, 10);
+    res.write(`data: ${JSON.stringify({ message: "Filter complete", complete: true })}\n\n`);
+    req.session.destroy();
+    setTimeout(function () { res.end(); }, 1000);
 
-    // try {
-    //     const filteredLaws = await filterAllPastLawsProgress(bio, res);
-
-    //     const reps = {
-    //         houseRep: houseRep,
-    //         senateRep1: senateRep1,
-    //         senateRep2: senateRep2
-    //     }
-
-    //     const newUser = new User({ username, password, bio, laws: filteredLaws, reps, newLaws: filteredLaws });
-
-    //     // Register the user using passport-local-mongoose (hashes the password)
-    //     await User.register(newUser, password);
-
-    //     req.flash("success", "Successfully registered! Please log in.");
-    //     res.redirect("/login");
-    // } catch (err) {
-    //     console.log(err);
-    //     req.flash("error", err.message);
-    //     res.redirect("/register");
-    // }
-
-    //res.write(`data: ${x}\n\n`);
-
-    // Listen for client disconnect
-
-    req.on("close", () => {
-        console.log("closed stream");
-        clearInterval(intervalId);
+    req.on("close", function () {
+        //console.log("closed stream");
         res.end();
     });
 });
+
+app.post("/set-flash-message", function (req, res) {
+    const { type, message } = req.body;
+    req.flash(type, message);
+    res.status(200).send();
+});
+
 
 // Define the route for fetching representatives
 app.post("/api/reps", async function (req, res) {
@@ -407,6 +370,12 @@ app.post("/update-profile", async function (req, res) {
 
 
         await User.findByIdAndUpdate(userId, { $set: updatedProperties });
+
+        if (updatedProperties.bio || updatedProperties.interests) {
+            const user = await User.findById(userId);
+            req.session.user = user;
+            return res.redirect("/loading");
+        }
 
         req.flash("success", "Profile successfully updated!");
 

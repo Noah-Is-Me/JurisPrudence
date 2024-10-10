@@ -75,17 +75,19 @@ async function determineMatch(userCategories, lawSummary) {
     }
 }
 
-export async function filterAllPastLaws(userCategories) {
+export async function filterAllPastLaws(userCategories, res) {
     const allLaws = await getAllCachedLaws();
-    return await filterLaws(userCategories, allLaws);
+    return await filterLaws(userCategories, allLaws, res);
 }
 
-export async function filterLaws(userCategories, allLaws) {
+export async function filterLaws(userCategories, allLaws, res) {
+    const sendUpdates = (res != undefined && res != null);
+
     let filteredLaws = [];
 
     lawLoop:
     for (let i = 0; i < allLaws.length; i++) {
-        console.log(`${i + 1}/${allLaws.length}`);
+        //console.log(`${i + 1}/${allLaws.length}`);
 
         const law = allLaws[i];
         const lawData = law.lawData;
@@ -94,8 +96,11 @@ export async function filterLaws(userCategories, allLaws) {
         let response;
         let attempt = 0;
 
-        sleep(100);
-
+        if (sendUpdates) {
+            await new Promise(resolve => setImmediate(resolve));
+            const percent = Math.floor((i + 1) / allLaws.length * 100);
+            res.write(`data: ${JSON.stringify(percent)}\n\n`);
+        }
 
         do {
             try {
@@ -154,9 +159,9 @@ export async function filterLaws(userCategories, allLaws) {
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
+    while (true) {
         if ((new Date().getTime() - start) > milliseconds) {
-            break;
+            return;
         }
     }
 }
