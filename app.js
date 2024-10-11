@@ -239,15 +239,14 @@ app.post("/register", async function (req, res) {
             laws: [], newLaws: []
         });
 
-        console.log("Registering");
+        //console.log("Registering");
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
         req.session.user = newUser;
 
-        console.log("Done registering");
-        return;
-        //res.redirect("/loading");
+        //console.log("Done registering");
+        res.redirect("/loading");
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -276,7 +275,8 @@ app.get('/filter-stream', async function (req, res) {
     const user = await User.findById(userId);
 
     if (user != undefined && user != null) {
-        const filteredLaws = await filterAllPastLaws(user.bio, res);
+        const bio = parseUserBio(user);
+        const filteredLaws = await filterAllPastLaws(bio, res);
         user.laws = filteredLaws;
         user.newLaws = filteredLaws;
         await user.save();
@@ -293,6 +293,26 @@ app.get('/filter-stream', async function (req, res) {
         res.end();
     });
 });
+
+function parseUserBio(user) {
+    const skipKeys = ["username", "password", "email", "phoneNumber", "reps", "laws", "newLaws", "_id", "__v"];
+    let bio = "";
+
+    for (const key in user._doc) {
+        if (skipKeys.includes(key)) continue;
+
+        const value = user._doc[key];
+        if (value == "" || value == null || value == undefined) continue;
+
+        bio += key + ": " + value + "\n";
+    }
+
+    console.log(bio);
+    return bio;
+}
+
+// const user = await User.findById("67088d2adeacef6b8b9201c5");
+// console.log(parseUserBio(user));
 
 app.post("/set-flash-message", function (req, res) {
     const { type, message } = req.body;
@@ -504,3 +524,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+updateLaws();

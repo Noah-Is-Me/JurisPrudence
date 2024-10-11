@@ -24,13 +24,18 @@ const affectedCategoriesFormat = z.object({
     })),
 });
 
+const lawRelevance = z.object({
+    impactLevel: z.number(),
+    reasoning: z.string(),
+})
+
 async function determineMatch(userCategories, lawSummary) {
     try {
         const completion = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [
                 // NOTE: In the role section, you have to explicitly tell the AI to "Return this data in the given structured format. If the person is not affected by the law, leave the array empty.".
-                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is likely to affect the person. If so, identify which traits/categories of the person make this true and rate the amount of impact the law has on each category from 0-10. Return this data in the given structured format. If the person is not affected by the law, leave the array empty." },
+                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is relevant the person. If so, provide a short ~2 sentence reasoning and rate the law's impact on the person from 1-10. Return this data in the given structured format. If the person is not affected by the law, leave the reasoning empty and rate the impact 0." },
                 {
                     role: "user",
                     content: `Analyze the following legislative law summary and the person's information and apply the instructions provided:
@@ -39,10 +44,10 @@ async function determineMatch(userCategories, lawSummary) {
 
                     Law: "${lawSummary}"
                     
-                    Determine if the person will be affected directly by the law and, if the law is applicable, output which traits/categories of the person make this true and the impact ratings of each trait/category in the given structured format. Be specific and exclusive with the categories.`,
+                    Determine if the person will be affected directly by the law. If so, give reasoning and an impact rating. Write your reasoning in the second person, directed towards the person.`,
                 },
             ],
-            response_format: zodResponseFormat(affectedCategoriesFormat, "affected_categories_extraction"),
+            response_format: zodResponseFormat(lawRelevance, "law_relevance_extraction"),
             max_tokens: 200, // https://platform.openai.com/tokenizer
 
             temperature: 1, // default is 1
@@ -126,28 +131,24 @@ export async function filterLaws(userCategories, allLaws, res) {
                 continue;
             }
 
-        } while (response == null || response.affectedCategories == null);
+        } while (response == null || response.impactLevel == null || response.reasoning == null);
 
-        const affectedCategories = response.affectedCategories;
+        console.log("\n" + lawData.title + ": ");
+        console.log(response);
+        const impactLevel = response.impactLevel;
+        const reasoning = response.reasoning;
 
         //console.log(summary);
         //console.log(response);
 
-        for (let j = 0; j < affectedCategories.length; j++) {
-            if (affectedCategories[j].impactLevel < 5) {
-                affectedCategories.splice(j, 1);
-                j--;
-            }
-        }
-
-        if (affectedCategories.length == 0) {
+        if (impactLevel < 5) {
             continue lawLoop;
         }
 
         const filteredLaw = {
             lawData: lawData,
             requestData: law.requestData,
-            affectedCategories: affectedCategories
+            reasoning: reasoning
         }
 
         filteredLaws.push(filteredLaw);

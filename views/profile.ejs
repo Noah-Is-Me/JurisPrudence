@@ -462,8 +462,8 @@
                         <label for="criminalRecord">Criminal Record:</label>
                         <textarea name="criminalRecord" rows="3"><%= user.criminalRecord %></textarea>
 
-                        <label for="additional-information">Additional Information:</label>
-                        <textarea name="additional-information" rows="10"><%= user.additionalInformation %></textarea>
+                        <label for="additionalInformation">Additional Information:</label>
+                        <textarea name="additionalInformation" rows="10"><%= user.additionalInformation %></textarea>
 
                         <label>Personal Interests:</label>
                         <ul class="interest-list" id="interest-list"></ul>
@@ -541,14 +541,8 @@
 
                             <h3><%= result.lawData.title %></h3>
 
-                            <h4>Flagged Categories:</h4>
-                            <ul>
-                                <% result.affectedCategories.forEach(function(category){ %>
-                                <li>
-                                    <%= category.categoryName%>
-                                </li>
-                                <% }); %>
-                            </ul>
+                            <h4>Relevance to You:</h4>
+                            <p><%= result.reasoning%></p>
                         </a>
                         <button class="law-delete-btn" data-index="<%= index %>">×</button>
                     </div>

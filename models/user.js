@@ -32,7 +32,9 @@ const UserSchema = new mongoose.Schema({
     reps: Object,
 
     laws: Array,
-    newLaws: Array
+    newLaws: Array,
+
+    debugBio: String
 });
 
 UserSchema.plugin(passportLocalMongoose);

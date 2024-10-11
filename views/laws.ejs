@@ -50,14 +50,8 @@
                     <%= result.lawData.title %>
                 </h2>
 
-                <h4>Flagged Categories:</h4>
-                <ul>
-                    <% result.affectedCategories.forEach(function(category){ %>
-                    <li>
-                        <%= category.categoryName%>
-                    </li>
-                    <% }); %>
-                </ul>
+                <h4>Relevance to You:</h4>
+                <p><%= result.reasoning %></p>
             </a>
 
             <% }); %>
