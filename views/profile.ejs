@@ -34,20 +34,26 @@
 
     <main>
         <div id="settings-navbar">
-            <h3>Settings</h3>
-            <button id="general-navlink" data-target="general">General</button>
-            <button id="contact-navlink" data-target="contact">Contact</button>
-            <button id="bio-navlink" data-target="bio">Bio</button>
+            <button id="account-information-navlink" data-target="account-information">Account Information</button>
+            <button id="contact-information-navlink" data-target="contact-information">Contact Information</button>
+            <button id="demography-navlink" data-target="demography">Demography</button>
+            <button id="education-employment-navlink" data-target="education-employment">Education and
+                Employment</button>
+            <button id="citizenship-information-navlink" data-target="citizenship-information">Citizenship
+                Information</button>
+            <button id="additional-information-navlink" data-target="additional-information">Additional
+                Information</button>
             <button id="representatives-navlink" data-target="representatives">Representatives</button>
+
             <a href="/logout" id="logout-btn">Log Out</a>
         </div>
 
         <div id="settings-container">
-            <div id="general" class="settings-section">
-                <h2>General Settings</h2>
+            <div id="account-information" class="settings-section">
+                <h2>Account Information</h2>
                 <div class="form-container">
                     <form action="/update-profile" method="post">
-                        <input type="hidden" name="section" value="general">
+                        <input type="hidden" name="section" value="account-information">
 
                         <label for="username" class="required">Username:</label>
                         <input type="text" name="username" value="<%= user.username %>" required>
@@ -60,12 +66,11 @@
                 </div>
             </div>
 
-
-            <div id="contact" class="settings-section">
-                <h2>Contact Settings</h2>
+            <div id="contact-information" class="settings-section">
+                <h2>Contact Information</h2>
                 <div class="form-container">
                     <form action="/update-profile" method="post">
-                        <input type="hidden" name="section" value="contact">
+                        <input type="hidden" name="section" value="contact-information">
 
                         <p>How may we contact you about new legislation that may impact you? (Leave
                             blank for no contact)</p>
@@ -81,17 +86,384 @@
                 </div>
             </div>
 
-
-            <div id="bio" class="settings-section">
-                <h2>Bio Settings</h2>
+            <div id="demography" class="settings-section">
+                <h2>Demography</h2>
                 <div class="form-container">
                     <form action="/update-profile" method="post">
-                        <input type="hidden" name="section" value="bio">
+                        <input type="hidden" name="section" value="demography">
 
-                        <h4>Note: Updating your bio will require re-filtering the laws. This
+                        <h4>Note: Updating these properties will require re-filtering the laws. This
                             might take some time!</h4>
-                        <label for="bio" class="required">Bio:</label>
-                        <textarea name="bio" rows="10" required><%= user.bio %></textarea>
+
+                        <label class="required">Age:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="age">I'd prefer not to say.</label>
+                                <input for="age" name="age" type="radio" value="" required
+                                    <%= user.age === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="age">Under 18</label>
+                                <input for="age" name="age" type="radio" value="under 18" required
+                                    <%= user.age === 'under 18' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="age">18-24</label>
+                                <input for="age" name="age" type="radio" value="18-24" required
+                                    <%= user.age === '18-24' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="age">25-44</label>
+                                <input for="age" name="age" type="radio" value="25-44" required
+                                    <%= user.age === '25-44' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="age">45-64</label>
+                                <input for="age" name="age" type="radio" value="45-64" required
+                                    <%= user.age === '45-64' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="age">Above 65</label>
+                                <input for="age" name="age" type="radio" value="above 65" required
+                                    <%= user.age === 'above 65' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label class="required">Gender:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="gender">I'd prefer not to say.</label>
+                                <input for="gender" name="gender" type="radio" value="" required
+                                    <%= user.gender === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="gender">Male</label>
+                                <input for="gender" name="gender" type="radio" value="male" required
+                                    <%= user.gender === 'male' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="gender">Female</label>
+                                <input for="gender" name="gender" type="radio" value="female" required
+                                    <%= user.gender === 'female' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="gender">Non-Binary</label>
+                                <input for="gender" name="gender" type="radio" value="non-binary" required
+                                    <%= user.gender === 'non-binary' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label>Ethnicity:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="ethnicity">Caucasian</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="caucasian"
+                                    <%= user.ethnicity.includes("caucasian") ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="ethnicity">African American</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="african-american"
+                                    <%= user.ethnicity.includes('african-american') ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="ethnicity">Asian</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="asian"
+                                    <%= user.ethnicity.includes('asian') ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="ethnicity">Hispanic</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="hispanic"
+                                    <%= user.ethnicity.includes('hispanic') ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="ethnicity">Pacific Islander</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="pacific-islander"
+                                    <%= user.ethnicity.includes('pacific-islander') ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="ethnicity">Other</label>
+                                <input for="ethnicity" name="ethnicity" type="checkbox" value="other"
+                                    <%= user.ethnicity.includes('other') ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label class="required">Marital Status</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="maritalStatus">I'd prefer not to say.</label>
+                                <input for="maritalStatus" name="maritalStatus" type="radio" value="" required
+                                    <%= user.maritalStatus === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="maritalStatus">Married</label>
+                                <input for="maritalStatus" name="maritalStatus" type="radio" value="Married" required
+                                    <%= user.maritalStatus === 'Married' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="maritalStatus">Single</label>
+                                <input for="maritalStatus" name="maritalStatus" type="radio" value="Single" required
+                                    <%= user.maritalStatus === 'Single' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="maritalStatus">Divorced</label>
+                                <input for="maritalStatus" name="maritalStatus" type="radio" value="Divorced" required
+                                    <%= user.maritalStatus === 'Divorced' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <button class="submit-button" type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="education-employment" class="settings-section">
+                <h2>Education and Employment</h2>
+                <div class="form-container">
+                    <form action="/update-profile" method="post">
+                        <input type="hidden" name="section" value="education-employment">
+
+                        <h4>Note: Updating these properties will require re-filtering the laws. This
+                            might take some time!</h4>
+
+                        <label class="required">Highest Education Level:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="educationLevel">I'd prefer not to say.</label>
+                                <input for="educationLevel" name="educationLevel" type="radio" value="" required
+                                    <%= user.educationLevel === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="educationLevel">Did not graduate high school</label>
+                                <input for="educationLevel" name="educationLevel" type="radio"
+                                    value="did not graduate high school" required
+                                    <%= user.educationLevel === 'did not graduate high school' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="educationLevel">High school diploma</label>
+                                <input for="educationLevel" name="educationLevel" type="radio"
+                                    value="High school diploma" required
+                                    <%= user.educationLevel === 'High school diploma' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="educationLevel">Bachelor's Degree</label>
+                                <input for="educationLevel" name="educationLevel" type="radio" value="Bachelor's Degree"
+                                    required <%= user.educationLevel === "Bachelor's Degree" ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="educationLevel">Master's Degree</label>
+                                <input for="educationLevel" name="educationLevel" type="radio" value="Master's Degree"
+                                    required <%= user.educationLevel === "Master's Degree" ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="educationLevel">Professional Degree</label>
+                                <input for="educationLevel" name="educationLevel" type="radio"
+                                    value="Professional Degree" required
+                                    <%= user.educationLevel === 'Professional Degree' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label class="required">Employment Status:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="employmentStatus">I'd prefer not to say.</label>
+                                <input for="employmentStatus" name="employmentStatus" type="radio" value="" required
+                                    <%= user.employmentStatus === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="employmentStatus">Full-Time</label>
+                                <input for="employmentStatus" name="employmentStatus" type="radio" value="Full-Time"
+                                    required <%= user.employmentStatus === 'Full-Time' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="employmentStatus">Part-Time</label>
+                                <input for="employmentStatus" name="employmentStatus" type="radio" value="Part-Time"
+                                    required <%= user.employmentStatus === 'Part-Time' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="employmentStatus">Temporary Employment</label>
+                                <input for="employmentStatus" name="employmentStatus" type="radio"
+                                    value="Temporary Employment" required
+                                    <%= user.employmentStatus === 'Temporary Employment' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="employmentStatus">Unemployed</label>
+                                <input for="employmentStatus" name="employmentStatus" type="radio" value="Unemployed"
+                                    required <%= user.employmentStatus === 'Unemployed' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label for="occupation">Occupation:</label>
+                        <input type="text" name="occupation" value="<%= user.occupation %>">
+
+                        <label class="required">Are you a member of a union?</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="unionMember">I'd prefer not to say.</label>
+                                <input for="unionMember" name="unionMember" type="radio" value="" required
+                                    <%= user.unionMember === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="unionMember">Yes</label>
+                                <input for="unionMember" name="unionMember" type="radio" value="Yes" required
+                                    <%= user.unionMember === '' ? 'Yes' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="unionMember">No</label>
+                                <input for="unionMember" name="unionMember" type="radio" value="No" required
+                                    <%= user.unionMember === '' ? 'No' : '' %>>
+                            </div>
+                        </div>
+
+                        <label class="required">Household Income:</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="incomeLevel">I'd prefer not to say.</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="" required
+                                    <%= user.incomeLevel === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="incomeLevel">Below $10k</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="Below $10k" required
+                                    <%= user.incomeLevel === 'Below $10k' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="incomeLevel">$10k-$50k</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="$10k-$50k" required
+                                    <%= user.incomeLevel === '$10k-$50k' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="incomeLevel">$50k-$100k</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="$50k-$100k" required
+                                    <%= user.incomeLevel === '$50k-$100k' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="incomeLevel">$100k-$150k</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="$100k-$150k" required
+                                    <%= user.incomeLevel === '$100k-$150k' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="incomeLevel">Over $150k</label>
+                                <input for="incomeLevel" name="incomeLevel" type="radio" value="Over $150k" required
+                                    <%= user.incomeLevel === 'Over $150k' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <button class="submit-button" type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="citizenship-information" class="settings-section">
+                <h2>Citizenship Information</h2>
+                <div class="form-container">
+                    <form action="/update-profile" method="post">
+                        <input type="hidden" name="section" value="citizenship-information">
+
+                        <h4>Note: Updating these properties will require re-filtering the laws. This
+                            might take some time!</h4>
+
+                        <label class="required">Citizenship Status</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="citizenshipStatus">I'd prefer not to say.</label>
+                                <input for="citizenshipStatus" name="citizenshipStatus" type="radio" value="" required
+                                    <%= user.citizenshipStatus === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="citizenshipStatus">U.S. Citizen</label>
+                                <input for="citizenshipStatus" name="citizenshipStatus" type="radio"
+                                    value="U.S. Citizen" required
+                                    <%= user.citizenshipStatus === 'U.S. Citizen' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="citizenshipStatus">Lawful Permanent Resident</label>
+                                <input for="citizenshipStatus" name="citizenshipStatus" type="radio"
+                                    value="Lawful Permanent Resident" required
+                                    <%= user.citizenshipStatus === 'Lawful Permanent Resident' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="citizenshipStatus">Lawful Temporary Resident</label>
+                                <input for="citizenshipStatus" name="citizenshipStatus" type="radio"
+                                    value="Lawful Temporary/Discretionary Resident" required
+                                    <%= user.citizenshipStatus === 'Lawful Temporary/Discretionary Resident' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <label class="required">Veteran Status</label>
+                        <div class="form-select">
+                            <div class="radio-option">
+                                <label for="veteranStatus">I'd prefer not to say.</label>
+                                <input for="veteranStatus" name="veteranStatus" type="radio" value="" required
+                                    <%= user.veteranStatus === '' ? 'checked' : '' %>>
+                            </div>
+                            <div class="radio-option">
+                                <label for="veteranStatus">Currently Serving</label>
+                                <input for="veteranStatus" name="veteranStatus" type="radio" value="Currently Serving"
+                                    required <%= user.veteranStatus === 'Currently Serving' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="veteranStatus">Veteran</label>
+                                <input for="veteranStatus" name="veteranStatus" type="radio" value="Military Veteran"
+                                    required <%= user.veteranStatus === 'Military Veteran' ? 'checked' : '' %>>
+                            </div>
+
+                            <div class="radio-option">
+                                <label for="veteranStatus">None</label>
+                                <input for="veteranStatus" name="veteranStatus" type="radio" value="None" required
+                                    <%= user.veteranStatus === 'None' ? 'checked' : '' %>>
+                            </div>
+                        </div>
+
+                        <button class="submit-button" type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="additional-information" class="settings-section">
+                <h2>Additional Information</h2>
+                <div class="form-container">
+                    <form action="/update-profile" method="post">
+                        <input type="hidden" name="section" value="additional-information">
+
+                        <h4>Note: Updating these properties will require re-filtering the laws. This
+                            might take some time!</h4>
+
+                        <label for="medicalConditions">Medical Conditions:</label>
+                        <textarea name="medicalConditions" rows="3"><%= user.medicalConditions %></textarea>
+
+                        <label for="criminalRecord">Criminal Record:</label>
+                        <textarea name="criminalRecord" rows="3"><%= user.criminalRecord %></textarea>
+
+                        <label for="additional-information">Additional Information:</label>
+                        <textarea name="additional-information" rows="10"><%= user.additionalInformation %></textarea>
 
                         <label>Personal Interests:</label>
                         <ul class="interest-list" id="interest-list"></ul>
@@ -106,24 +478,24 @@
 
 
             <div id="representatives" class="settings-section">
-                <h2>Representatives Settings</h2>
+                <h2>Representatives</h2>
                 <div class="form-container">
                     <form action="/update-profile" method="post">
                         <input type="hidden" name="section" value="representatives">
 
                         <h4>Manually input your representatives or input your address to
-                            autofill them. Your address
+                            autofill them. Your street address
                             will <em>not</em> be saved.</h4>
 
                         <fieldset>
-                            <label for="address">Street Address:</label>
-                            <input type="text" name="address">
+                            <label for="state">State:</label>
+                            <input type="text" name="state" value="<%= user.state %>">
 
                             <label for="city">City:</label>
-                            <input type="text" name="city">
+                            <input type="text" name="city" value="<%= user.city %>">
 
-                            <label for="state">State:</label>
-                            <input type="text" name="state">
+                            <label for="address">Street Address:</label>
+                            <input type="text" name="address">
 
                             <label for="zip">Zip Code:</label>
                             <input type="number" name="zip">
@@ -209,7 +581,7 @@
             if (section) {
                 openSection(section);
             } else {
-                openSection("general");
+                openSection("account-information");
             }
 
             $("#settings-navbar button").click(function () {
@@ -285,7 +657,7 @@
             $(".law-delete-btn").click(async function (e) {
                 e.preventDefault();
                 let index = $(this).data("index");
-                console.log(index);
+                //console.log(index);
 
                 /*
                 user.newLaws.splice(index, 1);
@@ -350,7 +722,7 @@
             }
 
             const interests = $("#interests-submission").val().split(',');
-            console.log(interests);
+            //console.log(interests);
             $("#interests-submission").val("");
             for (const interest of interests) {
                 if (interest == " " || interest == "") continue;

@@ -4,12 +4,34 @@ import passportLocalMongoose from "passport-local-mongoose";
 const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
-    bio: String,
+
     email: String,
     phoneNumber: Number,
+
+    age: String,
+    gender: String,
+    ethnicity: Array,
+    maritalStatus: String,
+
+    educationLevel: String,
+    employmentStatus: String,
+    occupation: String,
+    unionMember: String,
+    incomeLevel: String,
+
+    citizenshipStatus: String,
+    veteranStatus: String,
+
+    medicalConditions: String,
+    criminalRecord: String,
+    additionalInformation: String,
     interests: String,
-    laws: Array,
+
+    state: String,
+    city: String,
     reps: Object,
+
+    laws: Array,
     newLaws: Array
 });
 

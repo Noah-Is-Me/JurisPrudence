@@ -4,7 +4,6 @@ import session from "express-session";
 import path from "path";
 import { fileURLToPath } from "url";
 import { User } from "./models/user.js";
-import { Law } from "./models/law.js";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import LocalStrategy from "passport-local";
@@ -199,7 +198,21 @@ app.get("/register", function (req, res) {
 
 // handle register logic
 app.post("/register", async function (req, res) {
-    const { username, password, email, phoneNumber, bio, houseRep, senateRep1, senateRep2 } = req.body;
+    const {
+        username, password,
+
+        email, phoneNumber,
+
+        age, gender, ethnicity, maritalStatus,
+
+        educationLevel, employmentStatus, occupation, unionMember, incomeLevel,
+
+        citizenshipStatus, veteranStatus,
+
+        medicalConditions, criminalRecord, additionalInformation, interests,
+
+        state, city, houseRep, senateRep1, senateRep2
+    } = req.body;
 
     try {
         const reps = {
@@ -209,20 +222,32 @@ app.post("/register", async function (req, res) {
         }
 
         const newUser = new User({
-            username,
-            password,
-            email,
-            bio,
-            laws: [],
-            reps,
-            newLaws: []
+            username, password,
+
+            email, phoneNumber,
+
+            age, gender, ethnicity, maritalStatus,
+
+            educationLevel, employmentStatus, occupation, unionMember, incomeLevel,
+
+            citizenshipStatus, veteranStatus,
+
+            medicalConditions, criminalRecord, additionalInformation, interests,
+
+            state, city, reps,
+
+            laws: [], newLaws: []
         });
+
+        console.log("Registering");
 
         // Register the user using passport-local-mongoose (hashes the password)
         await User.register(newUser, password);
         req.session.user = newUser;
 
-        res.redirect("/loading");
+        console.log("Done registering");
+        return;
+        //res.redirect("/loading");
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -365,13 +390,15 @@ app.post("/update-profile", async function (req, res) {
             delete updatedProperties.senateRep2;
         }
 
+        const section = updatedProperties.section || "account-information";
+
         // console.log(updatedProperties);
         // console.log(userId);
 
 
         await User.findByIdAndUpdate(userId, { $set: updatedProperties });
 
-        if (updatedProperties.bio || updatedProperties.interests) {
+        if (section == "demography" || section == "education-employment" || section == "citizenship-information" || section == "additional-information") {
             const user = await User.findById(userId);
             req.session.user = user;
             return res.redirect("/loading");
@@ -379,7 +406,6 @@ app.post("/update-profile", async function (req, res) {
 
         req.flash("success", "Profile successfully updated!");
 
-        const section = req.body.section || 'general';
         res.redirect(`/profile?section=${section}`);
     }
     catch (err) {

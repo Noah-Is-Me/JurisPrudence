@@ -35,17 +35,19 @@
     <main>
         <div id="sections-navbar">
             <h3>Sections</h3>
-            <a href="#basic-information">Basic Information</a>
+            <a href="#account-information">Account Information</a>
             <a href="#contact-information">Contact Information</a>
-            <a href="#biography">Biography</a>
-            <a href="#address">Address</a>
-            <a href="#representative-information">Representative Information</a>
+            <a href="#demography">Demography</a>
+            <a href="#education-employment">Education and Employment</a>
+            <a href="#citizenship-information">Citizenship Information</a>
+            <a href="#additional-information">Additional Information</a>
+            <a href="#representative-information">Representatives</a>
         </div>
 
         <div id="form-div">
             <form id="information-form" action="register" method="post">
-                <fieldset id="basic-information">
-                    <legend>Basic Information</legend>
+                <fieldset id="account-information">
+                    <legend>Account Information</legend>
 
                     <label for="username" class="required">Username:</label>
                     <input type="text" name="username" required>
@@ -62,14 +64,14 @@
                         unselected for none)</p>
 
                     <div class="form-select">
-                        <div class="form-select-option">
-                            <label for="email">Email</label>
-                            <input for="contact-method" id="email-checkbox" name="email" type="checkbox">
+                        <div class="radio-option">
+                            <label>Email</label>
+                            <input for="contact-method" id="email-checkbox" type="checkbox">
                         </div>
 
-                        <div class="form-select-option">
-                            <label for="text">Text</label>
-                            <input for="contact-method" id="text-checkbox" name="text" type="checkbox">
+                        <div class="radio-option">
+                            <label>Text</label>
+                            <input for="contact-method" id="text-checkbox" type="checkbox">
                         </div>
                     </div>
 
@@ -85,11 +87,307 @@
 
                 </fieldset>
 
-                <fieldset id="biography">
-                    <legend>Biography</legend>
+                <fieldset id="demography">
+                    <legend>Demography</legend>
 
-                    <label for="bio" class="required">Bio:</label>
-                    <textarea name="bio" rows="10" required></textarea>
+                    <label class="required">Age:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="age">I'd prefer not to say.</label>
+                            <input for="age" name="age" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="age">Under 18</label>
+                            <input for="age" name="age" type="radio" value="under 18" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="age">18-24</label>
+                            <input for="age" name="age" type="radio" value="18-24" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="age">25-44</label>
+                            <input for="age" name="age" type="radio" value="25-44" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="age">45-64</label>
+                            <input for="age" name="age" type="radio" value="45-64" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="age">Above 65</label>
+                            <input for="age" name="age" type="radio" value="above 65" required>
+                        </div>
+                    </div>
+
+                    <label class="required">Gender:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="gender">I'd prefer not to say.</label>
+                            <input for="gender" name="gender" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="gender">Male</label>
+                            <input for="gender" name="gender" type="radio" value="male" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="gender">Female</label>
+                            <input for="gender" name="gender" type="radio" value="female" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="gender">Non-Binary</label>
+                            <input for="gender" name="gender" type="radio" value="non-binary" required>
+                        </div>
+                    </div>
+
+                    <label>Ethnicity:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="ethnicity">Caucasian</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="caucasian">
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="ethnicity">African American</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="african-american">
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="ethnicity">Asian</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="asian">
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="ethnicity">Hispanic</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="hispanic">
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="ethnicity">Pacific Islander</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="pacific-islander">
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="ethnicity">Other</label>
+                            <input for="ethnicity" name="ethnicity" type="checkbox" value="other">
+                        </div>
+                    </div>
+
+                    <label class="required">Marital Status</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="maritalStatus">I'd prefer not to say.</label>
+                            <input for="maritalStatus" name="maritalStatus" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="maritalStatus">Married</label>
+                            <input for="maritalStatus" name="maritalStatus" type="radio" value="Married" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="maritalStatus">Single</label>
+                            <input for="maritalStatus" name="maritalStatus" type="radio" value="Single" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="maritalStatus">Divorced</label>
+                            <input for="maritalStatus" name="maritalStatus" type="radio" value="Divorced" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset id="education-employment">
+                    <legend>Education and Employment</legend>
+
+                    <label class="required">Highest Education Level:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="educationLevel">I'd prefer not to say.</label>
+                            <input for="educationLevel" name="educationLevel" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="educationLevel">Did not graduate high school</label>
+                            <input for="educationLevel" name="educationLevel" type="radio"
+                                value="did not graduate high school" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="educationLevel">High school diploma</label>
+                            <input for="educationLevel" name="educationLevel" type="radio" value="High school diploma"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="educationLevel">Bachelor's Degree</label>
+                            <input for="educationLevel" name="educationLevel" type="radio" value="Bachelor's Degree"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="educationLevel">Master's Degree</label>
+                            <input for="educationLevel" name="educationLevel" type="radio" value="Master's Degree"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="educationLevel">Professional Degree</label>
+                            <input for="educationLevel" name="educationLevel" type="radio" value="Professional Degree"
+                                required>
+                        </div>
+                    </div>
+
+                    <label class="required">Employment Status:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="employmentStatus">I'd prefer not to say.</label>
+                            <input for="employmentStatus" name="employmentStatus" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="employmentStatus">Full-Time</label>
+                            <input for="employmentStatus" name="employmentStatus" type="radio" value="Full-Time"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="employmentStatus">Part-Time</label>
+                            <input for="employmentStatus" name="employmentStatus" type="radio" value="Part-Time"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="employmentStatus">Temporary Employment</label>
+                            <input for="employmentStatus" name="employmentStatus" type="radio"
+                                value="Temporary Employment" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="employmentStatus">Unemployed</label>
+                            <input for="employmentStatus" name="employmentStatus" type="radio" value="Unemployed"
+                                required>
+                        </div>
+                    </div>
+
+                    <label for="occupation">Occupation:</label>
+                    <input type="text" name="occupation">
+
+                    <label class="required">Are you a member of a union?</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="unionMember">I'd prefer not to say.</label>
+                            <input for="unionMember" name="unionMember" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="unionMember">Yes</label>
+                            <input for="unionMember" name="unionMember" type="radio" value="Yes" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="unionMember">No</label>
+                            <input for="unionMember" name="unionMember" type="radio" value="No" required>
+                        </div>
+                    </div>
+
+                    <label class="required">Household Income:</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="incomeLevel">I'd prefer not to say.</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="incomeLevel">Below $10k</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="Below $10k" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="incomeLevel">$10k-$50k</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="$10k-$50k" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="incomeLevel">$50k-$100k</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="$50k-$100k" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="incomeLevel">$100k-$150k</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="$100k-$150k" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="incomeLevel">Over $150k</label>
+                            <input for="incomeLevel" name="incomeLevel" type="radio" value="Over $150k" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset id="citizenship-information">
+                    <legend>Citizenship Information</legend>
+
+                    <label class="required">Citizenship Status</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="citizenshipStatus">I'd prefer not to say.</label>
+                            <input for="citizenshipStatus" name="citizenshipStatus" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="citizenshipStatus">U.S. Citizen</label>
+                            <input for="citizenshipStatus" name="citizenshipStatus" type="radio" value="U.S. Citizen"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="citizenshipStatus">Lawful Permanent Resident</label>
+                            <input for="citizenshipStatus" name="citizenshipStatus" type="radio"
+                                value="Lawful Permanent Resident" required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="citizenshipStatus">Lawful Temporary Resident</label>
+                            <input for="citizenshipStatus" name="citizenshipStatus" type="radio"
+                                value="Lawful Temporary/Discretionary Resident" required>
+                        </div>
+                    </div>
+
+                    <label class="required">Veteran Status</label>
+                    <div class="form-select">
+                        <div class="radio-option">
+                            <label for="veteranStatus">I'd prefer not to say.</label>
+                            <input for="veteranStatus" name="veteranStatus" type="radio" value="" required>
+                        </div>
+                        <div class="radio-option">
+                            <label for="veteranStatus">Currently Serving</label>
+                            <input for="veteranStatus" name="veteranStatus" type="radio" value="Currently Serving"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="veteranStatus">Veteran</label>
+                            <input for="veteranStatus" name="veteranStatus" type="radio" value="Military Veteran"
+                                required>
+                        </div>
+
+                        <div class="radio-option">
+                            <label for="veteranStatus">None</label>
+                            <input for="veteranStatus" name="veteranStatus" type="radio" value="None" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset id="additional-information">
+                    <legend>Additional Information</legend>
+
+                    <label for="medicalConditions">Medical Conditions:</label>
+                    <textarea name="medicalConditions" rows="3"></textarea>
+
+                    <label for="criminalRecord">Criminal Record:</label>
+                    <textarea name="criminalRecord" rows="3"></textarea>
+
+                    <label for="additionalInformation">Any Additional Information:</label>
+                    <textarea name="additionalInformation" rows="10"></textarea>
 
                     <label>Personal Interests:</label>
                     <ul class="interest-list" id="interest-list"></ul>
@@ -99,29 +397,24 @@
 
                 </fieldset>
 
-                <fieldset id="address">
-                    <legend>Address</legend>
+                <fieldset id="representative-information">
+                    <legend>Representative Information</legend>
 
-                    <p>Your address is optional and only used to autofill your representatives in the section
-                        below. Your address will <em>not</em>
-                        be saved.
+                    <label for="state">State:</label>
+                    <input type="text" name="state">
+
+                    <label for="city">City:</label>
+                    <input type="text" name="city">
+
+                    <p>Your street address and Zip code are only used to autofill your representatives in the section
+                        below, and will <em>not</em> be saved.
                     </p>
 
                     <label for="address">Street Address:</label>
                     <input type="text" name="address">
 
-                    <label for="city">City:</label>
-                    <input type="text" name="city">
-
-                    <label for="state">State:</label>
-                    <input type="text" name="state">
-
                     <label for="zip">Zip Code:</label>
                     <input type="number" name="zip">
-                </fieldset>
-
-                <fieldset id="representative-information">
-                    <legend>Representative Information</legend>
 
                     <p>Click below to autofill your representative information using your address.</p>
                     <button type="button" id="autofill-btn">Autofill</button>
@@ -136,11 +429,9 @@
                     <label for="senateRep2" class="required">Senate Representative 2:</label>
                     <input type="text" name="senateRep2" required>
 
-                    <!--Ewww yucky html camel case-->
-
                 </fieldset>
 
-                <button id="submit-button" type="submit">Submit</button>
+                <button id="submit-button" type="submit">Register Profile</button>
             </form>
         </div>
     </main>

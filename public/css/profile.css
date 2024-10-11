@@ -1,6 +1,10 @@
 body {
-    background-color: dimgrey;
+    /* background-color: dimgrey; */
 
+    background-image: url("/images/grey seamless.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 50%;
 }
 
 main {
@@ -268,32 +272,31 @@ input {
     background-color: transparent;
 }
 
-.radio-select-container {
-
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 150px;
-}
-
-.radio-select {
-    display: flex;
-    justify-content: center;
-}
 
 .form-select {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-evenly;
 
+    margin-top: 20px;
     margin-bottom: 40px;
+    font-size: 14px;
+
+    background-color: rgb(240, 240, 240);
+    padding-top: 20px;
 }
 
-.form-select-option {
+.radio-option {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    width: 100px;
+
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100px;
+    text-align: center;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .form-select-option input {
@@ -306,6 +309,12 @@ input {
     margin: auto;
 }
 
-.hidden {
-    display: none;
+
+.required::after {
+    position: relative;
+    left: 10px;
+    content: "*";
+    color: red;
+    font-weight: normal;
+    text-decoration: none;
 }
