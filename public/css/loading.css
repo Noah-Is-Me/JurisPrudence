@@ -3,11 +3,18 @@ main {
     justify-content: center;
     align-items: center;
 
-    background-image: url("/images/Sand Tileable.jpg");
-    background-repeat: repeat;
+
+    background-image: url("/images/dc2.png");
     background-position: center;
-    background-size: 30%;
+    background-size: cover;
+    /* transition: 3s ease-in-out; */
+
+
+    margin-top: 0;
+    width: 100%;
+    flex: 1;
 }
+
 
 #main-content {
     padding: 50px;
@@ -24,13 +31,11 @@ main {
 #loading-text {
     margin-top: 30px;
     font-size: 40px;
-    color: white;
 }
 
 #main-content h2 {
     margin-top: 30px;
     font-size: 25px;
-    color: white;
 }
 
 .popup-container {
@@ -48,11 +53,13 @@ main {
     top: 0;
     left: 0;
 
-    background-color: white;
-    border: 5px solid black;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 3px solid rgba(0, 0, 0, 0.9);
 
     /* transition: opacity 1s ease-out; */
     display: none;
+
+    border-radius: 10px;
 
 }
 
@@ -108,4 +115,16 @@ main {
     font-family: Helvetica, Arial, sans-serif;
     font-size: calc(var(--size) / 5);
     color: var(--primary);
+}
+
+#main-content {
+    background-color: white;
+    border: black 5px solid;
+    color: black;
+    padding: 30px 30px 10px 30px;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
 }

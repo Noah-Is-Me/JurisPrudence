@@ -1347,6 +1347,18 @@
         "billType": "hr",
         "billNumber": "1076"
       }
+    },
+    {
+      "lawData": {
+        "title": "COCOA Act of 2024",
+        "date": "2024-10-04",
+        "summary": "Confirmation Of Congressional Observer Access Act of 2023 or the COCOA Act of 2023This bill provides statutory authority for designated congressional election observers. Designated congressional election observer refers to an employee of the House of Representatives who is designated in writing by the chair or ranking minority member of the Committee on House Administration to gather information with respect to an election, including in the event that the election is contested in the House and for other purposes permitted by Article I, Section 5, clause 1 and Article I, Section 4, clause 1 of the U.S. Constitution.The bill requires states to provide designated congressional election observers with full access to&nbsp;clearly observe all elements of administration procedures of federal elections, including access to any area in which a ballot is cast, processed, scanned, tabulated, canvassed, recounted, audited, or certified, including during pre- and post-election procedures.The bill prohibits such an observer from handling ballots or election equipment, advocating for a position or candidate, taking any action to reduce ballot secrecy or voter privacy, taking any action to interfere with the ability of a voter to cast a ballot or an election administrator to carry out the administrator's duties, or otherwise interfering with the election administration process.The bill specifies the conduct for which designated congressional election observers may be removed by election officials. In the event of removal, the election official must provide written notice to the chair and ranking minority member of the Committee on House Administration."
+      },
+      "requestData": {
+        "congress": "118",
+        "billType": "hr",
+        "billNumber": "6513"
+      }
     }
   ]
 }

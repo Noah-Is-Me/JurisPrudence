@@ -525,4 +525,4 @@ app.listen(PORT, function () {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-updateLaws();
+//updateLaws();

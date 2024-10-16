@@ -12,6 +12,7 @@ main {
     background-image: url("/images/vote tileable.png");
     background-repeat: repeat;
     background-position: center;
+    background-size: calc(100% / 3);
 
     /*background-color: black;*/
 }

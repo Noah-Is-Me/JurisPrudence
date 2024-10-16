@@ -2,6 +2,7 @@ body {
     background-image: url("/images/Sand Tileable.jpg");
     background-repeat: repeat;
     background-position: center;
+    background-size: 25%;
 }
 
 
@@ -71,7 +72,7 @@ h2 {
 
     height: auto;
     margin-top: 30px;
-    background-color: whitesmoke;
+    background-color: white;
     border: black solid 5px;
     padding: 5px 30px 30px 30px;
     width: 625px;

@@ -17,19 +17,6 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <h1 class="navbar-header">Loading Profile...</h1>
-
-        <div class="navbar-content">
-            <a class="navbar-link" href="/">Home</a>
-            <a class="navbar-link" href="/login">Login</a>
-            <a class="navbar-link" href="/register">Register</a>
-            <a class="navbar-link" href="/profile">Profile</a>
-            <a class="navbar-link" href="/laws">Laws</a>
-            <a class="navbar-link" href="/about">About</a>
-        </div>
-    </nav>
-
     <%- include('partials/flash')%>
 
     <main>
@@ -109,6 +96,32 @@
             });
         }
 
+        /*
+        const allBackgrounds = ["dc1.png", "dc2.png", "dc3.png", "dc4.png", "dc5.png", "dc6.png", "dc7.png", "dc8.png", "dc9.png",];
+        let index = 0;
+        let background = allBackgrounds[index];
+
+        function preloadImages(images) {
+            images.forEach((image) => {
+                const img = new Image();
+                img.src = `/images/${image}`;
+                img.className = 'hidden'; // Prevent them from showing up
+                document.body.appendChild(img);
+            });
+        }
+        preloadImages(allBackgrounds);
+
+        function changeBackground() {
+            $("main").css("background-image", `url("/images/${background}")`);
+
+            if (++index == allBackgrounds.length) index = 0;
+
+            background = allBackgrounds[index];
+        }
+        setInterval(changeBackground, 8000);
+        changeBackground();
+        */
+
         async function getFunFacts() {
             try {
                 const response = await fetch("/json/fun-facts.json");
@@ -126,7 +139,6 @@
 
             setInterval(loadingEllipses, 1000);
             popup();
-
 
             const eventSource = new EventSource("/filter-stream");
             eventSource.onmessage = async function (event) {
@@ -154,6 +166,7 @@
             eventSource.onerror = function (err) {
                 console.error('EventSource failed:', err);
             };
+
         });
 
     </script>
