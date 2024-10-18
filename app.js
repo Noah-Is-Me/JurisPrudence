@@ -148,7 +148,7 @@ app.get("/login",
     async function (req, res, next) {
         //console.log(req.session);
         //console.log(req.session.user);
-        if (req.session && req.session.passport) {
+        if (req.session && req.session.passport && req.user._id) {
             const user = await User.findById(req.user._id).exec();
             return res.render("login", { user });
         }
