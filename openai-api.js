@@ -25,7 +25,7 @@ const affectedCategoriesFormat = z.object({
 });
 
 const lawRelevance = z.object({
-    impactLevel: z.number(),
+    relevanceLevel: z.number(),
     reasoning: z.string(),
 })
 
@@ -35,7 +35,7 @@ async function determineMatch(userCategories, lawSummary) {
             model: "gpt-4o-mini",
             messages: [
                 // NOTE: In the role section, you have to explicitly tell the AI to "Return this data in the given structured format. If the person is not affected by the law, leave the array empty.".
-                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is relevant the person. If so, provide a short ~2 sentence reasoning and rate the law's impact on the person from 1-10. Return this data in the given structured format. If the person is not affected by the law, leave the reasoning empty and rate the impact 0." },
+                { role: "system", content: "You are an expert at political legislation and structured data extraction. Given a summary of a legislative law and the information of a person, determine if the law is relevant to the person. If so, provide a short ~2 sentence reasoning and rate the law's relevance to the person from 1-10. Return this data in the given structured format. If the person is not affected by the law, leave the reasoning empty and rate the impact 0." },
                 {
                     role: "user",
                     content: `Analyze the following legislative law summary and the person's information and apply the instructions provided:
@@ -44,7 +44,7 @@ async function determineMatch(userCategories, lawSummary) {
 
                     Law: "${lawSummary}"
                     
-                    Determine if the person will be affected directly by the law. If so, give reasoning and an impact rating. Write your reasoning in the second person, directed towards the person.`,
+                    Determine if the person will be affected directly by the law. If so, give reasoning and a relevance level rating. Write your reasoning in the second person, directed towards the person.`,
                 },
             ],
             response_format: zodResponseFormat(lawRelevance, "law_relevance_extraction"),
@@ -131,17 +131,17 @@ export async function filterLaws(userCategories, allLaws, res) {
                 continue;
             }
 
-        } while (response == null || response.impactLevel == null || response.reasoning == null);
+        } while (response == null || response.relevanceLevel == null || response.reasoning == null);
 
         console.log("\n" + lawData.title + ": ");
         console.log(response);
-        const impactLevel = response.impactLevel;
+        const relevanceLevel = response.relevanceLevel;
         const reasoning = response.reasoning;
 
         //console.log(summary);
         //console.log(response);
 
-        if (impactLevel < 5) {
+        if (relevanceLevel < 3) {
             continue lawLoop;
         }
 
