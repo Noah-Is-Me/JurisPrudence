@@ -130,6 +130,7 @@ async function updateLaws() {
 
 // root page
 app.get("/", function (req, res) {
+    req.session.destroy();
     res.render("index", {});
 });
 // This is how you make it start on a page!
@@ -148,7 +149,7 @@ app.get("/login",
     async function (req, res, next) {
         //console.log(req.session);
         //console.log(req.session.user);
-        if (req.session && req.session.passport && req.user._id) {
+        if (req.session && req.session.passport) {
             const user = await User.findById(req.user._id).exec();
             return res.render("login", { user });
         }
@@ -518,7 +519,6 @@ app.get("/law/:congress/:billType/:billNumber", async function (req, res) {
 
     res.render("law", { law, voteData, voteBreakdown, repData, colorData });
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
