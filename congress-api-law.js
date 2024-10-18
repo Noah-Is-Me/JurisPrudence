@@ -1078,13 +1078,13 @@ export function getRepresentativeVotes(voteData, state, district) {
 
 //console.log(await getRandomCachedLaw());
 
-await storeAllLaws(117);
+//await storeAllLaws(117);
 //await getRemainingRequests();
 //await getNewLaws();
-await getRemainingRequests();
+//await getRemainingRequests();
 
-console.log("done");
-getLawDataJsonLength();
+//console.log("done");
+//getLawDataJsonLength();
 
 //CLEAR_LAWDATA_JSON("I AM SURE I WANT TO DELETE ALL OF THE DATA IN LAWDATA.JSON!");
 
