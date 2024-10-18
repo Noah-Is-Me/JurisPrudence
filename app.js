@@ -130,10 +130,14 @@ async function updateLaws() {
 
 // root page
 app.get("/", function (req, res) {
-    req.session.destroy();
     res.render("index", {});
 });
 // This is how you make it start on a page!
+
+app.get("/debug", function (req, res) {
+    req.session.destroy();
+    res.redirect("/");
+});
 
 app.get("/about", function (req, res) {
     res.render("about", {});
