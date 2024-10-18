@@ -171,9 +171,11 @@ input {
     margin: auto;
     flex-direction: column;
 
-    background-image: url("/images/Sand Tileable.jpg");
+    background-color: #e9debc;
+
+    /* background-image: url("/images/Sand Tileable.jpg");
     background-repeat: repeat;
-    background-position: center;
+    background-position: center; */
     /*background: whitesmoke;*/
 
     padding: 20px;

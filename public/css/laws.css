@@ -1,8 +1,11 @@
 body {
-    background-image: url("/images/Sand Tileable.jpg");
+    /* background-color: #e9debc; */
+
+
+    background-image: url("/images/website.png");
     background-repeat: repeat;
     background-position: center;
-    background-size: 25%;
+    background-size: 100%;
 }
 
 
@@ -75,7 +78,8 @@ h2 {
     background-color: white;
     border: black solid 5px;
     padding: 5px 30px 30px 30px;
-    width: 625px;
+    width: 100%;
+    color: blue;
 }
 
 img {
