@@ -82,16 +82,16 @@
                 //console.log($popup.outerWidth() + ", " + $popup.outerHeight());
                 //console.log($popupContainer.width() + ", " + $popupContainer.height());
 
-                $popup.fadeIn(1000);
+                $popup.fadeIn(3000);
 
                 setTimeout(function () {
-                    $popup.fadeOut(1000, function () {
+                    $popup.fadeOut(3000, function () {
                         $popup.remove();
 
                         // INFINITE RECURSION!!! Too bad!
                         popup();
                     });
-                }, 10000);
+                }, 20000);
 
             });
         }

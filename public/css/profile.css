@@ -202,6 +202,8 @@ input {
 .law {
     padding: 5px 30px 30px 30px;
     width: 100%;
+    color: blue;
+
 }
 
 .law-delete-btn {
