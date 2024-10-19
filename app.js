@@ -560,5 +560,6 @@ app.listen(PORT, function () {
 //updateLaws();
 
 
-// addLawToUser("John Doe Test", 118, "hr", 4389);
-// addLawToUser("John Doe Test", 117, "s", 558);
+//addLawToUser("John Doe Test", 118, "hr", 4389);
+//addLawToUser("John Doe Test", 117, "s", 558);
+// 1 name, 2 118/117, 3 bill one, 4 bill number
