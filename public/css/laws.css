@@ -82,6 +82,10 @@ h2 {
     color: blue;
 }
 
+.law:hover {
+    background-color: whitesmoke;
+}
+
 img {
     width: 100%;
 }

@@ -60,7 +60,12 @@ body {
   margin-top: 0;
   padding: 20px;
   padding-top: 0;
+
   flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #house-vote-container {
@@ -82,7 +87,8 @@ body {
   text-align: center;
   justify-content: space-evenly;
   margin-bottom: 50px;
-  margin-top: 30px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .rep-vote {
@@ -112,6 +118,7 @@ body {
   margin: 0px 50px;
   background-color: cadetblue;
   border: 10px solid cadetblue;
+  max-width: 600px;
 }
 
 .grid-label {

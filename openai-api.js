@@ -158,15 +158,6 @@ export async function filterLaws(userCategories, allLaws, res) {
     return filteredLaws;
 }
 
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    while (true) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            return;
-        }
-    }
-}
-
 export async function getAllPastLaws() {
     return await getAllCachedLaws();
 }
@@ -231,6 +222,54 @@ export async function filterLaw(allLaws, index, bio, res) {
     }
 
     return filteredLaw;
+}
+
+export async function generateRelevence(userCategories, lawSummary) {
+    let attempt = 0;
+    while (attempt++ < 5) {
+        try {
+            const completion = await openai.chat.completions.create({
+                model: "gpt-4o-mini",
+                messages: [
+                    { role: "system", content: "You are an expert at political legislation. Given a summary of a legislative law and the information of a person, provide a short and concise ~2 sentence reasoning why the law is relevent to the user." },
+                    {
+                        role: "user",
+                        content: `Analyze the following legislative law summary and the person's information and apply the instructions provided:
+
+                    User information: ${userCategories}.
+
+                    Law: "${lawSummary}"
+                    
+                    Provide a short ~2 sentence reasoning why the law is relevent to the user. Write your reasoning in the second person, directed towards the person.`,
+                    },
+                ],
+                max_tokens: 200,
+                temperature: 1
+            });
+
+            const categoriesResponse = completion.choices[0].message;
+
+            if (categoriesResponse.refusal) {
+                // handle refusal
+                console.log("Prompt Refusal");
+                return null;
+            }
+            else {
+                return categoriesResponse.content;
+            }
+
+        } catch (error) {
+            if (error.constructor.name == "LengthFinishReasonError") {
+                // Retry with a higher max tokens
+                console.log("Too many tokens: ", error.message);
+                return null;
+            } else {
+                // Handle other exceptions
+                console.log("An error occurred: ", error.message);
+                return null;
+            }
+        }
+    }
 }
 
 async function testResponse() {

@@ -60,6 +60,7 @@ button:hover {
     transition: 0.2s;
     font-weight: normal;
     color: #3c7dbd;
+
 }
 
 .navbar-content {
@@ -77,10 +78,10 @@ button:hover {
     color: white;
     text-decoration: none;
     margin-left: 30px;
-    padding: 0.25rem 0;
+    padding: 0.15rem 0;
 
 
-    border-bottom: 0.15rem solid transparent
+    border-bottom: 5px solid transparent
 }
 
 .navbar-link:hover {

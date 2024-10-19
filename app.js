@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 import cron from "node-cron";
 //import { MongoClient, ServerApiVersion } from "mongodb";
 
-import { filterAllPastLaws, filterLaws, filterLaw, getAllPastLaws } from "./openai-api.js";
+import { filterAllPastLaws, filterLaws, filterLaw, getAllPastLaws, generateRelevence } from "./openai-api.js";
 import { getLawFromJson, fetchVotes, analyzeVotes, getNewLaws } from "./congress-api-law.js";
 import { fetchRepsFromAddress, getLastName } from "./civicInfo-api.js";
 
@@ -123,7 +123,35 @@ async function updateLaws() {
             console.log(`Updated ${user.username}`);
         }
     } catch (error) {
-        console.error('Error updating ${user.username}:', error);
+        console.error("Error updating user: ", error);
+    }
+}
+
+async function addLawToUser(username, congress, billType, billNumber) {
+    try {
+        const user = await User.findOne({ username }).exec();
+
+        if (user != undefined && user != null) {
+
+            const bio = parseUserBio(user);
+            const law = await getLawFromJson(congress, billType, billNumber)
+            const reasoning = await generateRelevence(bio, law.lawData.summary);
+
+            const filteredLaw = {
+                lawData: law.lawData,
+                requestData: law.requestData,
+                reasoning: reasoning
+            };
+
+            user.newLaws.push(filteredLaw);
+            user.laws.push(filteredLaw);
+
+            await user.save();
+            console.log(`Added ${filteredLaw.lawData.title} to ${username}`);
+        }
+    }
+    catch (error) {
+        console.error("Error adding law: ", error)
     }
 }
 
@@ -312,7 +340,7 @@ function parseUserBio(user) {
         bio += key + ": " + value + "\n";
     }
 
-    console.log(bio);
+    //console.log(bio);
     return bio;
 }
 
@@ -530,3 +558,7 @@ app.listen(PORT, function () {
 });
 
 //updateLaws();
+
+
+// addLawToUser("John Doe Test", 118, "hr", 4389);
+// addLawToUser("John Doe Test", 117, "s", 558);

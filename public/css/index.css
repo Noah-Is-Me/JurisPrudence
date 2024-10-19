@@ -46,6 +46,13 @@ main {
     /*filter: brightness(50%);*/
 }
 
+.navbar-header {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 500;
+    transform: translateX(30px) translateY(-2.5px);
+
+}
+
 #footer {
     position: absolute;
     bottom: -100px;

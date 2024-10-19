@@ -171,9 +171,9 @@ input {
     margin: auto;
     flex-direction: column;
 
-  background-image: url("/images/website2.png");
+    background-image: url("/images/website2.png");
     background-repeat: repeat;
-    background-position: center; 
+    background-position: center;
     background-size: 40%;
     /*background: whitesmoke;*/
 
@@ -195,10 +195,13 @@ input {
     display: flex;
 }
 
+.law-container:hover {
+    background-color: whitesmoke;
+}
+
 .law {
     padding: 5px 30px 30px 30px;
     width: 100%;
-
 }
 
 .law-delete-btn {

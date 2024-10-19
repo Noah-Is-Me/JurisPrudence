@@ -286,10 +286,19 @@
                     $(this).addClass("vote-unavailable");
                 }
             });
+
+
+            var maxHeight = 0;
+            $(".rep-vote-container").each(function () {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+            });
+            $(".rep-vote-container").height(maxHeight);
         });
 
-        window.addEventListener('scroll', backButtonScroll);
 
+        window.addEventListener('scroll', backButtonScroll);
         function backButtonScroll() {
             if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
                 $("#back-btn").css("fontSize", "16px");
@@ -303,6 +312,8 @@
                 $("#back-btn").css("border-width", "4px");
             }
         }
+
+
     </script>
 </body>
 
