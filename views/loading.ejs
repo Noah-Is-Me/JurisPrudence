@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JurisPrudence</title>
-    <link rel="icon" type="image/x-icon" href="/images/AMERICA.png">
+    <link rel="icon" type="image/x-icon" href="/images/JurisPrudence Logo.png">
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/loading.css">
@@ -82,16 +82,16 @@
                 //console.log($popup.outerWidth() + ", " + $popup.outerHeight());
                 //console.log($popupContainer.width() + ", " + $popupContainer.height());
 
-                $popup.fadeIn(3000);
+                $popup.fadeIn(1000);
 
                 setTimeout(function () {
-                    $popup.fadeOut(3000, function () {
+                    $popup.fadeOut(1000, function () {
                         $popup.remove();
 
                         // INFINITE RECURSION!!! Too bad!
                         popup();
                     });
-                }, 20000);
+                }, 10000);
 
             });
         }

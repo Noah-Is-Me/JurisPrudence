@@ -46,6 +46,12 @@ main {
     /*filter: brightness(50%);*/
 }
 
+.navbar-logo {
+    width: 60px;
+    margin-left: 30px;
+    transition: 0.2s;
+}
+
 .navbar-header {
     font-family: 'Times New Roman', Times, serif;
     font-weight: 500;
