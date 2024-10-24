@@ -1,0 +1,195 @@
+body {
+
+  background-image: url("/images/cool tileable.png");
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 30%;
+
+  background-color: whitesmoke;
+}
+
+#back-btn {
+  margin-left: 20px;
+  font-size: 26px;
+  background-color: transparent;
+  border: 4px solid #3c7dbd;
+  padding: 0;
+  height: 51.2px;
+  width: 130px;
+  transition: 0.2s;
+}
+
+#back-btn:hover {
+  border: 4px solid #d8ecff;
+}
+
+#law-info-container {
+  background-color: white;
+  border: 5px solid black;
+  margin: 30px;
+  padding: 20px;
+  padding-top: 0;
+}
+
+#law-info-container h1 {
+  text-align: center;
+}
+
+#law-info-container h2 {
+  text-align: center;
+  font-weight: normal;
+  margin-bottom: 40px;
+}
+
+#law-info-container p {
+  line-height: 160%;
+}
+
+
+
+#vote-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.vote-info {
+  background-color: white;
+  border: 5px solid black;
+  margin: 30px;
+  margin-top: 0;
+  padding: 20px;
+  padding-top: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#house-vote-container {
+  margin-right: 15px;
+}
+
+#senate-vote-container {
+  margin-left: 15px;
+}
+
+.vote-info h1 {
+  text-align: center;
+}
+
+.rep-vote-container {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.rep-vote {
+  display: flex;
+  flex-direction: column;
+}
+
+.rep-vote h2 {
+  margin: 2px;
+}
+
+.vote-yea {
+  color: green;
+}
+
+.vote-nay {
+  color: red;
+}
+
+.vote-unavailable {
+  font-size: 20px;
+}
+
+
+.grid-container {
+  flex: 1 1 0px;
+  margin: 0px 50px;
+  background-color: cadetblue;
+  border: 10px solid cadetblue;
+  max-width: 600px;
+}
+
+.grid-label {
+  margin: auto;
+  padding: 10px 20px;
+  padding-top: 0;
+}
+
+.grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: white;
+  overflow: hidden;
+
+  /*
+  --gap: 1em;
+  --line-offset: calc(var(--gap) / 2);
+  --line-thickness: 1px;
+  --line-color: grey;
+  gap: var(--gap);
+
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  */
+
+}
+
+.cell {
+  position: relative;
+  width: 25%;
+  height: 50px;
+  background-color: white;
+  color: black;
+  margin: 0;
+}
+
+/*
+.cell:nth-child(4n - 3) {
+  width: 55%;
+}
+  */
+
+/*
+.cell::before,
+.cell::after {
+  content: '';
+  position: absolute;
+  background-color: var(--line-color);
+  z-index: 1;
+}
+
+.cell::after {
+  inline-size: 100vw;
+  block-size: var(--line-thickness);
+  inset-inline-start: 0;
+  inset-block-start: calc(var(--line-offset) * -1);
+}
+
+.cell::before {
+  inline-size: var(--line-thickness);
+  block-size: 100vh;
+  inset-block-start: 0;
+  inset-inline-start: calc(var(--line-offset) * -1);
+}
+  */
+
+.cell p {
+  text-align: center;
+  color: black;
+}

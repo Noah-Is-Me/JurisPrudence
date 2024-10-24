@@ -1,0 +1,130 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    background-image: url("/images/dc2.png");
+    background-position: center;
+    background-size: cover;
+    /* transition: 3s ease-in-out; */
+
+
+    margin-top: 0;
+    width: 100%;
+    flex: 1;
+}
+
+
+#main-content {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-content img {
+    width: 100px;
+}
+
+#loading-text {
+    margin-top: 30px;
+    font-size: 40px;
+}
+
+#main-content h2 {
+    margin-top: 30px;
+    font-size: 25px;
+}
+
+.popup-container {
+    flex: 1;
+    /* background-color: lightblue; */
+    height: calc(100vh - 80px);
+}
+
+.popup {
+    position: relative;
+    width: 330px;
+    height: auto;
+    padding: 10px 20px;
+
+    top: 0;
+    left: 0;
+
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 3px solid rgba(0, 0, 0, 0.9);
+
+    /* transition: opacity 1s ease-out; */
+    display: none;
+
+    border-radius: 10px;
+
+}
+
+
+/* @keyframes progress {
+    0% {
+        --percentage: 0;
+    }
+
+    100% {
+        --percentage: var(--value);
+    }
+}
+
+@property --percentage {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+} */
+
+#progress-bar {
+    --percentage: var(--value);
+    --primary: #369;
+    --secondary: #adf;
+    --size: 200px;
+    animation: progress 2s 0.5s forwards;
+    width: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+#progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+    mask: radial-gradient(white 55%, transparent 0);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(#0000 55%, #000 0);
+    -webkit-mask-mode: alpha;
+}
+
+#progress-bar::after {
+    counter-reset: percentage var(--value);
+    content: counter(percentage) '%';
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: calc(var(--size) / 5);
+    color: var(--primary);
+}
+
+#main-content {
+    background-color: white;
+    border: black 5px solid;
+    color: black;
+    padding: 30px 30px 10px 30px;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
+}

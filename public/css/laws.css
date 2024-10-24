@@ -1,0 +1,91 @@
+body {
+    /* background-color: #e9debc; */
+
+
+    background-image: url("/images/website2.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 15%;
+}
+
+
+#congresses-div {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    left: 30px;
+    margin-top: 50px;
+    padding: 20px;
+    padding-top: 10px;
+
+    border: black solid 5px;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    text-align: center;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.congress-link {
+    margin-top: 20px;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-bottom: #0a1319 solid 1px;
+    border-radius: 0;
+
+    transition: 0.2s;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    text-align: center;
+}
+
+.congress-link:hover {
+    background-color: rgba(211, 211, 211, 0.212);
+}
+
+.congress-link.active {
+    background-color: rgba(211, 211, 211, 0.212);
+}
+
+#law-list-container {
+    position: relative;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    flex-direction: column;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+
+.law {
+    display: none;
+
+    height: auto;
+    margin-top: 30px;
+    background-color: white;
+    border: black solid 5px;
+    padding: 5px 30px 30px 30px;
+    width: 100%;
+    color: blue;
+}
+
+.law:hover {
+    background-color: whitesmoke;
+}
+
+img {
+    width: 100%;
+}

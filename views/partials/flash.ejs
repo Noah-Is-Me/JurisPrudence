@@ -1,11 +1,11 @@
-<% if (success) { %>
-    <div class="flash-message success">
-        <%= success %>
-    </div>
-    <% } %>
+<% if (success.length != 0) { %>
+<div class="flash-message success">
+    <%= success %>
+</div>
+<% } %>
 
-        <% if (error) { %>
-            <div class="flash-message error">
-                <%= error %>
-            </div>
-            <% } %>
+<% if (error.length != 0) { %>
+<div class="flash-message error">
+    <%= error %>
+</div>
+<% } %>

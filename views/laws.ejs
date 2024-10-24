@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JurisPrudence</title>
+    <link rel="icon" type="image/x-icon" href="/images/JurisPrudence Logo.png">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/laws.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
+</head>
+
+<body onload="filterByCongress(118)">
+    <nav class="navbar">
+        <h1 class="navbar-header">Applicable Laws</h1>
+
+        <div class="navbar-content">
+            <a class="navbar-link" href="/">Home</a>
+            <a class="navbar-link" href="/login">Login</a>
+            <a class="navbar-link" href="/register">Register</a>
+            <a class="navbar-link" href="/profile">Profile</a>
+            <a class="navbar-link" id="current-page" href="/laws">Laws</a>
+            <a class="navbar-link" href="/about">About</a>
+        </div>
+    </nav>
+
+    <%- include('partials/flash')%>
+
+    <main>
+        <div id="congresses-div">
+            <h2>Congress Number</h2>
+            <button class="congress-link" id="congress-118-btn" onclick="filterByCongress(118)">118th Congress</button>
+            <button class="congress-link" id="congress-117-btn" onclick="filterByCongress(117)">117th Congress</button>
+            <button class="congress-link" id="congress-116-btn" onclick="filterByCongress(116)">116th Congress</button>
+            <button class="congress-link" id="congress-115-btn" onclick="filterByCongress(115)">115th Congress</button>
+        </div>
+
+        <div id="law-list-container">
+            <% user.laws.forEach(function(result){ %>
+
+            <a class="law congress-<%= result.requestData.congress %>"
+                href="/law/<%= result.requestData.congress %>/<%= result.requestData.billType %>/<%= result.requestData.billNumber %>?house_rep=<%= user.reps.houseRep %>&senate_rep_1=<%= user.reps.senateRep1 %>&senate_rep_2=<%= user.reps.senateRep2 %>">
+                <h2>
+                    <%= result.lawData.title %>
+                </h2>
+
+                <h4>Relevance to You:</h4>
+                <p><%= result.reasoning %></p>
+            </a>
+
+            <% }); %>
+        </div>
+    </main>
+
+    <script>
+        function filterByCongress(congress) {
+            $(".congress-link").removeClass("active");
+            $(`#congress-${congress}-btn`).addClass("active");
+
+            $(".law").each(function (i, obj) {
+                //console.log(obj);
+                if ($(obj).hasClass("congress-" + congress)) {
+                    $(obj).css("display", "unset")
+                } else {
+                    $(obj).css("display", "none")
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

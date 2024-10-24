@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JurisPrudence</title>
+    <link rel="icon" type="image/x-icon" href="/images/JurisPrudence Logo.png">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/loading.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="/js/navbar-scroll.js"></script>
+    <script src="/js/flash-fade.js"></script>
+</head>
+
+<body>
+    <%- include('partials/flash')%>
+
+    <main>
+        <div class="popup-container">
+        </div>
+
+        <div id="main-content">
+
+            <div id="progress-bar" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100" style="--value: 0"></div>
+
+            <h1 id="loading-text">Filtering Laws</h1>
+            <h2>Please do not leave this page!</h2>
+        </div>
+
+        <div class="popup-container">
+        </div>
+    </main>
+
+    <script>
+        function loadingEllipses() {
+            let ellipses = $("#loading-text").text();
+
+            if (ellipses.includes("...")) {
+                $("#loading-text").text("Filtering Laws");
+            } else {
+                $("#loading-text").text(ellipses + ".");
+            }
+        }
+
+
+        let funFacts;
+        let availableFunFacts;
+        function popup() {
+            let $popupContainers = $(".popup-container");
+
+            let $popupContainer = $popupContainers.eq(Math.floor(Math.random() * $popupContainers.length));
+
+            const popupDivWidth = $popupContainer.innerWidth();
+            const popupDivHeight = $popupContainer.innerHeight();
+
+            if (availableFunFacts.length == 0) {
+                availableFunFacts = funFacts.slice();
+            }
+            const index = Math.floor(Math.random() * availableFunFacts.length)
+            const funFact = availableFunFacts[index];
+            availableFunFacts.splice(index, 1);
+
+            $popupContainer.append(`
+                <div class="popup hidden">
+                    <h2>Did you know..?</h2>
+                    <p>${funFact}</p>
+                </div>
+                `);
+
+            $('.popup').ready(function () {
+                let $popup = $(".popup");
+
+                const x = Math.random() * (popupDivWidth - $popup.outerWidth() - 10) + 10;
+                const y = Math.random() * (popupDivHeight - $popup.outerHeight() - 10) + 10;
+                $popup.css("left", x);
+                $popup.css("top", y);
+
+                //console.log($popup.outerWidth() + ", " + $popup.outerHeight());
+                //console.log($popupContainer.width() + ", " + $popupContainer.height());
+
+                $popup.fadeIn(1000);
+
+                setTimeout(function () {
+                    $popup.fadeOut(1000, function () {
+                        $popup.remove();
+
+                        // INFINITE RECURSION!!! Too bad!
+                        popup();
+                    });
+                }, 10000);
+
+            });
+        }
+
+        /*
+        const allBackgrounds = ["dc1.png", "dc2.png", "dc3.png", "dc4.png", "dc5.png", "dc6.png", "dc7.png", "dc8.png", "dc9.png",];
+        let index = 0;
+        let background = allBackgrounds[index];
+
+        function preloadImages(images) {
+            images.forEach((image) => {
+                const img = new Image();
+                img.src = `/images/${image}`;
+                img.className = 'hidden'; // Prevent them from showing up
+                document.body.appendChild(img);
+            });
+        }
+        preloadImages(allBackgrounds);
+
+        function changeBackground() {
+            $("main").css("background-image", `url("/images/${background}")`);
+
+            if (++index == allBackgrounds.length) index = 0;
+
+            background = allBackgrounds[index];
+        }
+        setInterval(changeBackground, 8000);
+        changeBackground();
+        */
+
+        async function getFunFacts() {
+            try {
+                const response = await fetch("/json/fun-facts.json");
+                const data = await response.json();
+                return data.funFacts;
+            } catch (error) {
+                console.error('Error fetching fun-facts.json file:', error);
+            };
+        }
+
+        $(document).ready(async function () {
+            funFacts = await getFunFacts();
+            //console.log(funFacts);
+            availableFunFacts = funFacts.slice();
+
+            setInterval(loadingEllipses, 1000);
+            popup();
+
+            const eventSource = new EventSource("/filter-stream");
+            eventSource.onmessage = async function (event) {
+                //console.log(event);
+                const data = JSON.parse(event.data);
+
+                if (data.complete) {
+                    console.log("done");
+                    eventSource.close();
+                    console.log("closed");
+
+                    await fetch('/set-flash-message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: 'Successfully registered! Please log in.', type: "success" })
+                    });
+
+                    window.location.href = '/login';
+                } else {
+                    const progress = Math.floor(data);
+                    $("#progress-bar").css("--value", progress);
+                }
+            };
+
+            eventSource.onerror = function (err) {
+                console.error('EventSource failed:', err);
+            };
+
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,56 +1,126 @@
-#home-div {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    padding: 0;
-    margin: 0;
-
-    display: inline-flex;
-    align-items: center;
+.navbar {
+    background-color: #2e2f3225;
 }
 
-#home-image {
-    position: relative;
-    top: 0;
-    height: 100%;
-    width: auto;
-    padding: 0;
-    margin: 0;
-}
+main {
+    /*background: linear-gradient(to right, #004080, #0072bb);*/
 
-#start-div-container {
-    position: relative;
-    text-align: center;
-    flex-grow: 1;
-    height: 100%;
-    background-color: rgb(43, 16, 21);
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-image: url("/images/Test thingy.png");
-    background-size: 40%;
-}
-
-#start-div {
-    background-color: black;
-    border: white 3px solid;
-    border-radius: 10px;
-    text-align: center;
-    height: 60%;
-    padding: 10px;
-    display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
-}
 
-#start-text {
+    text-align: center;
     color: white;
-    width: 70%;
+    position: relative;
+    height: 100vh;
 }
 
-#start-button {
+#main-background {
+    z-index: -1;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+
+    /*
+    background-image:
+        linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(0, 0, 0, 0.63) 25%,
+            rgba(0, 0, 0, 0.63) 50%,
+            rgba(255, 0, 0, 0.1) 100%), 
+            url("/images/Congress3.png");
+    */
+
+    background-image:
+        linear-gradient(to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.63) 25%,
+            rgba(0, 0, 0, 0.63) 50%,
+            rgba(0, 0, 0, 0) 100%),
+        url("/images/Congress3.png");
+
+    background-size: cover;
+    background-position: top;
+    /*filter: brightness(50%);*/
+}
+
+.navbar-logo {
+    width: 60px;
+    margin-left: 30px;
+    transition: 0.2s;
+}
+
+.navbar-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 500;
+    transform: translateX(30px) translateY(-2.5px);
+
+}
+
+#footer {
+    position: absolute;
+    bottom: -100px;
+
+    background-color: #0a1319;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+.main-content h1 {
     font-size: 60px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.main-btn-container {
+    margin-top: 30px;
+}
+
+.main-btn {
+    margin: 2px;
+    padding: 12px 24px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    border-radius: 0;
+}
+
+#login-btn {
+    border: 3px solid white;
+    background-color: white;
+    color: black;
+}
+
+#login-btn:hover {
+    background-color: #3c7cbdaf;
+    color: white;
+}
+
+#about-btn {
+    border: 3px solid white;
+    background-color: transparent;
+    color: white;
+}
+
+#about-btn:hover {
+    background-color: rgba(245, 245, 245, 0.2);
 }
