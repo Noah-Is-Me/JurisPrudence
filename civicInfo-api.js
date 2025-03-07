@@ -59,6 +59,3 @@ export function getLastName(fullName) {
     let lastName = nameParts.slice(1).join(' ');
     return lastName;
 }
-
-//console.log(await fetchRepsFromAddress("4301 East-West Hwy, Bethesda, MD 20814"));
-//console.log(await fetchRepsFromAddress("600 Travis St, Houston, TX 77002"));
