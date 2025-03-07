@@ -44,7 +44,7 @@ db.once("open", function () {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const secret = process.env.SECRET || "thisshouldbeabettersecret!";
+const secret = process.env.SECRET;
 
 const store = MongoStore.create({
     mongoUrl: uri,
